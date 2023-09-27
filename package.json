@@ -1,0 +1,38 @@
+{
+  "name": "th-client-v3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/client": "^3.8.3",
+    "@apollo/experimental-nextjs-app-support": "^0.4.2",
+    "@mantine/core": "^7.0.1",
+    "@mantine/dates": "^7.0.1",
+    "@mantine/form": "^6.0.21",
+    "@mantine/hooks": "^7.0.1",
+    "@mantine/modals": "^7.0.1",
+    "@mantine/notifications": "^7.0.1",
+    "@tabler/icons-react": "^2.35.0",
+    "dayjs": "^1.11.10",
+    "next": "^13.4.19",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.6.2",
+    "@types/react": "^18.2.21",
+    "eslint": "^8.49.0",
+    "postcss": "^8.4.30",
+    "postcss-preset-mantine": "^1.7.0",
+    "postcss-simple-vars": "^7.0.1",
+    "typescript": "^5.2.2"
+  }
+}
