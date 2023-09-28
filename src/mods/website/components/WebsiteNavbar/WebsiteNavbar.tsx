@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React, { ReactNode } from 'react';
 import {
@@ -9,9 +9,9 @@ import {
   Input,
 } from '@mantine/core';
 import Link from 'next/link';
-import classes from './WebsiteNavbar.module.css';
 import { IconSearch } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
+import classes from './WebsiteNavbar.module.css';
 
 type WebsiteNavbarProps = {
   children: ReactNode;
@@ -25,7 +25,7 @@ const menus = [
   },
   {
     label: 'About Us',
-    href: '/site/about-us',
+    href: '/about-us',
     key: 'about-us',
   },
 ];
@@ -57,17 +57,17 @@ function WebsiteNavbar({ children }: WebsiteNavbarProps) {
     <AppShell
       header={{ height: 58 }}
       navbar={{ width: 300, breakpoint: 'md', collapsed: { mobile: !opened, desktop: true } }}
-      padding="md"
+      padding={0}
     >
       <AppShell.Header>
-      <div className={classes.inner}>
+        <div className={classes.inner}>
           <Group>
-              <Link href="/" as="/" passHref className={classes['desktop-logo']}>
-                <img src="/logo-full.png" alt="logo" width="200px" />
-              </Link>
-              <Link href="/" as="/" passHref className={classes['mobile-logo']}>
-                <img src="/logo-simple.png" alt="logo" width="40px" />
-              </Link>
+            <Link href="/" as="/" passHref className={classes['desktop-logo']}>
+              <img src="/logo-full.png" alt="logo" width="200px" />
+            </Link>
+            <Link href="/" as="/" passHref className={classes['mobile-logo']}>
+              <img src="/logo-simple.png" alt="logo" width="40px" />
+            </Link>
             <Input
               className={classes.search}
               leftSection={<IconSearch size={16} />}
