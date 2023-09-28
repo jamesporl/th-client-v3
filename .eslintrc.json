@@ -1,0 +1,22 @@
+{
+  "extends": [
+    "airbnb",
+    "airbnb-typescript",
+    "eslint:recommended",
+    "next/core-web-vitals"
+  ],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "no-underscore-dangle": [
+      "error",
+      {
+        "allow": ["_id"]
+      }
+    ],
+    "react/forbid-prop-types": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "react/destructuring-assignment": "off"
+  }
+}

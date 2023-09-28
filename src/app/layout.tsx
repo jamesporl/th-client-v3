@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     template: '%s - TechHustlers PH',
     default: 'TechHustlers PH - Local Tech Products in One Place',
   },
-}
+};
 
 export default function RootLayout({
   children,
@@ -24,5 +24,5 @@ export default function RootLayout({
         <MantineProvider defaultColorScheme="light">{children}</MantineProvider>
       </body>
     </html>
-  )
+  );
 }
