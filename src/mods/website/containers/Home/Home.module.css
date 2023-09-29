@@ -11,3 +11,11 @@
     display: flex;
   }
 }
+
+.vertical-item-group {
+  margin-top: 2rem;
+}
+
+.vertical-item-app {
+  margin-top: 1.5rem;
+}

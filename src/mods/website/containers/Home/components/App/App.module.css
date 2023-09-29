@@ -1,0 +1,11 @@
+.container {
+  border: 1px solid #efefef;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+  cursor: pointer;
+}
+
+.container:not(:last-child) {
+  margin-bottom: 1.5rem;
+}
