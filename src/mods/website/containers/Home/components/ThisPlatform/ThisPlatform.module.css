@@ -1,0 +1,12 @@
+.container {
+  @media (min-width: $mantine-breakpoint-md) {
+    margin-left: 4rem;
+    width: 350px;
+  }
+}
+
+.box {
+  border-radius: 0.5rem;
+  padding: 1rem;
+  background-color: var(--mantine-color-gray-1);
+}

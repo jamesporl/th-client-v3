@@ -1,5 +1,6 @@
 import React from 'react';
+import Home from '../../mods/website/containers/Home/Home';
 
-export default function Page() {
-  return <h1>Hello, world!</h1>;
+export default function HomePage() {
+  return <Home />;
 }

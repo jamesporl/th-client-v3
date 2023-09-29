@@ -7,13 +7,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "apollo-code-gen": "graphql-codegen"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@apollo/client": "^3.8.3",
-    "@apollo/experimental-nextjs-app-support": "^0.4.2",
+    "@apollo/client": "^3.8.0-rc.2",
+    "@apollo/experimental-nextjs-app-support": "^0.4.3",
     "@mantine/core": "^7.0.1",
     "@mantine/dates": "^7.0.1",
     "@mantine/form": "^6.0.21",
@@ -27,6 +28,8 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/client-preset": "^4.1.0",
     "@types/node": "^20.6.2",
     "@types/react": "^18.2.21",
     "@typescript-eslint/eslint-plugin": "^6.7.3",

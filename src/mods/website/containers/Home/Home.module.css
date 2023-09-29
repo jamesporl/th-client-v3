@@ -1,0 +1,13 @@
+.flex-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.desktop-this-platform {
+  display: none;
+
+  @media (min-width: $mantine-breakpoint-md) {
+    display: flex;
+  }
+}
