@@ -2,6 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import { MantineProvider, ColorSchemeScript } from '@mantine/core';
 import '@mantine/core/styles.css';
+import ApolloWrapper from '../lib/apollo/apolloWrapper';
 
 export const metadata: Metadata = {
   title: {
@@ -21,7 +22,11 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body>
-        <MantineProvider defaultColorScheme="light">{children}</MantineProvider>
+        <ApolloWrapper>
+          <MantineProvider defaultColorScheme="light">
+            {children}
+          </MantineProvider>
+        </ApolloWrapper>
       </body>
     </html>
   );
