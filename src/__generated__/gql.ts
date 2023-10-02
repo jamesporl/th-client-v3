@@ -13,6 +13,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "\n  mutation Login($input: LoginInput!) {\n    login(input: $input)\n  }\n": types.LoginDocument,
     "\n  query MyProfile {\n    myProfile {\n      _id\n      firstName\n      lastName\n      email\n      shortDesc\n      image\n      isAdmin\n    }\n  }\n": types.MyProfileDocument,
     "\n  query Apps(\n    $page: Int\n    $pageSize: Int\n    $tagSlug: String\n    $publishedFromDate: DateTime\n    $publishedToDate: DateTime\n    $otherFilters: [AppsOtherFilter!]\n    $sortBy: AppsSortBy\n  ) {\n    apps(\n      page: $page\n      pageSize: $pageSize\n      tagSlug: $tagSlug\n      publishedFromDate: $publishedFromDate\n      publishedToDate: $publishedToDate\n      otherFilters: $otherFilters\n      sortBy: $sortBy\n    ) {\n      nodes {\n        _id\n        name\n        shortDesc\n        logoImg\n        tags {\n          _id\n          name\n          slug\n        }\n        websiteUrl\n        slug\n        supportsCount\n        commentsCount\n        isSupported\n        isFeatured\n      }\n      totalCount\n    }\n  }\n": types.AppsDocument,
 };
@@ -31,6 +32,10 @@ const documents = {
  */
 export function gql(source: string): unknown;
 
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation Login($input: LoginInput!) {\n    login(input: $input)\n  }\n"): (typeof documents)["\n  mutation Login($input: LoginInput!) {\n    login(input: $input)\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
