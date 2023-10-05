@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  overflow-x: hidden;
+}
+
+.title:hover {
+  text-decoration: none;
+}
+
+.logo-container {
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+
+  @media (min-width: $mantine-breakpoint-sm) {
+    margin-right: 1rem;
+  }
+}
+
+.logo-container img {
+  border-radius: 6px;
+}
+
+.app-tag-item:not(:last-child) {
+  margin-right: 6px;
+}
