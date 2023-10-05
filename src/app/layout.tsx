@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { MantineProvider, ColorSchemeScript } from '@mantine/core';
 import '@mantine/core/styles.css';
 import ApolloWrapper from '../lib/apollo/apolloWrapper';
+import MyProfileRedirect from '../mods/components/MyProfileRedirect/MyProfileRedirect';
 
 export const metadata: Metadata = {
   title: {
@@ -24,6 +25,7 @@ export default function RootLayout({
       <body>
         <ApolloWrapper>
           <MantineProvider defaultColorScheme="light">
+            <MyProfileRedirect />
             {children}
           </MantineProvider>
         </ApolloWrapper>

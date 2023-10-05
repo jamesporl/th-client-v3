@@ -2,9 +2,10 @@
 
 import React from 'react';
 import {
-  ApolloLink,
+  from,
   HttpLink,
 } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import {
   ApolloNextAppProvider,
   NextSSRApolloClient,
@@ -18,17 +19,29 @@ function makeClient() {
     uri: process.env.NEXT_PUBLIC_EXTERNAL_GRAPHQL_URL,
   });
 
+  const authLink = setContext(() => {
+    let authToken = '';
+    if (typeof window !== 'undefined') {
+      authToken = localStorage.getItem('authToken');
+    }
+    if (authToken) {
+      return { headers: { authorization: authToken } };
+    }
+    return { headers: {} };
+  });
+
   return new NextSSRApolloClient({
     cache: new NextSSRInMemoryCache(),
     link:
       typeof window === 'undefined'
-        ? ApolloLink.from([
+        ? from([
           new SSRMultipartLink({
             stripDefer: true,
           }),
+          authLink,
           httpLink,
         ])
-        : httpLink,
+        : from([authLink, httpLink]),
   });
 }
 

@@ -1,17 +1,31 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Button, PasswordInput, TextInput } from '@mantine/core';
+/* eslint-disable react/jsx-props-no-spreading */
+
+import React, { useContext, useState } from 'react';
+import {
+  Alert, Button, PasswordInput, TextInput,
+} from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { useMutation } from '@apollo/client';
+import { useMutation, useApolloClient } from '@apollo/client';
+import { IconAlertCircle } from '@tabler/icons-react';
 import AuthPageContainer from '../../components/AuthPageLayout/AuthPageLayout';
 import validateEmailByRegex from '../../utils/validateEmailByRegex';
 import LoginMtn from '../../gql/LoginMtn';
 import getErrorMessage from '../../../../lib/utils/getErrorMessage';
+import AuthContext from '../../../../lib/mobx/Auth';
+import useRedirectFromLogin from '../../../../lib/hooks/useRedirectFromLogin';
+import MyProfileQry from '../../gql/MyProfileQry';
 
 function Login() {
+  const authCtx = useContext(AuthContext);
+
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  const apolloClient = useApolloClient();
+
+  const redirectFromLogin = useRedirectFromLogin();
 
   const [login] = useMutation(LoginMtn);
 
@@ -37,27 +51,26 @@ function Login() {
   });
 
   const handleSubmitForm = async (values: { email: string, password: string }) => {
-    console.log(values);
     setIsLoading(true);
     const { email, password } = values;
     const input = { email, password };
     try {
       const { data } = await login({ variables: { input } });
       const authToken = data.login;
-      console.log(authToken);
-      // setErrorMessage('');
-      // if (authToken) {
-      //   authCtx.login(authToken);
-      //   const profileRes = await apolloClient.query({
-      //     query: MyProfileQry,
-      //     fetchPolicy: 'network-only',
-      //   });
-      //   const { myProfile } = profileRes.data;
-      //   authCtx.setMyProfile(myProfile);
-      //   redirectFromLogin({ myProfile });
-      // } else if (verificationToken) {
-      //   router.push(`/account/verify-email?$token=${verificationToken}`);
-      // }
+      setErrorMessage('');
+      if (authToken) {
+        authCtx.login(authToken);
+        const profileRes = await apolloClient.query({
+          query: MyProfileQry,
+          fetchPolicy: 'network-only',
+        });
+        const { myProfile } = profileRes.data;
+        authCtx.setMyProfile(myProfile);
+        redirectFromLogin({ myProfile });
+      } else {
+        const encodedEMail = encodeURIComponent(email);
+        window.location.href = `/account/email-verification?email=${encodedEMail}`;
+      }
     } catch (error) {
       const message = getErrorMessage(error);
       setErrorMessage(message);
@@ -65,8 +78,26 @@ function Login() {
     setIsLoading(false);
   };
 
+  let errorMessageAlert = null;
+  if (errorMessage) {
+    errorMessageAlert = (
+      <Alert
+        icon={<IconAlertCircle size={16} />}
+        color="red"
+        title="Login failed"
+        withCloseButton
+        variant="light"
+        onClose={() => setErrorMessage('')}
+        mb={32}
+      >
+        {errorMessage}
+      </Alert>
+    );
+  }
+
   return (
     <AuthPageContainer>
+      {errorMessageAlert}
       <form onSubmit={form.onSubmit(handleSubmitForm)}>
         <TextInput
           label="Email/Username"

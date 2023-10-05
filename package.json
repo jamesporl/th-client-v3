@@ -23,13 +23,17 @@
     "@mantine/notifications": "^7.0.1",
     "@tabler/icons-react": "^2.35.0",
     "dayjs": "^1.11.10",
-    "next": "^13.4.19",
+    "js-cookie": "^3.0.5",
+    "mobx": "^6.10.2",
+    "mobx-react": "^9.0.1",
+    "next": "^13.5.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/client-preset": "^4.1.0",
+    "@types/js-cookie": "^3.0.4",
     "@types/node": "^20.6.2",
     "@types/react": "^18.2.21",
     "@typescript-eslint/eslint-plugin": "^6.7.3",
