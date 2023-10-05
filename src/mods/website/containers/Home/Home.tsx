@@ -30,9 +30,9 @@ function Home({ featuredAppsData }: HomeProps) {
 
   return (
     <WebsiteMaxWidthWrapper>
-      <div className={classes.container}>
+      <div>
         <div className={classes['flex-container']}>
-          <div>
+          <div className={classes['apps-list-container']}>
             <Title order={2}>
               Discover the next tech unicorn here &#127477;&#127469; &#129412;
             </Title>
