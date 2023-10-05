@@ -8,6 +8,7 @@ export default async function HomePage() {
   const { data: fAppsData } = await getClient().query({
     query: AppsQry,
     variables: { otherFilters: [AppsOtherFilter.IsFeatured] },
+    // fetchPolicy: 'network-only',
   });
 
   return <Home featuredAppsData={fAppsData.apps} />;
