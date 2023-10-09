@@ -1,17 +1,24 @@
 'use client';
 
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useContext } from 'react';
 import {
   AppShell,
+  Avatar,
   Burger,
   Button,
   Group,
   Input,
+  Menu,
+  UnstyledButton,
 } from '@mantine/core';
 import Link from 'next/link';
-import { IconSearch } from '@tabler/icons-react';
+import Image from 'next/image';
+import { IconApps, IconLogout, IconSearch } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
+import { observer } from 'mobx-react';
 import classes from './WebsiteNavbar.module.css';
+import AuthContext from '../../../../lib/mobx/Auth';
+import NextLink from '../../../components/NextLink/NextLink';
 
 type WebsiteNavbarProps = {
   children: ReactNode;
@@ -33,19 +40,57 @@ const menus = [
 function WebsiteNavbar({ children }: WebsiteNavbarProps) {
   const [opened, { toggle }] = useDisclosure(false);
 
+  const authCtx = useContext(AuthContext);
+
+  const handleClickLogout = () => {
+    authCtx.logout();
+    window.location.href = '/';
+  };
+
   const submitAppDesktopBtn = (
     <Button color="blue" size="sm" onClick={() => undefined}>
       Submit an App
     </Button>
   );
 
-  const loginDesktopBtn = (
-    <Link href="/account/login" legacyBehavior>
-      <Button color="blue" size="sm" variant="outline">
-        Log in
-      </Button>
-    </Link>
-  );
+  let loginDesktopBtn = null;
+  let profileDesktopMenu = null;
+
+  if (authCtx.myProfile) {
+    profileDesktopMenu = (
+      <Menu shadow="md" width={150} position="bottom-end" trigger="hover">
+        <Menu.Target>
+          <UnstyledButton>
+            <Avatar src={authCtx.myProfile.image} alt="profile" />
+          </UnstyledButton>
+        </Menu.Target>
+        <Menu.Dropdown>
+          <Menu.Item
+            leftSection={<IconApps style={{ width: 16, height: 16 }} />}
+            component={NextLink}
+            href="/my/my-profile"
+          >
+            My Apps
+          </Menu.Item>
+          <Menu.Item
+            leftSection={<IconLogout style={{ width: 16, height: 16 }} />}
+            component="button"
+            onClick={handleClickLogout}
+          >
+            Log out
+          </Menu.Item>
+        </Menu.Dropdown>
+      </Menu>
+    );
+  } else {
+    loginDesktopBtn = (
+      <Link href="/account/login" legacyBehavior>
+        <Button color="blue" size="sm" variant="outline">
+          Log in
+        </Button>
+      </Link>
+    );
+  }
 
   const links = menus.map((m) => (
     <Link href={m.href} passHref key={m.key} className={classes.link}>
@@ -63,10 +108,10 @@ function WebsiteNavbar({ children }: WebsiteNavbarProps) {
         <div className={classes.inner}>
           <Group>
             <Link href="/" as="/" passHref className={classes['desktop-logo']}>
-              <img src="/logo-full.png" alt="logo" width="200px" />
+              <Image src="/logo-full.png" alt="logo" width={200} height={20} />
             </Link>
             <Link href="/" as="/" passHref className={classes['mobile-logo']}>
-              <img src="/logo-simple.png" alt="logo" width="40px" />
+              <Image src="/logo-simple.png" alt="logo" width={40} height={40} />
             </Link>
             <Input
               className={classes.search}
@@ -78,6 +123,7 @@ function WebsiteNavbar({ children }: WebsiteNavbarProps) {
             <Group className={classes['desktop-right']}>
               {links}
               {loginDesktopBtn}
+              {profileDesktopMenu}
               {submitAppDesktopBtn}
             </Group>
           </div>
@@ -93,4 +139,4 @@ function WebsiteNavbar({ children }: WebsiteNavbarProps) {
   );
 }
 
-export default WebsiteNavbar;
+export default observer(WebsiteNavbar);

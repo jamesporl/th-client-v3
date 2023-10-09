@@ -17,6 +17,7 @@
     ],
     "react/forbid-prop-types": "off",
     "react-hooks/exhaustive-deps": "off",
-    "react/destructuring-assignment": "off"
+    "react/destructuring-assignment": "off",
+    "react/require-default-props": "off"
   }
 }
