@@ -22,7 +22,12 @@ type AppHeaderProps = {
 };
 
 function AppHeader({
-  slug, logoImg, isFeatured, shortDesc, name, tags,
+  slug,
+  logoImg = '',
+  isFeatured = false,
+  shortDesc,
+  name,
+  tags = [],
 }: AppHeaderProps) {
   let src = logoImg;
   if (!src) {
@@ -77,11 +82,5 @@ function AppHeader({
     </div>
   );
 }
-
-AppHeader.defaultProps = {
-  logoImg: '',
-  isFeatured: false,
-  tags: [],
-};
 
 export default AppHeader;
