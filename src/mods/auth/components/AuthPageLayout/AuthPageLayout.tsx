@@ -8,6 +8,8 @@ type AuthPageLayoutProps = {
   children: ReactNode;
 };
 
+// TODO: This may be moved to /account layout?
+
 function AuthPageContainer({ children }: AuthPageLayoutProps) {
   return (
     <div className={classes.container}>

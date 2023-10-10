@@ -2,37 +2,42 @@
 
 /* eslint-disable react/jsx-props-no-spreading */
 
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import {
-  Alert, Button, PasswordInput, Text, TextInput,
+  Alert, Button, PasswordInput, Text, TextInput, Grid,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import Link from 'next/link';
-import { useMutation, useApolloClient } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { IconAlertCircle } from '@tabler/icons-react';
 import AuthPageContainer from '../../components/AuthPageLayout/AuthPageLayout';
 import validateEmailByRegex from '../../utils/validateEmailByRegex';
-import LoginMtn from '../../gql/LoginMtn';
 import getErrorMessage from '../../../../lib/utils/getErrorMessage';
-import AuthContext from '../../../../lib/mobx/Auth';
-import useRedirectFromLogin from '../../../../lib/hooks/useRedirectFromLogin';
-import MyProfileQry from '../../gql/MyProfileQry';
+import SignupMtn from '../../gql/SignupMtn';
 
-function Login() {
-  const authCtx = useContext(AuthContext);
-
+function Signup() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const apolloClient = useApolloClient();
-
-  const redirectFromLogin = useRedirectFromLogin();
-
-  const [login] = useMutation(LoginMtn);
+  const [signup] = useMutation(SignupMtn);
 
   const form = useForm({
-    initialValues: { email: '', password: '' },
+    initialValues: {
+      email: '', password: '', firstName: '', lastName: '',
+    },
     validate: {
+      firstName: (value: string) => {
+        if (!value) {
+          return 'First name is required';
+        }
+        return null;
+      },
+      lastName: (value: string) => {
+        if (!value) {
+          return 'Last name is required';
+        }
+        return null;
+      },
       email: (value: string) => {
         if (!value) {
           return 'Email is required';
@@ -51,27 +56,20 @@ function Login() {
     },
   });
 
-  const handleSubmitForm = async (values: { email: string, password: string }) => {
+  const handleSubmitForm = async (
+    values: { firstName: string, lastName: string, email: string, password: string },
+  ) => {
     setIsLoading(true);
-    const { email, password } = values;
-    const input = { email, password };
+    const {
+      firstName, lastName, email, password,
+    } = values;
+    const input = {
+      firstName, lastName, email, password,
+    };
     try {
-      const { data } = await login({ variables: { input } });
-      const authToken = data.login;
-      setErrorMessage('');
-      if (authToken) {
-        authCtx.login(authToken);
-        const profileRes = await apolloClient.query({
-          query: MyProfileQry,
-          fetchPolicy: 'network-only',
-        });
-        const { myProfile } = profileRes.data;
-        authCtx.setMyProfile(myProfile);
-        redirectFromLogin({ myProfile });
-      } else {
-        const encodedEMail = encodeURIComponent(email);
-        window.location.href = `/account/verify-email?email=${encodedEMail}`;
-      }
+      await signup({ variables: { input } });
+      const encodedEMail = encodeURIComponent(values.email);
+      window.location.href = `/account/verify-email?email=${encodedEMail}`;
     } catch (error) {
       const message = getErrorMessage(error);
       setErrorMessage(message);
@@ -85,7 +83,7 @@ function Login() {
       <Alert
         icon={<IconAlertCircle size={16} />}
         color="red"
-        title="Login failed"
+        title="Signup failed"
         withCloseButton
         variant="light"
         onClose={() => setErrorMessage('')}
@@ -100,6 +98,22 @@ function Login() {
     <AuthPageContainer>
       {errorMessageAlert}
       <form onSubmit={form.onSubmit(handleSubmitForm)}>
+        <Grid>
+          <Grid.Col span={6}>
+            <TextInput
+              label="First Name"
+              size="md"
+              {...form.getInputProps('firstName')}
+            />
+          </Grid.Col>
+          <Grid.Col span={6}>
+            <TextInput
+              label="Last Name"
+              size="md"
+              {...form.getInputProps('lastName')}
+            />
+          </Grid.Col>
+        </Grid>
         <TextInput
           label="Email"
           size="md"
@@ -112,17 +126,17 @@ function Login() {
           {...form.getInputProps('password')}
         />
         <Button fullWidth mt="xl" size="md" color="blue" type="submit" loading={isLoading}>
-          Log in
+          Sign up
         </Button>
       </form>
       <Text mt={24} c="dimmed" fz={14} fs="italic">
-        Don&apos;t have an account? &nbsp;
+        Already have an account? &nbsp;
         <Link href="/account/signup">
-          Sign up here.
+          Log in here.
         </Link>
       </Text>
     </AuthPageContainer>
   );
 }
 
-export default Login;
+export default Signup;
