@@ -24,6 +24,7 @@
     "@tabler/icons-react": "^2.35.0",
     "dayjs": "^1.11.10",
     "js-cookie": "^3.0.5",
+    "lodash": "^4.17.21",
     "mobx": "^6.10.2",
     "mobx-react": "^9.0.1",
     "next": "^13.5.4",
