@@ -1,25 +1,24 @@
 import { from, HttpLink } from '@apollo/client';
 import { NextSSRInMemoryCache, NextSSRApolloClient } from '@apollo/experimental-nextjs-app-support/ssr';
 import { registerApolloClient } from '@apollo/experimental-nextjs-app-support/rsc';
-// import { setContext } from '@apollo/client/link/context';
+import { cookies } from 'next/headers';
+import { setContext } from '@apollo/client/link/context';
+import { AUTH_TOKEN_KEY } from '../utils/constants/storageKeys';
 
 const { getClient } = registerApolloClient(() => {
-  // const authLink = setContext((req, prevContext) => {
-  //   console.log('Auth link');
-  //   console.log(req);
-  //   console.log('Prev context');
-  //   console.log(prevContext);
-
-  //   // if (authToken) {
-  //   //   return { headers: { authorization: authToken } };
-  //   // }
-  //   // return { headers: {} };
-  // });
+  const authLink = setContext(() => {
+    const cookieStore = cookies();
+    const authToken = cookieStore.get(AUTH_TOKEN_KEY).value;
+    if (authToken) {
+      return { headers: { authorization: authToken } };
+    }
+    return { headers: {} };
+  });
 
   const client = new NextSSRApolloClient({
     cache: new NextSSRInMemoryCache(),
     link: from([
-      // authLink,
+      authLink,
       new HttpLink({
       // https://studio.apollographql.com/public/spacex-l4uc6p/
         uri: process.env.INTERNAL_GRAPHQL_URL,
