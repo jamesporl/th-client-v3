@@ -1,9 +1,11 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import { MantineProvider, ColorSchemeScript } from '@mantine/core';
+import { ModalsProvider } from '@mantine/modals';
 import '@mantine/core/styles.css';
 import ApolloWrapper from '../lib/apollo/apolloWrapper';
 import MyProfileRedirect from '../mods/components/MyProfileRedirect/MyProfileRedirect';
+import modals from '../lib/utils/modals';
 
 export const metadata: Metadata = {
   title: {
@@ -25,8 +27,10 @@ export default function RootLayout({
       <body>
         <ApolloWrapper>
           <MantineProvider defaultColorScheme="light">
-            <MyProfileRedirect />
-            {children}
+            <ModalsProvider modals={modals}>
+              <MyProfileRedirect />
+              {children}
+            </ModalsProvider>
           </MantineProvider>
         </ApolloWrapper>
       </body>

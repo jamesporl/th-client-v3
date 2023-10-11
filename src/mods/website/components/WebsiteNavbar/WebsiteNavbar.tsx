@@ -19,6 +19,7 @@ import { observer } from 'mobx-react';
 import classes from './WebsiteNavbar.module.css';
 import AuthContext from '../../../../lib/mobx/Auth';
 import NextLink from '../../../components/NextLink/NextLink';
+import useClickSubmitAnApp from '../../hooks/useClickSubmitAnApp';
 
 type WebsiteNavbarProps = {
   children: ReactNode;
@@ -42,13 +43,15 @@ function WebsiteNavbar({ children }: WebsiteNavbarProps) {
 
   const authCtx = useContext(AuthContext);
 
+  const handleClickSubmitAnApp = useClickSubmitAnApp();
+
   const handleClickLogout = () => {
     authCtx.logout();
     window.location.href = '/';
   };
 
   const submitAppDesktopBtn = (
-    <Button color="blue" size="sm" onClick={() => undefined}>
+    <Button color="blue" size="sm" onClick={handleClickSubmitAnApp}>
       Submit an App
     </Button>
   );
