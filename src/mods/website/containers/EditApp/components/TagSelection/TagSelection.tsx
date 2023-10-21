@@ -13,11 +13,12 @@ import classes from './TagSelection.module.css';
 import { LocalAppDraft } from '../../_types';
 
 type TagSelectionProps = {
-  onChangeTags: (tags: LocalAppDraft['tags']) => void;
+  onChangeFields: (values: Partial<LocalAppDraft>) => void;
+  onSubmitToServer: () => Promise<void>;
   initialTags: LocalAppDraft['tags'];
 };
 
-function TagSelection({ onChangeTags, initialTags }: TagSelectionProps) {
+function TagSelection({ onChangeFields, onSubmitToServer, initialTags }: TagSelectionProps) {
   const [selectedTags, setSelectedTags] = useState<LocalAppDraft['tags']>([]);
   const [tagsUpdated, setTagsUpdated] = useState(false);
   const [searchString, setSearchString] = useState('');
@@ -32,7 +33,8 @@ function TagSelection({ onChangeTags, initialTags }: TagSelectionProps) {
 
   useEffect(() => {
     if (tagsUpdated) {
-      onChangeTags(selectedTags);
+      onChangeFields({ tags: selectedTags });
+      onSubmitToServer();
     }
   }, [selectedTags]);
 

@@ -8,9 +8,9 @@ import { AUTH_TOKEN_KEY } from '../utils/constants/storageKeys';
 const { getClient } = registerApolloClient(() => {
   const authLink = setContext(() => {
     const cookieStore = cookies();
-    const authToken = cookieStore.get(AUTH_TOKEN_KEY).value;
-    if (authToken) {
-      return { headers: { authorization: authToken } };
+    const authTokenCookie = cookieStore.get(AUTH_TOKEN_KEY);
+    if (authTokenCookie) {
+      return { headers: { authorization: authTokenCookie.value } };
     }
     return { headers: {} };
   });

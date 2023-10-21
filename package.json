@@ -22,6 +22,7 @@
     "@mantine/modals": "^7.1.2",
     "@mantine/notifications": "^7.1.2",
     "@tabler/icons-react": "^2.35.0",
+    "cropperjs": "^1.6.1",
     "dayjs": "^1.11.10",
     "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
@@ -29,6 +30,8 @@
     "mobx-react": "^9.0.1",
     "next": "^13.5.4",
     "react": "^18.2.0",
+    "react-beautiful-dnd": "^13.1.1",
+    "react-cropper": "^2.3.3",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
