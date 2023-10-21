@@ -14,8 +14,17 @@ const NewAppFormComponent = dynamic(
   },
 );
 
+const ImageCropperComponent = dynamic(
+  () => import('./ImageCropper'),
+  {
+    ssr: false,
+    loading: () => <Spinner />,
+  },
+);
+
 const websiteModals = {
   newAppForm: (props: ContextModalProps) => <NewAppFormComponent {...props} />,
+  imageCropper: (props: ContextModalProps) => <ImageCropperComponent {...props} />,
 };
 
 export default websiteModals;

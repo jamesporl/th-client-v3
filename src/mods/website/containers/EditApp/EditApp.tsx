@@ -5,13 +5,14 @@ import {
   Box, Title, Stepper, Flex, Button,
 } from '@mantine/core';
 import set from 'lodash/set';
-import { IconArrowRight } from '@tabler/icons-react';
+import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react';
 import { useMutation } from '@apollo/client';
 import { AppDraftQuery } from '../../../../__generated__/graphql';
 import WebsiteMaxWidthWrapper from '../../components/WebsiteMaxWidthWrapper/WebsiteMaxWidthWrapper';
 import MainDetails from './components/MainDetails';
 import UpdateAppDraftMtn from '../../gql/UpdateAppDraftMtn';
 import { LocalAppDraft } from './_types';
+import Assets from './components/Assets/Assets';
 
 type EditAppProps = {
   appDraft: AppDraftQuery['appDraft'];
@@ -24,23 +25,7 @@ function EditApp({ appDraft }: EditAppProps) {
 
   const [updateAppDraft] = useMutation(UpdateAppDraftMtn);
 
-  const [initialValues, setInitialValues] = useState<LocalAppDraft>({
-    _id: '',
-    appId: '',
-    name: '',
-    shortDesc: '',
-    websiteUrl: '',
-    playStoreUrl: '',
-    appStoreUrl: '',
-    socialUrls: {
-      facebook: '',
-      instagram: '',
-      twitter: '',
-      linkedIn: '',
-      github: '',
-    },
-    tags: [],
-  });
+  const [initialValues, setInitialValues] = useState<LocalAppDraft>();
 
   const sessionStorageDraftKey = useMemo(() => `appDraft_${appDraft.appId}`, [appDraft.appId]);
 
@@ -66,6 +51,7 @@ function EditApp({ appDraft }: EditAppProps) {
         github: initialValues0.socialUrls?.github || '',
       },
       tags: initialValues0.tags || [],
+      videoUrl: initialValues0.videoUrl || '',
     });
     sessionStorage.setItem(sessionStorageDraftKey, JSON.stringify(initialValues0));
   }, []);
@@ -81,7 +67,7 @@ function EditApp({ appDraft }: EditAppProps) {
       appStoreUrl,
       websiteUrl,
       tags,
-      socialUrls,
+      socialUrls = {},
     } = savedValues;
 
     const tagIds = (tags || []).map((tag) => tag._id);
@@ -96,7 +82,13 @@ function EditApp({ appDraft }: EditAppProps) {
       appStoreUrl,
       websiteUrl,
       tagIds,
-      socialUrls,
+      socialUrls: {
+        facebook: socialUrls.facebook || '',
+        instagram: socialUrls.instagram || '',
+        twitter: socialUrls.twitter || '',
+        linkedIn: socialUrls.linkedIn || '',
+        github: socialUrls.github || '',
+      },
     };
     try {
       await updateAppDraft({ variables: { input } });
@@ -105,20 +97,36 @@ function EditApp({ appDraft }: EditAppProps) {
     }
   };
 
-  const handleValuesChange = (changedValues: Partial<LocalAppDraft>) => {
+  const handleChangeFields = (changedValues: Partial<LocalAppDraft>) => {
     const savedValues = JSON.parse(sessionStorage.getItem(sessionStorageDraftKey)) as LocalAppDraft;
     const newValues = { ...savedValues };
     Object.keys(changedValues).forEach((k) => set(newValues, k, changedValues[k]));
     sessionStorage.setItem(sessionStorageDraftKey, JSON.stringify(newValues));
   };
 
-  const handleChangeTags = (tags: LocalAppDraft['tags']) => {
-    const lValues = JSON.parse(sessionStorage.getItem(sessionStorageDraftKey) || '{}') as LocalAppDraft;
-    const updatedValues = { ...lValues, tags };
-    sessionStorage.setItem(sessionStorageDraftKey, JSON.stringify(updatedValues));
-    setInitialValues((prevInitialValues) => ({ ...prevInitialValues, tags }));
-    handleSubmitToServer();
-  };
+  let mainDetails = null;
+  let assets = null;
+
+  if (initialValues) {
+    mainDetails = (
+      <Box mt={32}>
+        <MainDetails
+          onChangeFields={handleChangeFields}
+          onSubmitToServer={handleSubmitToServer}
+          initialValues={initialValues}
+        />
+      </Box>
+    );
+    assets = (
+      <Box mt={32}>
+        <Assets
+          initialVideoUrl={initialValues.videoUrl}
+          onChangeFields={handleChangeFields}
+          onSubmitToServer={handleSubmitToServer}
+        />
+      </Box>
+    );
+  }
 
   return (
     <WebsiteMaxWidthWrapper>
@@ -136,23 +144,60 @@ function EditApp({ appDraft }: EditAppProps) {
                 Next
               </Button>
             </Flex>
-            <Box mt={32}>
-              <MainDetails
-                onChange={handleValuesChange}
-                onChangeTags={handleChangeTags}
-                onSubmitToServer={handleSubmitToServer}
-                initialValues={initialValues}
-              />
-            </Box>
+            {mainDetails}
           </Stepper.Step>
           <Stepper.Step label="Assets" description="Logos and screenshots">
-            Step 2 content: Verify email
+            <Flex w="100%" justify="flex-end" mt={32} gap={8}>
+              <Button
+                onClick={prevStep}
+                leftSection={<IconArrowLeft size={16} />}
+                color="blue"
+                variant="outline"
+              >
+                Back
+              </Button>
+              <Button
+                onClick={nextStep}
+                rightSection={<IconArrowRight size={16} />}
+                color="blue"
+                variant="outline"
+              >
+                Next
+              </Button>
+            </Flex>
+            {assets}
           </Stepper.Step>
           <Stepper.Step label="Description" description="Say your pitch">
-            Step 3 content: Get full access
+            <Flex w="100%" justify="flex-end" mt={32} gap={8}>
+              <Button
+                onClick={prevStep}
+                leftSection={<IconArrowLeft size={16} />}
+                color="blue"
+                variant="outline"
+              >
+                Back
+              </Button>
+              <Button
+                onClick={nextStep}
+                rightSection={<IconArrowRight size={16} />}
+                color="blue"
+                variant="outline"
+              >
+                Next
+              </Button>
+            </Flex>
           </Stepper.Step>
           <Stepper.Step label="Submission" description="Preview and submit">
-            Step 4 content: Get full access
+            <Flex w="100%" justify="flex-end" mt={32}>
+              <Button
+                onClick={prevStep}
+                leftSection={<IconArrowLeft size={16} />}
+                color="blue"
+                variant="outline"
+              >
+                Back
+              </Button>
+            </Flex>
           </Stepper.Step>
         </Stepper>
       </Box>
