@@ -22,6 +22,7 @@
     "@mantine/modals": "^7.1.2",
     "@mantine/notifications": "^7.1.2",
     "@tabler/icons-react": "^2.35.0",
+    "apollo-upload-client": "^17.0.0",
     "cropperjs": "^1.6.1",
     "dayjs": "^1.11.10",
     "js-cookie": "^3.0.5",
@@ -37,6 +38,7 @@
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/client-preset": "^4.1.0",
+    "@types/apollo-upload-client": "^17.0.4",
     "@types/js-cookie": "^3.0.4",
     "@types/lodash": "^4.14.199",
     "@types/node": "^20.6.2",
