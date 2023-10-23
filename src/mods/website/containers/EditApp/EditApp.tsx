@@ -52,6 +52,7 @@ function EditApp({ appDraft }: EditAppProps) {
       },
       tags: initialValues0.tags || [],
       videoUrl: initialValues0.videoUrl || '',
+      logoImg: initialValues0.logoImg || '',
     });
     sessionStorage.setItem(sessionStorageDraftKey, JSON.stringify(initialValues0));
   }, []);
@@ -120,7 +121,8 @@ function EditApp({ appDraft }: EditAppProps) {
     assets = (
       <Box mt={32}>
         <Assets
-          initialVideoUrl={initialValues.videoUrl}
+          appId={appDraft.appId}
+          initialValues={initialValues}
           onChangeFields={handleChangeFields}
           onSubmitToServer={handleSubmitToServer}
         />

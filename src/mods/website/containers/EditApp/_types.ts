@@ -17,6 +17,7 @@ export type LocalAppDraft = {
     _id: string;
     name: string;
   }[];
+  logoImg?: string;
   jsonDesc?: string;
   videoUrl?: string;
 };

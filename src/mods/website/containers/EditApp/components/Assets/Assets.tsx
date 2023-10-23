@@ -2,24 +2,36 @@
 
 import React, { useCallback, useState } from 'react';
 import {
-  Avatar, Button, Card, Flex, Text, TextInput,
+  Button, Card, Flex, Text, TextInput,
 } from '@mantine/core';
 import { IconIcons, IconUpload } from '@tabler/icons-react';
 import { modals } from '@mantine/modals';
+import { useMutation } from '@apollo/client';
+import { notifications } from '@mantine/notifications';
 import classes from './Assets.module.css';
 import { LocalAppDraft } from '../../_types';
+import UpdateAppDraftLogoImgMtn from '../../../../gql/UpdateAppDraftLogoImgMtn';
+import dataUrltoFile from '../../../../../../lib/utils/dataUrlToFile';
+import Avatar from '../../../../components/Avatar/Avatar';
 
 type AssetsProps = {
-  initialVideoUrl: string;
+  appId: string;
+  initialValues: LocalAppDraft;
   onChangeFields: (values: Partial<LocalAppDraft>) => void;
   onSubmitToServer: () => Promise<void>;
 };
 
-function Assets({ initialVideoUrl, onChangeFields, onSubmitToServer }: AssetsProps) {
-  const [videoUrl, setVideoUrl] = useState(initialVideoUrl);
+function Assets({
+  appId, initialValues, onChangeFields, onSubmitToServer,
+}: AssetsProps) {
+  const [videoUrl, setVideoUrl] = useState(initialValues.videoUrl);
   const [videoUrlError, setVideoUrlError] = useState('');
+  const [logoImgSrc, setLogoImgSrc] = useState(initialValues.logoImg);
+  const [isLoadingLogo, setIsLoadingLogo] = useState(false);
 
-  const validateVideoUrl = (value) => {
+  const [updateAppDraftLogoImg] = useMutation(UpdateAppDraftLogoImgMtn);
+
+  const validateVideoUrl = (value: string) => {
     const pattern = /[-a-zA-Z0-9@:%._\\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)/;
     if (value) {
       if (value.length > 150) {
@@ -33,6 +45,25 @@ function Assets({ initialVideoUrl, onChangeFields, onSubmitToServer }: AssetsPro
     }
     setVideoUrlError('');
     return true;
+  };
+
+  const handleSubmitLogo = async (src: string, filename: string, type: string) => {
+    const file = await dataUrltoFile(src, filename, type);
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      notifications.show({ color: 'red', message: 'Image must be smaller than 2MB' });
+      return;
+    }
+    const input = { appId, file };
+    try {
+      setIsLoadingLogo(true);
+      const { data } = await updateAppDraftLogoImg({ variables: { input } });
+      onChangeFields({ logoImg: data.updateAppDraftLogoImg });
+      setLogoImgSrc(src);
+    } catch (error) {
+      notifications.show({ color: 'red', message: 'Upload failed' });
+    }
+    setIsLoadingLogo(false);
   };
 
   const handleChangeVideoUrl = (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,7 +95,7 @@ function Assets({ initialVideoUrl, onChangeFields, onSubmitToServer }: AssetsPro
           src,
           type: file.type,
           aspectRatio: 1,
-          onSubmit: () => undefined,
+          onSubmit: (newSrc: string) => handleSubmitLogo(newSrc, file.name, file.type),
         },
       });
     }
@@ -83,9 +114,13 @@ function Assets({ initialVideoUrl, onChangeFields, onSubmitToServer }: AssetsPro
           <Flex justify="center" mt="md">
             <div>
               <Flex mt="md" justify="center">
-                <Avatar size={120} radius={8}>
-                  <IconIcons color="#C1C2C5" size={40} />
-                </Avatar>
+                <Avatar
+                  size={120}
+                  radius={8}
+                  defaultIcon={<IconIcons color="#C1C2C5" size={40} />}
+                  src={logoImgSrc}
+                  isLoading={isLoadingLogo}
+                />
               </Flex>
               <Flex mt="md" justify="center">
                 <Button leftSection={<IconUpload size={16} />}>

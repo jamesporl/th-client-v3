@@ -2,7 +2,9 @@ import React from 'react';
 import type { Metadata } from 'next';
 import { MantineProvider, ColorSchemeScript } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
+import { Notifications } from '@mantine/notifications';
 import '@mantine/core/styles.css';
+import '@mantine/notifications/styles.css';
 import ApolloWrapper from '../lib/apollo/apolloWrapper';
 import MyProfileRedirect from '../mods/components/MyProfileRedirect/MyProfileRedirect';
 import modals from '../lib/utils/modals';
@@ -31,6 +33,7 @@ export default function RootLayout({
               <MyProfileRedirect />
               {children}
             </ModalsProvider>
+            <Notifications position="top-center" />
           </MantineProvider>
         </ApolloWrapper>
       </body>

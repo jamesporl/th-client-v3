@@ -5,6 +5,7 @@ import {
   from,
   HttpLink,
 } from '@apollo/client';
+import { createUploadLink } from 'apollo-upload-client';
 import { setContext } from '@apollo/client/link/context';
 import {
   ApolloNextAppProvider,
@@ -15,8 +16,7 @@ import {
 
 function makeClient() {
   const httpLink = new HttpLink({
-    // https://studio.apollographql.com/public/spacex-l4uc6p/
-    uri: process.env.NEXT_PUBLIC_EXTERNAL_GRAPHQL_URL,
+    uri: process.env.INTERNAL_GRAPHQL_URL,
   });
 
   const authLink = setContext(() => {
@@ -30,6 +30,10 @@ function makeClient() {
     return { headers: {} };
   });
 
+  const uploadLink = createUploadLink({
+    uri: process.env.NEXT_PUBLIC_EXTERNAL_GRAPHQL_URL,
+  });
+
   return new NextSSRApolloClient({
     cache: new NextSSRInMemoryCache(),
     link:
@@ -41,7 +45,7 @@ function makeClient() {
           authLink,
           httpLink,
         ])
-        : from([authLink, httpLink]),
+        : from([authLink, uploadLink]),
   });
 }
 
