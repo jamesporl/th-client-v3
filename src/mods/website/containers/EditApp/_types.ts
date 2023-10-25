@@ -20,4 +20,12 @@ export type LocalAppDraft = {
   logoImg?: string;
   jsonDesc?: string;
   videoUrl?: string;
+  bannerImgs?: {
+    _id: string;
+    order: number;
+    image: {
+      large: string;
+      thumbnail: string;
+    }
+  }[];
 };

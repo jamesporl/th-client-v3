@@ -1,4 +1,4 @@
-'use client;';
+'use client';
 
 import React, { useCallback, useState } from 'react';
 import {
@@ -13,6 +13,7 @@ import { LocalAppDraft } from '../../_types';
 import UpdateAppDraftLogoImgMtn from '../../../../gql/UpdateAppDraftLogoImgMtn';
 import dataUrltoFile from '../../../../../../lib/utils/dataUrlToFile';
 import Avatar from '../../../../components/Avatar/Avatar';
+import BannerImgsUpload from '../BannerImgsUpload/BannerImgsUpload';
 
 type AssetsProps = {
   appId: string;
@@ -124,10 +125,10 @@ function Assets({
               </Flex>
               <Flex mt="md" justify="center">
                 <Button leftSection={<IconUpload size={16} />}>
-                  <label htmlFor="image" style={{ cursor: 'pointer' }}>
+                  <label htmlFor="logo" style={{ cursor: 'pointer' }}>
                     Upload Logo
                     <input
-                      id="image"
+                      id="logo"
                       type="file"
                       onChange={handleChangeLogo}
                       accept="image/png, image/jpeg"
@@ -160,20 +161,7 @@ function Assets({
             Click on the Add button to upload an image. You can upload up to 10 images and
             drag-and-drop them to reorder them. An image should ideally be 1980px or less by 1080px.
           </Text>
-          <Flex mt="md" justify="center">
-            <Button leftSection={<IconUpload size={16} />}>
-              <label htmlFor="image" style={{ cursor: 'pointer' }}>
-                Add a screenshot or preview
-                <input
-                  id="image"
-                  type="file"
-                  onChange={() => undefined}
-                  accept="image/png, image/jpeg"
-                  style={{ display: 'none' }}
-                />
-              </label>
-            </Button>
-          </Flex>
+          <BannerImgsUpload initialValues={initialValues} onChangeFields={onChangeFields} />
         </Card>
       </div>
     </div>

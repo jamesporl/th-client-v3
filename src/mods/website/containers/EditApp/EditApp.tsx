@@ -53,6 +53,7 @@ function EditApp({ appDraft }: EditAppProps) {
       tags: initialValues0.tags || [],
       videoUrl: initialValues0.videoUrl || '',
       logoImg: initialValues0.logoImg || '',
+      bannerImgs: initialValues0.bannerImgs || [],
     });
     sessionStorage.setItem(sessionStorageDraftKey, JSON.stringify(initialValues0));
   }, []);
