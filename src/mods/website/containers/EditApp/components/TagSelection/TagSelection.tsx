@@ -1,4 +1,4 @@
-'use client;';
+'use client';
 
 import React, { useState, useCallback, useEffect } from 'react';
 import { useLazyQuery } from '@apollo/client';

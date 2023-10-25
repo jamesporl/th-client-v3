@@ -1,0 +1,14 @@
+.banner-image-items {
+  flex-grow: 1;
+}
+
+.banner-image-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 120px;
+  margin-top: 0.5rem;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+}

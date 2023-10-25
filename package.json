@@ -43,6 +43,7 @@
     "@types/lodash": "^4.14.199",
     "@types/node": "^20.6.2",
     "@types/react": "^18.2.21",
+    "@types/react-beautiful-dnd": "^13.1.6",
     "@typescript-eslint/eslint-plugin": "^6.7.3",
     "@typescript-eslint/parser": "^6.7.3",
     "eslint": "^8.50.0",

@@ -1,4 +1,4 @@
-'use client;';
+'use client';
 
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
