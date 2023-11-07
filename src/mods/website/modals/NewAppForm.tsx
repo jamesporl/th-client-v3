@@ -1,6 +1,5 @@
 'use client';
 
-/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { useMutation } from '@apollo/client';
 import { Button, Group, TextInput } from '@mantine/core';

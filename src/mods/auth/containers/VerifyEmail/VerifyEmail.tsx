@@ -1,7 +1,5 @@
 'use client';
 
-/* eslint-disable react/jsx-props-no-spreading */
-
 import React, {
   useMemo, useState, useCallback, useContext,
 } from 'react';

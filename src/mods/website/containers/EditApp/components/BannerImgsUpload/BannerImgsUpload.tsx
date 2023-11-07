@@ -1,6 +1,6 @@
 'use client';
 
-/* eslint-disable react/jsx-props-no-spreading, @next/next/no-img-element */
+/* eslint-disable @next/next/no-img-element */
 import React, { useState, useCallback } from 'react';
 import { Button, Flex, Text } from '@mantine/core';
 import { IconTrash, IconUpload } from '@tabler/icons-react';

@@ -25,6 +25,7 @@
     "apollo-upload-client": "^17.0.0",
     "cropperjs": "^1.6.1",
     "dayjs": "^1.11.10",
+    "is-hotkey": "^0.2.0",
     "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
     "mobx": "^6.10.2",
@@ -33,7 +34,10 @@
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-cropper": "^2.3.3",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "slate": "^0.100.0",
+    "slate-history": "^0.100.0",
+    "slate-react": "^0.100.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.0",

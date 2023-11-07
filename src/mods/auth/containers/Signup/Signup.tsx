@@ -1,7 +1,5 @@
 'use client';
 
-/* eslint-disable react/jsx-props-no-spreading */
-
 import React, { useState } from 'react';
 import {
   Alert, Button, PasswordInput, Text, TextInput, Grid,

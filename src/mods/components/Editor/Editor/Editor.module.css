@@ -1,0 +1,11 @@
+.container {
+  width: 100%;
+}
+
+.editor {
+  width: 100%;
+  border: 2px solid #e2e8f0;
+  padding: 0 0.5rem;
+  margin: 0.5rem;
+  border-radius: 0.25rem;
+}

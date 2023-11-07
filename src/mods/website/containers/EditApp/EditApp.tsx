@@ -1,27 +1,34 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect, useMemo, useRef, useState,
+} from 'react';
 import {
   Box, Title, Stepper, Flex, Button,
 } from '@mantine/core';
 import set from 'lodash/set';
 import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react';
 import { useMutation } from '@apollo/client';
+import { Descendant } from 'slate';
 import { AppDraftQuery } from '../../../../__generated__/graphql';
 import WebsiteMaxWidthWrapper from '../../components/WebsiteMaxWidthWrapper/WebsiteMaxWidthWrapper';
 import MainDetails from './components/MainDetails';
 import UpdateAppDraftMtn from '../../gql/UpdateAppDraftMtn';
 import { LocalAppDraft } from './_types';
 import Assets from './components/Assets/Assets';
+import Editor from '../../../components/Editor/DynamicEditor';
 
 type EditAppProps = {
   appDraft: AppDraftQuery['appDraft'];
 };
 
 function EditApp({ appDraft }: EditAppProps) {
-  const [activeStep, setActiveStep] = useState(0);
-  const nextStep = () => setActiveStep((current: number) => (current < 3 ? current + 1 : current));
-  const prevStep = () => setActiveStep((current: number) => (current > 0 ? current - 1 : current));
+  const editorRef = useRef(null);
+
+  const [desc, setDesc] = useState<Descendant[]>();
+  const [descIsTouched, setDescIsTouched] = useState(false);
+  const [activeStep, setActiveStep] = useState(2);
 
   const [updateAppDraft] = useMutation(UpdateAppDraftMtn);
 
@@ -35,6 +42,7 @@ function EditApp({ appDraft }: EditAppProps) {
     if (lValues?._id === appDraft._id) {
       initialValues0 = { ...appDraft, ...lValues };
     }
+    setDesc(initialValues0.jsonDesc);
     setInitialValues({
       _id: initialValues0._id,
       appId: initialValues0.appId,
@@ -54,11 +62,13 @@ function EditApp({ appDraft }: EditAppProps) {
       videoUrl: initialValues0.videoUrl || '',
       logoImg: initialValues0.logoImg || '',
       bannerImgs: initialValues0.bannerImgs || [],
+      jsonDesc: initialValues0.jsonDesc,
     });
+
     sessionStorage.setItem(sessionStorageDraftKey, JSON.stringify(initialValues0));
   }, []);
 
-  const handleSubmitToServer = async () => {
+  const handleSubmitToServer = useCallback(async () => {
     const savedValues = JSON.parse(sessionStorage.getItem(sessionStorageDraftKey)) as LocalAppDraft;
     const {
       name,
@@ -97,17 +107,50 @@ function EditApp({ appDraft }: EditAppProps) {
     } catch (e) {
       // do nothing for now
     }
-  };
+  }, []);
 
-  const handleChangeFields = (changedValues: Partial<LocalAppDraft>) => {
+  useEffect(() => {
+    if (activeStep === 2 && descIsTouched) {
+      const timeout = setTimeout(handleSubmitToServer, 1000);
+      return () => clearTimeout(timeout);
+    }
+    return () => undefined;
+  }, [activeStep, descIsTouched]);
+
+  const prevStep = useCallback(() => {
+    if (activeStep === 2) {
+      handleSubmitToServer();
+    }
+    if (activeStep > 0) {
+      setActiveStep(activeStep - 1);
+    }
+  }, [activeStep]);
+
+  const nextStep = useCallback(() => {
+    if (activeStep === 2) {
+      handleSubmitToServer();
+    }
+    if (activeStep < 3) {
+      setActiveStep(activeStep + 1);
+    }
+  }, [activeStep]);
+
+  const handleChangeFields = useCallback((changedValues: Partial<LocalAppDraft>) => {
     const savedValues = JSON.parse(sessionStorage.getItem(sessionStorageDraftKey)) as LocalAppDraft;
     const newValues = { ...savedValues };
     Object.keys(changedValues).forEach((k) => set(newValues, k, changedValues[k]));
     sessionStorage.setItem(sessionStorageDraftKey, JSON.stringify(newValues));
-  };
+  }, []);
+
+  const handleChangeDesc = useCallback((value: Descendant[]) => {
+    handleChangeFields({ jsonDesc: value });
+    setDesc(value);
+    setDescIsTouched(true);
+  }, []);
 
   let mainDetails = null;
   let assets = null;
+  let editorComp = null;
 
   if (initialValues) {
     mainDetails = (
@@ -126,6 +169,16 @@ function EditApp({ appDraft }: EditAppProps) {
           initialValues={initialValues}
           onChangeFields={handleChangeFields}
           onSubmitToServer={handleSubmitToServer}
+        />
+      </Box>
+    );
+    editorComp = (
+      <Box mt={32}>
+        <Editor
+          onChange={handleChangeDesc}
+          initialValue={desc}
+          placeholder="A good app description will take you far..."
+          ref={editorRef}
         />
       </Box>
     );
@@ -189,6 +242,7 @@ function EditApp({ appDraft }: EditAppProps) {
                 Next
               </Button>
             </Flex>
+            {editorComp}
           </Stepper.Step>
           <Stepper.Step label="Submission" description="Preview and submit">
             <Flex w="100%" justify="flex-end" mt={32}>

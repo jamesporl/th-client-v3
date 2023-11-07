@@ -1,6 +1,5 @@
 'use client';
 
-/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { useForm } from '@mantine/form';
 import { TextInput, Grid, Title } from '@mantine/core';

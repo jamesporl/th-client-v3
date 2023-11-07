@@ -1,6 +1,5 @@
 'use client';
 
-/* eslint-disable react/jsx-props-no-spreading */
 import { useEffect, useState } from 'react';
 import { Droppable, DroppableProps } from 'react-beautiful-dnd';
 
