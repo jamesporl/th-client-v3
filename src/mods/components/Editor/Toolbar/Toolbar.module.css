@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  padding: 0.25rem;
+}
+
+.toolbar-group {
+  display: flex;
+  padding-right: 1rem;
+}
+
+.toolbar-group:not(:last-child) {
+  border-right: 1px solid #ccc;
+  margin-right: 1rem;
+}
+
+.toolbar-button:not(:last-child) {
+  margin-right: 0.25rem;
+}

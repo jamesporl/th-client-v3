@@ -1,3 +1,5 @@
+import { Descendant } from 'slate';
+
 export type LocalAppDraft = {
   _id: string;
   appId: string;
@@ -18,7 +20,7 @@ export type LocalAppDraft = {
     name: string;
   }[];
   logoImg?: string;
-  jsonDesc?: string;
+  jsonDesc?: Descendant[];
   videoUrl?: string;
   bannerImgs?: {
     _id: string;

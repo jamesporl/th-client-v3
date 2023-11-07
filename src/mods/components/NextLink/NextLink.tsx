@@ -7,7 +7,7 @@ const NextLink = forwardRef(
     ref: React.ForwardedRef<HTMLAnchorElement>,
   ) => (
     <Link href={href} legacyBehavior>
-      {/* eslint-disable-next-line jsx-a11y/anchor-has-content, react/jsx-props-no-spreading */}
+      {/* eslint-disable-next-line jsx-a11y/anchor-has-content */}
       <a {...others} ref={ref} />
     </Link>
   ),

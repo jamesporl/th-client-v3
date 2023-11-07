@@ -1,6 +1,5 @@
 'use-client';
 
-/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import dynamic from 'next/dynamic';
 import { ContextModalProps } from '@mantine/modals';
