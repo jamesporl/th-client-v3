@@ -3,11 +3,18 @@ import type { Metadata } from 'next';
 import { MantineProvider, ColorSchemeScript } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
 import { Notifications } from '@mantine/notifications';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 import ApolloWrapper from '../lib/apollo/apolloWrapper';
 import MyProfileRedirect from '../mods/components/MyProfileRedirect/MyProfileRedirect';
 import modals from '../lib/utils/modals';
+
+// Initialize dayjs plugins somewhere in the project root
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export const metadata: Metadata = {
   title: {
