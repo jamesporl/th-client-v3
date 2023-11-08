@@ -1,6 +1,5 @@
-import React from 'react';
 import type { Metadata } from 'next';
-import WebsiteNavbar from '../../mods/website/components/WebsiteNavbar/WebsiteNavbar';
+import HomeLayout from '../../mods/website/containers/Home/components/HomeLayout/HomeLayout';
 
 export const metadata: Metadata = {
   title: {
@@ -9,14 +8,4 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  return (
-    <WebsiteNavbar>
-      {children}
-    </WebsiteNavbar>
-  );
-}
+export default HomeLayout;

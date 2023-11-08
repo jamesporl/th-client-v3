@@ -1,4 +1,6 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React from 'react';
+import { Button, Flex } from '@mantine/core';
+import { IconArrowBigUp, IconMessageCircle, IconWorld } from '@tabler/icons-react';
 import classes from './App.module.css';
 import { AppsQuery } from '../../../../../../__generated__/graphql';
 import AppHeader from '../../../../components/AppHeader/AppHeader';
@@ -18,6 +20,19 @@ function App({ app }: AppProps) {
         isFeatured={app.isFeatured}
         tags={app.tags}
       />
+      <Flex mt={8} justify="space-between">
+        <Flex gap={8}>
+          <Button size="xs" radius="xl" leftSection={<IconArrowBigUp size={14} />}>
+            {app.supportsCount}
+          </Button>
+          <Button size="xs" radius="xl" variant="default" leftSection={<IconMessageCircle size={14} />}>
+            {app.commentsCount}
+          </Button>
+        </Flex>
+        <Button size="xs" radius="xl" variant="default" leftSection={<IconWorld size={14} />}>
+          Go to Website
+        </Button>
+      </Flex>
     </div>
   );
 }
