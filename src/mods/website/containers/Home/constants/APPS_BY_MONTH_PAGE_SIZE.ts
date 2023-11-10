@@ -1,0 +1,3 @@
+const APPS_BY_MONTH_PAGE_SIZE = 5;
+
+export default APPS_BY_MONTH_PAGE_SIZE;
