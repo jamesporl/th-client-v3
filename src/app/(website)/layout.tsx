@@ -1,11 +1,16 @@
-import type { Metadata } from 'next';
-import HomeLayout from '../../mods/website/containers/Home/components/HomeLayout/HomeLayout';
+import React, { ReactNode } from 'react';
+import WebsiteNavbar from '../../mods/website/components/WebsiteNavbar/WebsiteNavbar';
 
-export const metadata: Metadata = {
-  title: {
-    template: '%s - TechHustlers PH',
-    default: 'TechHustlers PH - Local Tech Products in One Place',
-  },
+type WebsiteLayoutProps = {
+  children: ReactNode;
 };
 
-export default HomeLayout;
+function WebsiteLayout({ children }: WebsiteLayoutProps) {
+  return (
+    <WebsiteNavbar>
+      {children}
+    </WebsiteNavbar>
+  );
+}
+
+export default WebsiteLayout;
