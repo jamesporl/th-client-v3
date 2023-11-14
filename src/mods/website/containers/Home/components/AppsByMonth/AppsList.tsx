@@ -59,7 +59,7 @@ function AppsList({ appsByMonth: iAppsByMonth }: AppsListProps) {
         publishedToDate: endOfMonth.toISOString(),
         otherFilters: [AppsOtherFilter.ExcludeFeatured],
         page: monthObj.page + 1,
-        pageSize: 3,
+        pageSize: APPS_BY_MONTH_PAGE_SIZE,
         sortBy: AppsSortBy.PublishedDate,
       },
     });

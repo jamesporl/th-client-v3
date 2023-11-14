@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Skeleton } from '@mantine/core';
-import AppSkeleton from '../../../mods/website/containers/Home/components/AppSkeleton/AppSkeleton';
+import AppSkeleton from '../../../../mods/website/containers/Home/components/AppSkeleton/AppSkeleton';
 
 function LoadingAppsByMonthPage() {
   return (
