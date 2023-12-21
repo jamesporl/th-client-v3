@@ -4,10 +4,8 @@ import React from 'react';
 import { useForm } from '@mantine/form';
 import { TextInput, Grid, Title } from '@mantine/core';
 import {
-  IconBrandApple,
   IconBrandFacebook,
   IconBrandGithub,
-  IconBrandGooglePlay,
   IconBrandInstagram,
   IconBrandLinkedin,
   IconBrandX,
@@ -30,8 +28,6 @@ function MainDetails({
       name: initialValues.name,
       shortDesc: initialValues.shortDesc,
       websiteUrl: initialValues.websiteUrl,
-      playStoreUrl: initialValues.playStoreUrl,
-      appStoreUrl: initialValues.appStoreUrl,
       socialUrls: {
         facebook: initialValues.socialUrls?.facebook || '',
         instagram: initialValues.socialUrls?.instagram || '',
@@ -108,25 +104,6 @@ function MainDetails({
             onChange={(ev: React.ChangeEvent<HTMLInputElement>) => handleChangeField(ev, 'websiteUrl')}
             onBlur={(ev: React.ChangeEvent<HTMLInputElement>) => handleBlurField(ev, 'websiteUrl')}
           />
-          <TextInput
-            label="App Store"
-            size="md"
-            mt="md"
-            leftSection={<IconBrandApple size={16} />}
-            {...form.getInputProps('appStoreUrl')}
-            onChange={(ev: React.ChangeEvent<HTMLInputElement>) => handleChangeField(ev, 'appStoreUrl')}
-            onBlur={(ev: React.ChangeEvent<HTMLInputElement>) => handleBlurField(ev, 'appStoreUrl')}
-          />
-          <TextInput
-            label="Play Store"
-            size="md"
-            mt="md"
-            leftSection={<IconBrandGooglePlay size={16} />}
-            {...form.getInputProps('playStoreUrl')}
-            onChange={(ev: React.ChangeEvent<HTMLInputElement>) => handleChangeField(ev, 'playStoreUrl')}
-            onBlur={(ev: React.ChangeEvent<HTMLInputElement>) => handleBlurField(ev, 'playStoreUrl')}
-          />
-          <Title order={3} mt="lg">Social Media Pages</Title>
           <TextInput
             label="Facebook"
             size="md"

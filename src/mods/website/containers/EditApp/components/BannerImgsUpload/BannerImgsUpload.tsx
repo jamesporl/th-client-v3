@@ -75,7 +75,7 @@ function BannerImgsUpload({ initialValues, onChangeFields }: BannerImgsUploadPro
       title: 'Crop Logo',
       size: 'md',
       innerProps: {
-        aspectRatio: 0,
+        aspectRatio: 1.75,
         src,
         type: file.type,
         onSubmit: (newSrc: string) => handleSubmitBannerImg(newSrc, file.name, file.type),

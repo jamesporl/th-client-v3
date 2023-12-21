@@ -18,6 +18,7 @@ import UpdateAppDraftMtn from '../../gql/UpdateAppDraftMtn';
 import { LocalAppDraft } from './_types';
 import Assets from './components/Assets/Assets';
 import Editor from '../../../components/Editor/DynamicEditor';
+import Submission from './components/Submission/Submission';
 
 type EditAppProps = {
   appDraft: AppDraftQuery['appDraft'];
@@ -28,7 +29,7 @@ function EditApp({ appDraft }: EditAppProps) {
 
   const [desc, setDesc] = useState<Descendant[]>();
   const [descIsTouched, setDescIsTouched] = useState(false);
-  const [activeStep, setActiveStep] = useState(2);
+  const [activeStep, setActiveStep] = useState(0);
 
   const [updateAppDraft] = useMutation(UpdateAppDraftMtn);
 
@@ -49,8 +50,6 @@ function EditApp({ appDraft }: EditAppProps) {
       name: initialValues0.name || '',
       shortDesc: initialValues0.shortDesc || '',
       websiteUrl: initialValues0.websiteUrl || '',
-      playStoreUrl: initialValues0.playStoreUrl || '',
-      appStoreUrl: initialValues0.appStoreUrl || '',
       socialUrls: {
         facebook: initialValues0.socialUrls?.facebook || '',
         instagram: initialValues0.socialUrls?.instagram || '',
@@ -75,11 +74,9 @@ function EditApp({ appDraft }: EditAppProps) {
       shortDesc,
       jsonDesc,
       videoUrl,
-      playStoreUrl,
-      appStoreUrl,
       websiteUrl,
       tags,
-      socialUrls = {},
+      socialUrls,
     } = savedValues;
 
     const tagIds = (tags || []).map((tag) => tag._id);
@@ -90,16 +87,14 @@ function EditApp({ appDraft }: EditAppProps) {
       shortDesc,
       jsonDesc,
       videoUrl,
-      playStoreUrl,
-      appStoreUrl,
       websiteUrl,
       tagIds,
       socialUrls: {
-        facebook: socialUrls.facebook || '',
-        instagram: socialUrls.instagram || '',
-        twitter: socialUrls.twitter || '',
-        linkedIn: socialUrls.linkedIn || '',
-        github: socialUrls.github || '',
+        facebook: socialUrls?.facebook || '',
+        instagram: socialUrls?.instagram || '',
+        twitter: socialUrls?.twitter || '',
+        linkedIn: socialUrls?.linkedIn || '',
+        github: socialUrls?.github || '',
       },
     };
     try {
@@ -151,6 +146,7 @@ function EditApp({ appDraft }: EditAppProps) {
   let mainDetails = null;
   let assets = null;
   let editorComp = null;
+  let submissionComp = null;
 
   if (initialValues) {
     mainDetails = (
@@ -180,6 +176,11 @@ function EditApp({ appDraft }: EditAppProps) {
           placeholder="A good app description will take you far..."
           ref={editorRef}
         />
+      </Box>
+    );
+    submissionComp = (
+      <Box mt={32}>
+        <Submission appId={appDraft.appId} />
       </Box>
     );
   }
@@ -255,6 +256,7 @@ function EditApp({ appDraft }: EditAppProps) {
                 Back
               </Button>
             </Flex>
+            {submissionComp}
           </Stepper.Step>
         </Stepper>
       </Box>

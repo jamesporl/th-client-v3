@@ -21,6 +21,9 @@
       {
         "name": "next"
       }
+    ],
+    "typeRoots": [
+      "./src/_types"
     ]
   },
   "include": [
