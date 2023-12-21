@@ -25,8 +25,6 @@ export default gql(`
         linkedIn
         github
       }
-      appStoreUrl
-      playStoreUrl
       websiteUrl
       status {
         key

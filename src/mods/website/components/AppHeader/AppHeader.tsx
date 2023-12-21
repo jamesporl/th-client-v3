@@ -2,11 +2,11 @@
 
 import React from 'react';
 import {
-  Badge, Box, Button, Flex, Text, Title,
+  Badge, Box, Flex, Text, Title,
 } from '@mantine/core';
 import Image from 'next/image';
-import Link from 'next/link';
 import classes from './AppHeader.module.css';
+import TagsList from '../TagsList/TagsList';
 
 type AppHeaderProps = {
   slug: string;
@@ -47,17 +47,7 @@ function AppHeader({
   if (tags?.length) {
     tagsList = (
       <Box mt={4}>
-        {tags.map((t) => (
-          <Link
-            key={t._id}
-            href={`/categories/${t.slug}`}
-            target="_blank"
-            onClick={(ev) => ev.stopPropagation()}
-            className={classes['app-tag-item']}
-          >
-            <Button size="xs" color="gray" variant="light" radius="xs">{t.name}</Button>
-          </Link>
-        ))}
+        <TagsList tags={tags} />
       </Box>
     );
   }

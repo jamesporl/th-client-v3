@@ -30,8 +30,6 @@ export default gql(`
           lastName
           image
         }
-        appStoreUrl
-        playStoreUrl
         websiteUrl
         status {
           key

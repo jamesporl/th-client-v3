@@ -13,6 +13,7 @@ export default gql(`
       tags {
         _id
         name
+        slug
       }
       videoUrl
       bannerImgs {
@@ -29,8 +30,6 @@ export default gql(`
         lastName
         image
       }
-      appStoreUrl
-      playStoreUrl
       websiteUrl
       status {
         key

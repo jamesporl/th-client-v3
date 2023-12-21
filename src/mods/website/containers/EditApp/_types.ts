@@ -6,8 +6,6 @@ export type LocalAppDraft = {
   name: string;
   shortDesc: string;
   websiteUrl?: string;
-  playStoreUrl?: string;
-  appStoreUrl?: string;
   socialUrls?: {
     facebook?: string;
     instagram?: string;
@@ -18,6 +16,7 @@ export type LocalAppDraft = {
   tags?: {
     _id: string;
     name: string;
+    slug: string;
   }[];
   logoImg?: string;
   jsonDesc?: Descendant[];

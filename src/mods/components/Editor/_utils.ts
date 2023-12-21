@@ -15,7 +15,16 @@ export const HOTKEYS_MAP_KEYS = Array.from(HOTKEYS_MAP, ([key]) => key);
 
 export const LIST_TYPES = ['numbered-list', 'bulleted-list'];
 
-export const DEFAULT_EDITOR_VALUE: Descendant[] = [];
+export const DEFAULT_EDITOR_VALUE: Descendant[] = [
+  {
+    type: 'paragraph',
+    children: [
+      {
+        text: '',
+      },
+    ],
+  },
+];
 
 export const isBlockActive = (editor: Editor, format: SlateElement['type']) => {
   const { selection } = editor;
