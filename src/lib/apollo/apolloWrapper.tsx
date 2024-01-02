@@ -7,6 +7,7 @@ import {
 } from '@apollo/client';
 import { createUploadLink } from 'apollo-upload-client';
 import { setContext } from '@apollo/client/link/context';
+import { onError } from '@apollo/client/link/error';
 import {
   ApolloNextAppProvider,
   NextSSRApolloClient,
@@ -17,6 +18,24 @@ import {
 function makeClient() {
   const httpLink = new HttpLink({
     uri: process.env.INTERNAL_GRAPHQL_URL,
+  });
+
+  const errorLink = onError(({
+    operation, forward, graphQLErrors, networkError,
+  }) => { // eslint-disable-line consistent-return
+    if (graphQLErrors) {
+      // eslint-disable-next-line array-callback-return
+      graphQLErrors.map(({ message, locations, path }) => {
+        const displayMessage = `
+          [GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}
+        `;
+        console.log(displayMessage); // eslint-disable-line no-console
+      });
+    }
+    if (networkError) {
+      operation.setContext({ headers: {} });
+      return forward(operation);
+    }
   });
 
   const authLink = setContext(() => {
@@ -43,9 +62,10 @@ function makeClient() {
             stripDefer: true,
           }),
           authLink,
+          errorLink,
           httpLink,
         ])
-        : from([authLink, uploadLink]),
+        : from([authLink, errorLink, uploadLink]),
   });
 }
 

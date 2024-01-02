@@ -11,7 +11,14 @@ type AppProps = {
 
 function App({ app }: AppProps) {
   const {
-    name, shortDesc, logoImg, htmlDesc, websiteUrl, bannerImgs: iBannerImgs, tags: iTags,
+    name,
+    shortDesc,
+    logoImg,
+    htmlDesc,
+    websiteUrl,
+    bannerImgs: iBannerImgs,
+    tags: iTags,
+    socialUrls: iSocialUrls,
   } = app;
 
   const tags = iTags.map((t) => ({
@@ -21,6 +28,14 @@ function App({ app }: AppProps) {
   const bannerImgs = iBannerImgs.map((b) => ({
     _id: b._id, image: { large: b.image.large, thumbnail: b.image.thumbnail }, order: b.order,
   }));
+
+  const socialUrls = {
+    facebook: iSocialUrls?.facebook || '',
+    instagram: iSocialUrls?.instagram || '',
+    twitter: iSocialUrls?.twitter || '',
+    linkedIn: iSocialUrls?.linkedIn || '',
+    github: iSocialUrls?.github || '',
+  };
 
   return (
     <WebsiteMaxWidthWrapper>
@@ -32,6 +47,7 @@ function App({ app }: AppProps) {
         bannerImgs={bannerImgs}
         htmlDesc={htmlDesc}
         websiteUrl={websiteUrl}
+        socialUrls={socialUrls}
       />
     </WebsiteMaxWidthWrapper>
   );
