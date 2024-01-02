@@ -6,7 +6,9 @@ import {
   Box, Button, Flex, Text, Title,
 } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
-import { IconWorld } from '@tabler/icons-react';
+import {
+  IconBrandFacebook, IconBrandGithub, IconBrandInstagram, IconBrandLinkedin, IconBrandX, IconWorld,
+} from '@tabler/icons-react';
 import classes from './AppDetails.module.css';
 import '@mantine/carousel/styles.css';
 import TagsList from '../../../components/TagsList/TagsList';
@@ -32,6 +34,13 @@ type AppDetailsProps = {
     };
     order: number;
   }[];
+  socialUrls?: {
+    facebook?: string;
+    twitter?: string;
+    instagram?: string;
+    github?: string;
+    linkedIn?: string;
+  }
 };
 
 function AppDetails({
@@ -43,6 +52,7 @@ function AppDetails({
   htmlDesc,
   tags,
   bannerImgs,
+  socialUrls,
 }: AppDetailsProps) {
   let logoSrc = logoImg;
   if (!logoSrc) {
@@ -52,9 +62,84 @@ function AppDetails({
   let websiteBtn = null;
   if (websiteUrl) {
     websiteBtn = (
-      <Button leftSection={<IconWorld size={16} />}>
-        Go to website
-      </Button>
+      <a href={websiteUrl} target="_blank">
+        <Button leftSection={<IconWorld size={16} />}>
+          Go to website
+        </Button>
+      </a>
+    );
+  }
+
+  const {
+    facebook, instagram, twitter, linkedIn, github,
+  } = socialUrls || {};
+
+  let facebookBtn = null;
+  if (facebook) {
+    facebookBtn = (
+      <a href={facebook} target="_blank">
+        <Button color="gray" variant="outline">
+          <IconBrandFacebook size={16} />
+        </Button>
+      </a>
+    );
+  }
+
+  let instagramBtn = null;
+  if (instagram) {
+    instagramBtn = (
+      <a href={instagram} target="_blank">
+        <Button color="gray" variant="outline">
+          <IconBrandInstagram size={16} />
+        </Button>
+      </a>
+    );
+  }
+
+  let xBtn = null;
+  if (twitter) {
+    xBtn = (
+      <a href={twitter} target="_blank">
+        <Button color="gray" variant="outline">
+          <IconBrandX size={16} />
+        </Button>
+      </a>
+    );
+  }
+
+  let linkedInBtn = null;
+  if (linkedIn) {
+    linkedInBtn = (
+      <a href={linkedIn} target="_blank">
+        <Button color="gray" variant="outline">
+          <IconBrandLinkedin size={16} />
+        </Button>
+      </a>
+    );
+  }
+
+  let githubBtn = null;
+  if (github) {
+    githubBtn = (
+      <a href={github} target="_blank">
+        <Button color="gray" variant="outline">
+          <IconBrandGithub size={16} />
+        </Button>
+      </a>
+    );
+  }
+
+  let linksLine = null;
+  if (websiteBtn || facebookBtn) {
+    linksLine = (
+      <Flex gap={8} mt={16}>
+        {websiteBtn}
+        {facebookBtn}
+        {instagramBtn}
+        {xBtn}
+        {linkedInBtn}
+        {githubBtn}
+      </Flex>
     );
   }
 
@@ -78,9 +163,7 @@ function AppDetails({
       <Box mt={4}>
         <TagsList tags={tags} />
       </Box>
-      <Flex mt={16}>
-        {websiteBtn}
-      </Flex>
+      {linksLine}
       <Box mt={32}>
         <EditorHtmlRender htmlDesc={htmlDesc} />
       </Box>

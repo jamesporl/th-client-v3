@@ -31,7 +31,14 @@ function Submission({ appId }: SubmissionProps) {
   }
 
   const {
-    name, shortDesc, tags: iTags, websiteUrl, logoImg, htmlDesc, bannerImgs: iBannerImgs,
+    name,
+    shortDesc,
+    tags: iTags,
+    websiteUrl,
+    logoImg,
+    htmlDesc,
+    bannerImgs: iBannerImgs,
+    socialUrls: iSocialUrls,
   } = appDraft;
 
   const tags = iTags.map((t) => ({
@@ -42,6 +49,14 @@ function Submission({ appId }: SubmissionProps) {
     _id: b._id, image: { large: b.image.large, thumbnail: b.image.thumbnail }, order: b.order,
   }));
 
+  const socialUrls = {
+    facebook: iSocialUrls?.facebook || '',
+    instagram: iSocialUrls?.instagram || '',
+    twitter: iSocialUrls?.twitter || '',
+    linkedIn: iSocialUrls?.linkedIn || '',
+    github: iSocialUrls?.github || '',
+  };
+
   return (
     <AppDetails
       name={name}
@@ -51,6 +66,7 @@ function Submission({ appId }: SubmissionProps) {
       logoImg={logoImg}
       htmlDesc={htmlDesc}
       bannerImgs={bannerImgs}
+      socialUrls={socialUrls}
     />
   );
 }
