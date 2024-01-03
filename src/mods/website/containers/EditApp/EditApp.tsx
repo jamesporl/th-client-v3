@@ -180,7 +180,7 @@ function EditApp({ appDraft }: EditAppProps) {
     );
     submissionComp = (
       <Box mt={32}>
-        <Submission appId={appDraft.appId} />
+        <Submission appId={appDraft.appId} onSubmitToServer={handleSubmitToServer} />
       </Box>
     );
   }
@@ -246,7 +246,7 @@ function EditApp({ appDraft }: EditAppProps) {
             {editorComp}
           </Stepper.Step>
           <Stepper.Step label="Submission" description="Preview and submit">
-            <Flex w="100%" justify="flex-end" mt={32}>
+            <Flex w="100%" justify="flex-end" mt={32} gap={8}>
               <Button
                 onClick={prevStep}
                 leftSection={<IconArrowLeft size={16} />}
