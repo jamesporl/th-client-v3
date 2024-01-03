@@ -22,7 +22,9 @@ function AppModal({ app }: AppModalProps) {
   };
 
   const {
-    name, shortDesc, logoImg, htmlDesc, websiteUrl, bannerImgs: iBannerImgs, tags: iTags,
+    _id,
+    name,
+    shortDesc, logoImg, htmlDesc, websiteUrl, bannerImgs: iBannerImgs, tags: iTags,
   } = app;
 
   const tags = iTags.map((t) => ({
@@ -36,6 +38,7 @@ function AppModal({ app }: AppModalProps) {
   return (
     <Modal opened={opened} onClose={handleCloseAppModal} size={1132}>
       <AppDetails
+        _id={_id}
         name={name}
         shortDesc={shortDesc}
         logoImg={logoImg}
