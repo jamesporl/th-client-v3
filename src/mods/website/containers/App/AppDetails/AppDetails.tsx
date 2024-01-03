@@ -1,20 +1,27 @@
 'use client';
 
-import React from 'react';
+import React, {
+  useCallback, useContext, useEffect, useMemo,
+} from 'react';
 import Image from 'next/image';
 import {
   Box, Button, Flex, Text, Title,
 } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 import {
+  IconArrowBigUp,
   IconBrandFacebook, IconBrandGithub, IconBrandInstagram, IconBrandLinkedin, IconBrandX, IconWorld,
 } from '@tabler/icons-react';
+import { useMutation } from '@apollo/client';
 import classes from './AppDetails.module.css';
 import '@mantine/carousel/styles.css';
 import TagsList from '../../../components/TagsList/TagsList';
 import EditorHtmlRender from '../../../../components/Editor/EditorHtmlRender/EditorHtmlRender';
+import UIContext from '../../../../../lib/mobx/UI';
+import ToggleAppSupportMtn from '../../../gql/ToggleAppSupportMtn';
 
 type AppDetailsProps = {
+  _id: string;
   name?: string;
   shortDesc?: string;
   logoImg?: string;
@@ -40,10 +47,13 @@ type AppDetailsProps = {
     instagram?: string;
     github?: string;
     linkedIn?: string;
-  }
+  };
+  supportsCount?: number;
+  isSupported?: boolean;
 };
 
 function AppDetails({
+  _id,
   name,
   shortDesc,
   logoImg,
@@ -53,7 +63,37 @@ function AppDetails({
   tags,
   bannerImgs,
   socialUrls,
+  isSupported = true,
+  supportsCount = 101,
 }: AppDetailsProps) {
+  const uiCtx = useContext(UIContext);
+
+  const [toggleAppSupport] = useMutation(ToggleAppSupportMtn);
+
+  useEffect(() => {
+    uiCtx.addApp({ _id, supportsCount, isSupported });
+  }, [_id, supportsCount, isSupported]);
+
+  const storedApp = useMemo(() => {
+    const ctxApp = uiCtx.apps.find((a) => a._id === _id);
+    const serverApp = {
+      _id,
+      supportsCount,
+      isSupported,
+    };
+    return ctxApp || serverApp;
+  }, [_id, supportsCount, isSupported, uiCtx.apps]);
+
+  const handleClickSupport = useCallback(() => {
+    let newSupportsCount = storedApp.supportsCount - 1;
+    if (!storedApp.isSupported) {
+      newSupportsCount = storedApp.supportsCount + 1;
+    }
+    uiCtx.updateApp(_id, !storedApp.isSupported, newSupportsCount);
+    const input = { appId: _id };
+    toggleAppSupport({ variables: { input } });
+  }, [storedApp, _id]);
+
   let logoSrc = logoImg;
   if (!logoSrc) {
     logoSrc = '/img-sq-placeholder.png';
@@ -164,6 +204,22 @@ function AppDetails({
         <TagsList tags={tags} />
       </Box>
       {linksLine}
+      <Flex mt={16} justify="space-between" align="center" className={classes['support-box']}>
+        <Box>
+          <Text size="md" fw="bold">Are you happy to support this app?</Text>
+        </Box>
+        <Flex gap={8}>
+          <Text size="xl" fw="bold">{storedApp?.supportsCount || 0}</Text>
+          <Button
+            size="xs"
+            radius="xl"
+            variant={storedApp?.isSupported ? 'filled' : 'default'}
+            onClick={handleClickSupport}
+          >
+            <IconArrowBigUp size={14} />
+          </Button>
+        </Flex>
+      </Flex>
       <Box mt={32}>
         <EditorHtmlRender htmlDesc={htmlDesc} />
       </Box>

@@ -59,6 +59,7 @@ function Submission({ appId }: SubmissionProps) {
 
   return (
     <AppDetails
+      _id={appId}
       name={name}
       shortDesc={shortDesc}
       tags={tags}

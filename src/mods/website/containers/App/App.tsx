@@ -11,6 +11,7 @@ type AppProps = {
 
 function App({ app }: AppProps) {
   const {
+    _id,
     name,
     shortDesc,
     logoImg,
@@ -19,6 +20,8 @@ function App({ app }: AppProps) {
     bannerImgs: iBannerImgs,
     tags: iTags,
     socialUrls: iSocialUrls,
+    supportsCount,
+    isSupported,
   } = app;
 
   const tags = iTags.map((t) => ({
@@ -40,6 +43,7 @@ function App({ app }: AppProps) {
   return (
     <WebsiteMaxWidthWrapper>
       <AppDetails
+        _id={_id}
         name={name}
         shortDesc={shortDesc}
         logoImg={logoImg}
@@ -48,6 +52,8 @@ function App({ app }: AppProps) {
         htmlDesc={htmlDesc}
         websiteUrl={websiteUrl}
         socialUrls={socialUrls}
+        supportsCount={supportsCount}
+        isSupported={isSupported}
       />
     </WebsiteMaxWidthWrapper>
   );

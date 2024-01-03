@@ -1,17 +1,20 @@
 import { createContext } from 'react';
 import { observable, action, makeObservable } from 'mobx';
-import { AppsQuery } from '../../__generated__/graphql';
 
-export type AppRes = AppsQuery['apps']['nodes'][0];
+export type AppSupport = {
+  _id: string;
+  isSupported: boolean;
+  supportsCount: number;
+};
 
 export class UI {
   constructor() {
     makeObservable(this);
   }
 
-  @observable apps: AppRes[] = [];
+  @observable apps: AppSupport[] = [];
 
-  @action addApp = (app: AppRes) => {
+  @action addApp = (app: AppSupport) => {
     const appExists = this.apps.find((a) => a._id === app._id);
     if (!appExists) {
       this.apps = [...this.apps, app];

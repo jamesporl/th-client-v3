@@ -32,12 +32,17 @@ function App({ app }: AppProps) {
   };
 
   useEffect(() => {
-    uiCtx.addApp(app);
+    uiCtx.addApp({ _id: app._id, supportsCount: app.supportsCount, isSupported: app.isSupported });
   }, [app]);
 
   const storedApp = useMemo(() => {
     const ctxApp = uiCtx.apps.find((a) => a._id === app._id);
-    return ctxApp || app;
+    const serverApp = {
+      _id: app._id,
+      supportsCount: app.supportsCount,
+      isSupported: app.isSupported,
+    };
+    return ctxApp || serverApp;
   }, [app, uiCtx.apps]);
 
   const handleClickSupport = useCallback((ev: MouseEvent<HTMLButtonElement>) => {

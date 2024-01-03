@@ -15,6 +15,7 @@
         "allow": ["_id"]
       }
     ],
+    "@typescript-eslint/naming-convention": "off",
     "react/forbid-prop-types": "off",
     "react-hooks/exhaustive-deps": "off",
     "react/destructuring-assignment": "off",
