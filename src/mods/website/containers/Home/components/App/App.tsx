@@ -1,21 +1,66 @@
-import React from 'react';
+import React, {
+  MouseEvent,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+} from 'react';
 import { Button, Flex } from '@mantine/core';
 import { IconArrowBigUp, IconMessageCircle, IconWorld } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
+import { observer } from 'mobx-react';
+import { useMutation } from '@apollo/client';
 import classes from './App.module.css';
 import { AppsQuery } from '../../../../../../__generated__/graphql';
 import AppHeader from '../../../../components/AppHeader/AppHeader';
+import UIContext from '../../../../../../lib/mobx/UI';
+import ToggleAppSupportMtn from '../../../../gql/ToggleAppSupportMtn';
 
 type AppProps = {
   app: AppsQuery['apps']['nodes'][0];
 };
 
 function App({ app }: AppProps) {
+  const uiCtx = useContext(UIContext);
+
   const router = useRouter();
+
+  const [toggleAppSupport] = useMutation(ToggleAppSupportMtn);
 
   const handleOpenAppModal = () => {
     router.push(`/apps/${app.slug}`);
   };
+
+  useEffect(() => {
+    uiCtx.addApp(app);
+  }, [app]);
+
+  const storedApp = useMemo(() => {
+    const ctxApp = uiCtx.apps.find((a) => a._id === app._id);
+    return ctxApp || app;
+  }, [app, uiCtx.apps]);
+
+  const handleClickSupport = useCallback((ev: MouseEvent<HTMLButtonElement>) => {
+    ev.stopPropagation();
+    let newSupportsCount = storedApp.supportsCount - 1;
+    if (!storedApp.isSupported) {
+      newSupportsCount = storedApp.supportsCount + 1;
+    }
+    uiCtx.updateApp(app._id, !storedApp.isSupported, newSupportsCount);
+    const input = { appId: app._id };
+    toggleAppSupport({ variables: { input } });
+  }, [storedApp]);
+
+  let websiteBtn = null;
+  if (app.websiteUrl) {
+    websiteBtn = (
+      <a href={app.websiteUrl} target="_blank">
+        <Button size="xs" radius="xl" variant="default" leftSection={<IconWorld size={14} />}>
+          Go to Website
+        </Button>
+      </a>
+    );
+  }
 
   return (
     <div
@@ -35,19 +80,23 @@ function App({ app }: AppProps) {
       />
       <Flex mt={8} justify="space-between">
         <Flex gap={8}>
-          <Button size="xs" radius="xl" leftSection={<IconArrowBigUp size={14} />}>
-            {app.supportsCount}
+          <Button
+            size="xs"
+            radius="xl"
+            leftSection={<IconArrowBigUp size={14} />}
+            variant={storedApp?.isSupported ? 'filled' : 'default'}
+            onClick={handleClickSupport}
+          >
+            {storedApp?.supportsCount || 0}
           </Button>
           <Button size="xs" radius="xl" variant="default" leftSection={<IconMessageCircle size={14} />}>
             {app.commentsCount}
           </Button>
         </Flex>
-        <Button size="xs" radius="xl" variant="default" leftSection={<IconWorld size={14} />}>
-          Go to Website
-        </Button>
+        {websiteBtn}
       </Flex>
     </div>
   );
 }
 
-export default App;
+export default observer(App);
