@@ -69,13 +69,15 @@ function WebsiteNavbar({ children }: WebsiteNavbarProps) {
         </Menu.Target>
         <Menu.Dropdown>
           <Menu.Item
+            key="my-apps"
             leftSection={<IconApps style={{ width: 16, height: 16 }} />}
             component={NextLink}
-            href="/my/my-profile"
+            href="/my/apps"
           >
             My Apps
           </Menu.Item>
           <Menu.Item
+            key="logout"
             leftSection={<IconLogout style={{ width: 16, height: 16 }} />}
             component="button"
             onClick={handleClickLogout}

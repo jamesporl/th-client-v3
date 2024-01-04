@@ -15,7 +15,7 @@ const useRedirectFromLogin = () => {
     }
     const isNotPublicPage = isAppPage || isAdminPage;
     if (myProfile) {
-      if (myProfile.isAdmin && (isAppPage || !pathname)) {
+      if (myProfile.isAdmin && !pathname) {
         router.push('/site-admin');
       } else if (!myProfile.isAdmin && (isAdminPage || !pathname)) {
         router.push('/');
