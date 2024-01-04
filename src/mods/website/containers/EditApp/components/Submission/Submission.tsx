@@ -51,6 +51,7 @@ function Submission({ appId, onSubmitToServer }: SubmissionProps) {
         setErrors(result.data.submitAppDraft.errors);
         setIsSubmitting(false);
       } else {
+        router.refresh();
         router.push('/my/apps');
         sessionStorage.removeItem(`appDraft_${appId}`);
       }
