@@ -1,6 +1,6 @@
-import { gql } from '@apollo/client';
+import { gql } from '../../../__generated__/gql';
 
-export default gql`
+export default gql(`
   query MyApps {
     myApps {
       nodes {
@@ -52,4 +52,4 @@ export default gql`
       totalCount
     }
   }
-`;
+`);

@@ -1,0 +1,9 @@
+.app-draft {
+  border: 2px solid var(--mantine-color-gray-2);
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.logo {
+  border-radius: 4px;
+}
