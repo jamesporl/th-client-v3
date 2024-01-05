@@ -1,0 +1,73 @@
+.about-hero-container {
+  position: relative;
+}
+
+.about-hero-bg {
+  padding-top: 60px;
+  height: 800px;
+  background-image: url('/about-bg.jpg');
+  background-size: cover;
+  background-position: top;
+  background-repeat: no-repeat;
+}
+.about-hero {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  z-index: 2;
+  text-align: center;
+  padding: 0 0.5rem;
+
+  @media only screen and (min-width: 768px) {
+    text-align: left;
+    padding: 0 1rem;
+  }
+
+  @media only screen and (min-width: 992px) {
+    padding: 0 2rem;
+  }
+}
+
+.main-line-1 {
+  font-size: 4.5rem;
+
+  @media only screen and (min-width: 992px) {
+    font-size: 6rem;
+  }
+}
+
+.main-line-2 {
+  font-size: 3.5rem;
+
+  @media only screen and (min-width: 992px) {
+    font-size: 4.5rem;
+  }
+}
+
+.cta {
+  justify-content: center;
+
+  @media only screen and (min-width: 768px) {
+    justify-content: flex-start;
+  }
+}
+
+.features-container {
+  background-color: #e53e3e;
+}
+
+.content-container {
+  display: flex;
+  justify-content: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.child-container {
+  width: 100%;
+  max-width: 1100px;
+}
+
+.feat-col {
+  max-width: 350px;
+}
