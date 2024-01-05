@@ -15,6 +15,8 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 const documents = {
     "\n  mutation Login($input: LoginInput!) {\n    login(input: $input)\n  }\n": types.LoginDocument,
     "\n  query MyProfile {\n    myProfile {\n      _id\n      firstName\n      lastName\n      email\n      shortDesc\n      image\n      isAdmin\n    }\n  }\n": types.MyProfileDocument,
+    "\n  mutation ResetPasswordByToken($input: ResetPasswordByTokenInput!) {\n    resetPasswordByToken(input: $input) {\n      isCompleted\n    }\n  }\n": types.ResetPasswordByTokenDocument,
+    "\n  mutation SendPasswordResetLink($input: SendPasswordResetLinkInput!) {\n    sendPasswordResetLink(input: $input) {\n      isCompleted\n    }\n  }\n": types.SendPasswordResetLinkDocument,
     "\n  mutation SendVerificationCode($input: SendVerificationCodeInput!) {\n    sendVerificationCode(input: $input) {\n      isCompleted\n    }\n  }\n": types.SendVerificationCodeDocument,
     "\n  mutation Signup($input: SignupInput!) {\n    signup(input: $input) {\n      isCompleted\n    }\n  }\n": types.SignupDocument,
     "\n  mutation VerifyAccountByCode($input: VerifyAccountByCodeInput!) {\n    verifyAccountByCode(input: $input)\n  }\n": types.VerifyAccountByCodeDocument,
@@ -62,6 +64,14 @@ export function gql(source: "\n  mutation Login($input: LoginInput!) {\n    logi
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  query MyProfile {\n    myProfile {\n      _id\n      firstName\n      lastName\n      email\n      shortDesc\n      image\n      isAdmin\n    }\n  }\n"): (typeof documents)["\n  query MyProfile {\n    myProfile {\n      _id\n      firstName\n      lastName\n      email\n      shortDesc\n      image\n      isAdmin\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation ResetPasswordByToken($input: ResetPasswordByTokenInput!) {\n    resetPasswordByToken(input: $input) {\n      isCompleted\n    }\n  }\n"): (typeof documents)["\n  mutation ResetPasswordByToken($input: ResetPasswordByTokenInput!) {\n    resetPasswordByToken(input: $input) {\n      isCompleted\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation SendPasswordResetLink($input: SendPasswordResetLinkInput!) {\n    sendPasswordResetLink(input: $input) {\n      isCompleted\n    }\n  }\n"): (typeof documents)["\n  mutation SendPasswordResetLink($input: SendPasswordResetLinkInput!) {\n    sendPasswordResetLink(input: $input) {\n      isCompleted\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
