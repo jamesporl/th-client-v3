@@ -2,7 +2,7 @@
 
 import React, { useContext, useState } from 'react';
 import {
-  Alert, Button, PasswordInput, Text, TextInput,
+  Alert, Button, Flex, PasswordInput, Text, TextInput,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import Link from 'next/link';
@@ -101,6 +101,7 @@ function Login() {
         <TextInput
           label="Email"
           size="md"
+          placeholder="Your email"
           {...form.getInputProps('email')}
         />
         <PasswordInput
@@ -113,6 +114,13 @@ function Login() {
           Log in
         </Button>
       </form>
+      <Flex mt={24} justify="center">
+        <Text fz={14} c="dimmed">
+          <Link href="/account/forgot-password">
+            Forgot password?
+          </Link>
+        </Text>
+      </Flex>
       <Text mt={24} c="dimmed" fz={14} fs="italic">
         Don&apos;t have an account? &nbsp;
         <Link href="/account/signup">
