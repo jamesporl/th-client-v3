@@ -76,6 +76,7 @@ function Submission({ appId, onSubmitToServer }: SubmissionProps) {
     htmlDesc,
     bannerImgs: iBannerImgs,
     socialUrls: iSocialUrls,
+    videoUrl,
   } = appDraft;
 
   const tags = iTags.map((t) => ({
@@ -149,6 +150,7 @@ function Submission({ appId, onSubmitToServer }: SubmissionProps) {
           htmlDesc={htmlDesc}
           bannerImgs={bannerImgs}
           socialUrls={socialUrls}
+          videoUrl={videoUrl}
         />
       </Box>
     </>

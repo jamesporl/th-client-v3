@@ -38,7 +38,7 @@ function App({ app, refetchApps, refetchAppDrafts }: AppProps) {
   const [deleteApp] = useMutation(DeleteAppMtn);
 
   const handleClickView = () => {
-    window.open(`/apps/${app.slug}`, '_blank', 'oopener noreferrer');
+    window.open(`/apps/${app.slug}`, '_blank', 'noopener noreferrer');
   };
 
   const handleClickDelete = () => {

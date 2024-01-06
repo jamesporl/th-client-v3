@@ -35,6 +35,11 @@ function App({ app }: AppProps) {
     uiCtx.addApp({ _id: app._id, supportsCount: app.supportsCount, isSupported: app.isSupported });
   }, [app]);
 
+  const handleClickGoToWebsite = (ev: MouseEvent<HTMLButtonElement>) => {
+    ev.stopPropagation();
+    window.open(app.websiteUrl, '_blank', 'noopener noreferrer');
+  };
+
   const storedApp = useMemo(() => {
     const ctxApp = uiCtx.apps.find((a) => a._id === app._id);
     const serverApp = {
@@ -59,11 +64,15 @@ function App({ app }: AppProps) {
   let websiteBtn = null;
   if (app.websiteUrl) {
     websiteBtn = (
-      <a href={app.websiteUrl} target="_blank">
-        <Button size="xs" radius="xl" variant="default" leftSection={<IconWorld size={14} />}>
-          Go to Website
-        </Button>
-      </a>
+      <Button
+        size="xs"
+        radius="xl"
+        variant="default"
+        leftSection={<IconWorld size={14} />}
+        onClick={handleClickGoToWebsite}
+      >
+        Go to Website
+      </Button>
     );
   }
 
