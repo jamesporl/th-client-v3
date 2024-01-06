@@ -17,6 +17,7 @@ import classes from './Editor.module.css';
 import Element from '../Element';
 import Leaf from '../Leaf';
 
+// See https://github.com/ianstormtaylor/slate/blob/main/site/examples/richtext.tsx
 function Editor(props: EditorWithRefProps) {
   const {
     initialValue = DEFAULT_EDITOR_VALUE,

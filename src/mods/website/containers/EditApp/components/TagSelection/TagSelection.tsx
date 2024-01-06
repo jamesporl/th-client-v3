@@ -3,7 +3,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useLazyQuery } from '@apollo/client';
 import {
-  Box, Button, Flex, Pill, Skeleton, Text, TextInput,
+  Box, Button, Flex, Pill, Text, TextInput,
 } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 import debounce from 'lodash/debounce';
@@ -13,17 +13,23 @@ import classes from './TagSelection.module.css';
 import { LocalAppDraft } from '../../_types';
 
 type TagSelectionProps = {
+  // eslint-disable-next-line no-unused-vars
   onChangeFields: (values: Partial<LocalAppDraft>) => void;
   onSubmitToServer: () => Promise<void>;
   initialTags: LocalAppDraft['tags'];
+  tags: AppTagsQuery['appTags']['nodes'];
 };
 
-function TagSelection({ onChangeFields, onSubmitToServer, initialTags }: TagSelectionProps) {
+function TagSelection({
+  onChangeFields, onSubmitToServer, initialTags, tags,
+}: TagSelectionProps) {
+  const [tagItems, setTagItems] = useState(tags);
   const [selectedTags, setSelectedTags] = useState<LocalAppDraft['tags']>([]);
   const [tagsUpdated, setTagsUpdated] = useState(false);
   const [searchString, setSearchString] = useState('');
+  const [searchStringChanged, setSearchStringChanged] = useState(false);
 
-  const [getAllTags, { data, loading }] = useLazyQuery(AppTagsQry, {
+  const [getAllTags, { data }] = useLazyQuery(AppTagsQry, {
     variables: { searchString: '' },
   });
 
@@ -46,11 +52,20 @@ function TagSelection({ onChangeFields, onSubmitToServer, initialTags }: TagSele
   );
 
   useEffect(() => {
-    debounceSearchTags(searchString);
-  }, [searchString]);
+    if (searchStringChanged) {
+      debounceSearchTags(searchString);
+    }
+  }, [searchString, searchStringChanged]);
+
+  useEffect(() => {
+    if (data) {
+      setTagItems(data.appTags.nodes);
+    }
+  }, [data]);
 
   const handleChangeSearchString = (ev: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = ev.target;
+    setSearchStringChanged(true);
     setSearchString(value);
   };
 
@@ -101,34 +116,6 @@ function TagSelection({ onChangeFields, onSubmitToServer, initialTags }: TagSele
     );
   }
 
-  let allTagsList = (
-    <>
-      <Skeleton height={16} animate />
-      <Skeleton height={16} mt="md" animate />
-      <Skeleton height={16} mt="md" animate />
-    </>
-  );
-
-  if (!loading && data) {
-    allTagsList = (
-      <Flex justify="center" wrap="wrap" style={{ rowGap: '16px', columnGap: '8px' }}>
-        {data.appTags.nodes.map((t: AppTagsQuery['appTags']['nodes'][0]) => (
-          <Button
-            size="xs"
-            color="gray"
-            variant="light"
-            radius="xs"
-            key={t._id}
-            style={{ lineHeight: 108 }}
-            onClick={() => handleAddTag(t)}
-          >
-            {t.name}
-          </Button>
-        ))}
-      </Flex>
-    );
-  }
-
   return (
     <>
       <Text>Select 1 to 3 categories that best describe your app.</Text>
@@ -144,7 +131,21 @@ function TagSelection({ onChangeFields, onSubmitToServer, initialTags }: TagSele
         ml="xl"
       />
       <Box mt="xl">
-        {allTagsList}
+        <Flex justify="center" wrap="wrap" style={{ rowGap: '16px', columnGap: '8px' }}>
+          {tagItems.map((t) => (
+            <Button
+              size="xs"
+              color="gray"
+              variant="light"
+              radius="xs"
+              key={t._id}
+              style={{ lineHeight: 108 }}
+              onClick={() => handleAddTag(t)}
+            >
+              {t.name}
+            </Button>
+          ))}
+        </Flex>
       </Box>
     </>
   );

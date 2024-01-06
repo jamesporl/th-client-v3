@@ -31,6 +31,7 @@ function Submission({ appId, onSubmitToServer }: SubmissionProps) {
 
   useEffect(() => {
     const getAppDraft = async () => {
+      await onSubmitToServer();
       const { data } = await apolloClient.query({
         query: AppDraftQry,
         variables: { _id: appId },

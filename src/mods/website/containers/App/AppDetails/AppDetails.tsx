@@ -50,6 +50,7 @@ type AppDetailsProps = {
   };
   supportsCount?: number;
   isSupported?: boolean;
+  isPreview?: boolean;
 };
 
 function AppDetails({
@@ -65,6 +66,7 @@ function AppDetails({
   socialUrls,
   isSupported = true,
   supportsCount = 101,
+  isPreview = true,
 }: AppDetailsProps) {
   const uiCtx = useContext(UIContext);
 
@@ -85,14 +87,16 @@ function AppDetails({
   }, [_id, supportsCount, isSupported, uiCtx.apps]);
 
   const handleClickSupport = useCallback(() => {
-    let newSupportsCount = storedApp.supportsCount - 1;
-    if (!storedApp.isSupported) {
-      newSupportsCount = storedApp.supportsCount + 1;
+    if (!isPreview) {
+      let newSupportsCount = storedApp.supportsCount - 1;
+      if (!storedApp.isSupported) {
+        newSupportsCount = storedApp.supportsCount + 1;
+      }
+      uiCtx.updateApp(_id, !storedApp.isSupported, newSupportsCount);
+      const input = { appId: _id };
+      toggleAppSupport({ variables: { input } });
     }
-    uiCtx.updateApp(_id, !storedApp.isSupported, newSupportsCount);
-    const input = { appId: _id };
-    toggleAppSupport({ variables: { input } });
-  }, [storedApp, _id]);
+  }, [storedApp, _id, isPreview]);
 
   let logoSrc = logoImg;
   if (!logoSrc) {

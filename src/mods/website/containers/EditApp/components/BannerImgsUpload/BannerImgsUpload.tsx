@@ -18,12 +18,13 @@ import DeleteAppDraftBannerImgMtn from '../../../../gql/DeleteAppDraftBannerImgM
 import UpdateAppDraftBannerImgsOrderMtn from '../../../../gql/UpdateAppDraftBannerImgsOrderMtn';
 
 type BannerImgsUploadProps = {
-  initialValues: LocalAppDraft;
+  localAppDraft: LocalAppDraft;
+  // eslint-disable-next-line no-unused-vars
   onChangeFields: (values: Partial<LocalAppDraft>) => void;
 };
 
-function BannerImgsUpload({ initialValues, onChangeFields }: BannerImgsUploadProps) {
-  const [bannerImgs, setBannerImgs] = useState(initialValues.bannerImgs || []);
+function BannerImgsUpload({ localAppDraft, onChangeFields }: BannerImgsUploadProps) {
+  const [bannerImgs, setBannerImgs] = useState(localAppDraft.bannerImgs || []);
   const [isLoadingBannerImg, setIsLoadingBannerImg] = useState(false);
 
   const [addAppDraftBannerImg] = useMutation(AddAppDraftBannerImgMtn);
@@ -38,7 +39,7 @@ function BannerImgsUpload({ initialValues, onChangeFields }: BannerImgsUploadPro
       notifications.show({ color: 'red', message: 'Image must be smaller than 2MB' });
       return;
     }
-    const input = { appId: initialValues.appId, file };
+    const input = { appId: localAppDraft.appId, file };
     try {
       const { data } = await addAppDraftBannerImg({ variables: { input } });
       setTimeout(() => {
@@ -119,7 +120,7 @@ function BannerImgsUpload({ initialValues, onChangeFields }: BannerImgsUploadPro
 
       updateAppDraftBannerImgsOrder({
         variables: {
-          input: { appId: initialValues.appId, bannerImgIds: orderedNewBannerImgIds },
+          input: { appId: localAppDraft.appId, bannerImgIds: orderedNewBannerImgIds },
         },
       });
     },
@@ -148,7 +149,7 @@ function BannerImgsUpload({ initialValues, onChangeFields }: BannerImgsUploadPro
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onConfirm: async () => {
         try {
-          const input = { appId: initialValues.appId, bannerImgId: bannerImg._id };
+          const input = { appId: localAppDraft.appId, bannerImgId: bannerImg._id };
           await deleteAppDraftBannerImg({ variables: { input } });
           const newBannerImgs = bannerImgs.filter((img) => img._id !== bannerImg._id);
           setBannerImgs(newBannerImgs);

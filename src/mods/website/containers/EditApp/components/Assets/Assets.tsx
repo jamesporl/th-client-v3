@@ -17,17 +17,18 @@ import BannerImgsUpload from '../BannerImgsUpload/BannerImgsUpload';
 
 type AssetsProps = {
   appId: string;
-  initialValues: LocalAppDraft;
+  localAppDraft: LocalAppDraft;
+  // eslint-disable-next-line no-unused-vars
   onChangeFields: (values: Partial<LocalAppDraft>) => void;
   onSubmitToServer: () => Promise<void>;
 };
 
 function Assets({
-  appId, initialValues, onChangeFields, onSubmitToServer,
+  appId, localAppDraft, onChangeFields, onSubmitToServer,
 }: AssetsProps) {
-  const [videoUrl, setVideoUrl] = useState(initialValues.videoUrl);
+  const [videoUrl, setVideoUrl] = useState(localAppDraft.videoUrl);
   const [videoUrlError, setVideoUrlError] = useState('');
-  const [logoImgSrc, setLogoImgSrc] = useState(initialValues.logoImg);
+  const [logoImgSrc, setLogoImgSrc] = useState(localAppDraft.logoImg);
   const [isLoadingLogo, setIsLoadingLogo] = useState(false);
 
   const [updateAppDraftLogoImg] = useMutation(UpdateAppDraftLogoImgMtn);
@@ -161,7 +162,7 @@ function Assets({
             Click on the Add button to upload an image. You can upload up to 10 images and
             drag-and-drop them to reorder them. An image should ideally be 1050px or less by 600px.
           </Text>
-          <BannerImgsUpload initialValues={initialValues} onChangeFields={onChangeFields} />
+          <BannerImgsUpload localAppDraft={localAppDraft} onChangeFields={onChangeFields} />
         </Card>
       </div>
     </div>
