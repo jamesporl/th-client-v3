@@ -13,7 +13,9 @@ import {
 } from '@mantine/core';
 import Link from 'next/link';
 import Image from 'next/image';
-import { IconApps, IconLogout, IconSearch } from '@tabler/icons-react';
+import {
+  IconApps, IconLogout, IconSearch, IconUser,
+} from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import { observer } from 'mobx-react';
 import classes from './WebsiteNavbar.module.css';
@@ -76,6 +78,15 @@ function WebsiteNavbar({ children }: WebsiteNavbarProps) {
           >
             My Apps
           </Menu.Item>
+          <Menu.Item
+            key="my-profile"
+            leftSection={<IconUser style={{ width: 16, height: 16 }} />}
+            component={NextLink}
+            href="/my/profile"
+          >
+            My Profile
+          </Menu.Item>
+          <Menu.Divider key="divider" />
           <Menu.Item
             key="logout"
             leftSection={<IconLogout style={{ width: 16, height: 16 }} />}
