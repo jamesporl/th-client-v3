@@ -14,6 +14,16 @@ export class UI {
 
   @observable apps: AppSupport[] = [];
 
+  // use lower case only because react is confused that it can be a div attribute
+  @observable screenheight = 768;
+
+  @observable screenwidth = 1200;
+
+  @action setScreenSize = (width: number, height: number) => {
+    this.screenwidth = width;
+    this.screenheight = height;
+  };
+
   @action addApp = (app: AppSupport) => {
     const appExists = this.apps.find((a) => a._id === app._id);
     if (!appExists) {

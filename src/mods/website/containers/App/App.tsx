@@ -22,6 +22,7 @@ function App({ app }: AppProps) {
     socialUrls: iSocialUrls,
     supportsCount,
     isSupported,
+    videoUrl,
   } = app;
 
   const tags = iTags.map((t) => ({
@@ -54,6 +55,7 @@ function App({ app }: AppProps) {
         socialUrls={socialUrls}
         supportsCount={supportsCount}
         isSupported={isSupported}
+        videoUrl={videoUrl}
       />
     </WebsiteMaxWidthWrapper>
   );

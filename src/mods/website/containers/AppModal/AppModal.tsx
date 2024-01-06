@@ -24,7 +24,13 @@ function AppModal({ app }: AppModalProps) {
   const {
     _id,
     name,
-    shortDesc, logoImg, htmlDesc, websiteUrl, bannerImgs: iBannerImgs, tags: iTags,
+    shortDesc,
+    logoImg,
+    htmlDesc,
+    websiteUrl,
+    videoUrl,
+    bannerImgs: iBannerImgs,
+    tags: iTags,
   } = app;
 
   const tags = iTags.map((t) => ({
@@ -47,6 +53,7 @@ function AppModal({ app }: AppModalProps) {
         htmlDesc={htmlDesc}
         websiteUrl={websiteUrl}
         isPreview={false}
+        videoUrl={videoUrl}
       />
     </Modal>
   );

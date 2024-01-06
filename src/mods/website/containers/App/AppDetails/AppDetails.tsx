@@ -13,6 +13,7 @@ import {
   IconBrandFacebook, IconBrandGithub, IconBrandInstagram, IconBrandLinkedin, IconBrandX, IconWorld,
 } from '@tabler/icons-react';
 import { useMutation } from '@apollo/client';
+import { observer } from 'mobx-react';
 import classes from './AppDetails.module.css';
 import '@mantine/carousel/styles.css';
 import TagsList from '../../../components/TagsList/TagsList';
@@ -32,7 +33,8 @@ type AppDetailsProps = {
     _id: string;
     name: string;
     slug: string;
-  }[],
+  }[];
+  videoUrl?: string;
   bannerImgs?: {
     _id: string;
     image: {
@@ -59,6 +61,7 @@ function AppDetails({
   shortDesc,
   logoImg,
   websiteUrl,
+  videoUrl,
   slug,
   htmlDesc,
   tags,
@@ -187,6 +190,26 @@ function AppDetails({
     );
   }
 
+  let embeddedVideo = null;
+  let width = uiCtx.screenwidth - 32;
+  if (uiCtx.screenwidth > 609) {
+    width = 577;
+  }
+  if (videoUrl) {
+    embeddedVideo = (
+      <Carousel.Slide key="video">
+        <iframe
+          src={videoUrl}
+          width={width}
+          height="100%"
+          title="App Video"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      </Carousel.Slide>
+    );
+  }
+
   return (
     <>
       <div className={classes['header-container']}>
@@ -230,6 +253,7 @@ function AppDetails({
       <div className={classes['carousel-container']}>
         <div className={classes['carousel-container-width']}>
           <Carousel slideSize="80%" height={330} controlsOffset="xs" controlSize={14} withIndicators align="start">
+            {embeddedVideo}
             {bannerImgs.map((bImg) => (
               <Carousel.Slide key={bImg.order}>
                 <Image src={bImg.image.large} alt="app-preview" height={330} width={577} />
@@ -242,4 +266,4 @@ function AppDetails({
   );
 }
 
-export default AppDetails;
+export default observer(AppDetails);
