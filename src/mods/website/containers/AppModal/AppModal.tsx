@@ -46,6 +46,7 @@ function AppModal({ app }: AppModalProps) {
         bannerImgs={bannerImgs}
         htmlDesc={htmlDesc}
         websiteUrl={websiteUrl}
+        isPreview={false}
       />
     </Modal>
   );

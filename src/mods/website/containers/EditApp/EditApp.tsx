@@ -11,7 +11,7 @@ import set from 'lodash/set';
 import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react';
 import { useMutation } from '@apollo/client';
 import { Descendant } from 'slate';
-import { AppDraftQuery } from '../../../../__generated__/graphql';
+import { AppDraftQuery, AppTagsQuery } from '../../../../__generated__/graphql';
 import WebsiteMaxWidthWrapper from '../../components/WebsiteMaxWidthWrapper/WebsiteMaxWidthWrapper';
 import MainDetails from './components/MainDetails';
 import UpdateAppDraftMtn from '../../gql/UpdateAppDraftMtn';
@@ -22,49 +22,53 @@ import Submission from './components/Submission/Submission';
 
 type EditAppProps = {
   appDraft: AppDraftQuery['appDraft'];
+  tags: AppTagsQuery['appTags']['nodes']
 };
 
-function EditApp({ appDraft }: EditAppProps) {
+function EditApp({ appDraft, tags }: EditAppProps) {
   const editorRef = useRef(null);
 
-  const [desc, setDesc] = useState<Descendant[]>();
   const [descIsTouched, setDescIsTouched] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
 
   const [updateAppDraft] = useMutation(UpdateAppDraftMtn);
 
-  const [initialValues, setInitialValues] = useState<LocalAppDraft>();
+  const [localAppDraft, setLocalAppDraft] = useState<LocalAppDraft>();
 
   const sessionStorageDraftKey = useMemo(() => `appDraft_${appDraft.appId}`, [appDraft.appId]);
 
   useEffect(() => {
     const lValues = JSON.parse(sessionStorage.getItem(sessionStorageDraftKey) || '{}') as LocalAppDraft;
-    let initialValues0 = { ...appDraft };
+    let initialValues = { ...appDraft };
     if (lValues?._id === appDraft._id) {
-      initialValues0 = { ...appDraft, ...lValues };
+      initialValues = {
+        ...appDraft,
+        ...lValues,
+        logoImg: appDraft.logoImg,
+        bannerImgs: appDraft.bannerImgs,
+      };
     }
-    setDesc(initialValues0.jsonDesc);
-    setInitialValues({
-      _id: initialValues0._id,
-      appId: initialValues0.appId,
-      name: initialValues0.name || '',
-      shortDesc: initialValues0.shortDesc || '',
-      websiteUrl: initialValues0.websiteUrl || '',
+    setLocalAppDraft({
+      _id: initialValues._id,
+      appId: initialValues.appId,
+      name: initialValues.name || '',
+      shortDesc: initialValues.shortDesc || '',
+      websiteUrl: initialValues.websiteUrl || '',
       socialUrls: {
-        facebook: initialValues0.socialUrls?.facebook || '',
-        instagram: initialValues0.socialUrls?.instagram || '',
-        twitter: initialValues0.socialUrls?.twitter || '',
-        linkedIn: initialValues0.socialUrls?.linkedIn || '',
-        github: initialValues0.socialUrls?.github || '',
+        facebook: initialValues.socialUrls?.facebook || '',
+        instagram: initialValues.socialUrls?.instagram || '',
+        twitter: initialValues.socialUrls?.twitter || '',
+        linkedIn: initialValues.socialUrls?.linkedIn || '',
+        github: initialValues.socialUrls?.github || '',
       },
-      tags: initialValues0.tags || [],
-      videoUrl: initialValues0.videoUrl || '',
-      logoImg: initialValues0.logoImg || '',
-      bannerImgs: initialValues0.bannerImgs || [],
-      jsonDesc: initialValues0.jsonDesc,
+      jsonDesc: initialValues.jsonDesc,
+      tags: initialValues.tags || [],
+      videoUrl: initialValues.videoUrl || '',
+      logoImg: initialValues.logoImg || '',
+      bannerImgs: initialValues.bannerImgs || [],
     });
 
-    sessionStorage.setItem(sessionStorageDraftKey, JSON.stringify(initialValues0));
+    sessionStorage.setItem(sessionStorageDraftKey, JSON.stringify(initialValues));
   }, []);
 
   const handleSubmitToServer = useCallback(async () => {
@@ -75,11 +79,11 @@ function EditApp({ appDraft }: EditAppProps) {
       jsonDesc,
       videoUrl,
       websiteUrl,
-      tags,
+      tags: inputTags,
       socialUrls,
     } = savedValues;
 
-    const tagIds = (tags || []).map((tag) => tag._id);
+    const tagIds = (inputTags || []).map((tag) => tag._id);
 
     const input = {
       appId: appDraft.appId,
@@ -106,25 +110,21 @@ function EditApp({ appDraft }: EditAppProps) {
 
   useEffect(() => {
     if (activeStep === 2 && descIsTouched) {
-      const timeout = setTimeout(handleSubmitToServer, 1000);
-      return () => clearTimeout(timeout);
+      const interval = setInterval(handleSubmitToServer, 2000);
+      return () => {
+        clearTimeout(interval);
+      };
     }
     return () => undefined;
   }, [activeStep, descIsTouched]);
 
   const prevStep = useCallback(() => {
-    if (activeStep === 2) {
-      handleSubmitToServer();
-    }
     if (activeStep > 0) {
       setActiveStep(activeStep - 1);
     }
   }, [activeStep]);
 
   const nextStep = useCallback(() => {
-    if (activeStep === 2) {
-      handleSubmitToServer();
-    }
     if (activeStep < 3) {
       setActiveStep(activeStep + 1);
     }
@@ -134,12 +134,12 @@ function EditApp({ appDraft }: EditAppProps) {
     const savedValues = JSON.parse(sessionStorage.getItem(sessionStorageDraftKey)) as LocalAppDraft;
     const newValues = { ...savedValues };
     Object.keys(changedValues).forEach((k) => set(newValues, k, changedValues[k]));
+    setLocalAppDraft(newValues);
     sessionStorage.setItem(sessionStorageDraftKey, JSON.stringify(newValues));
   }, []);
 
   const handleChangeDesc = useCallback((value: Descendant[]) => {
     handleChangeFields({ jsonDesc: value });
-    setDesc(value);
     setDescIsTouched(true);
   }, []);
 
@@ -148,13 +148,14 @@ function EditApp({ appDraft }: EditAppProps) {
   let editorComp = null;
   let submissionComp = null;
 
-  if (initialValues) {
+  if (localAppDraft) {
     mainDetails = (
       <Box mt={32}>
         <MainDetails
           onChangeFields={handleChangeFields}
           onSubmitToServer={handleSubmitToServer}
-          initialValues={initialValues}
+          localAppDraft={localAppDraft}
+          tags={tags}
         />
       </Box>
     );
@@ -162,7 +163,7 @@ function EditApp({ appDraft }: EditAppProps) {
       <Box mt={32}>
         <Assets
           appId={appDraft.appId}
-          initialValues={initialValues}
+          localAppDraft={localAppDraft}
           onChangeFields={handleChangeFields}
           onSubmitToServer={handleSubmitToServer}
         />
@@ -172,7 +173,7 @@ function EditApp({ appDraft }: EditAppProps) {
       <Box mt={32}>
         <Editor
           onChange={handleChangeDesc}
-          initialValue={desc}
+          initialValue={localAppDraft.jsonDesc}
           placeholder="A good app description will take you far..."
           ref={editorRef}
         />

@@ -1,18 +1,24 @@
-ul,
-ol {
+.html-container {
+  color: var(--text-color);
+  font-family: var(--mantine-font-family);
+  font-size: var(--mantine-font-size-md);
+  line-height: var(--mantine-line-height);
+}
+.html-container ul,
+.html-container ol {
   margin: revert;
   padding: revert;
 }
-.text-bold {
+.html-container .text-bold {
   font-weight: bold;
 }
-.text-underline {
+.html-container .text-underline {
   text-decoration: underline;
 }
-.text-italic {
+.html-container .text-italic {
   font-style: italic;
 }
-.text-code {
+.html-container .text-code {
   font-family: 'Menlo', 'DejaVu Sans Mono', 'Liberation Mono', 'Consolas', 'Ubuntu Mono',
     'Courier New', 'andale mono', 'lucida console', monospace;
   font-size: 0.9rem;

@@ -13,27 +13,30 @@ import {
 } from '@tabler/icons-react';
 import TagSelection from './TagSelection/TagSelection';
 import { LocalAppDraft } from '../_types';
+import { AppTagsQuery } from '../../../../../__generated__/graphql';
 
 type MainDetailsProps = {
+  // eslint-disable-next-line no-unused-vars
   onChangeFields: (values: Partial<LocalAppDraft>) => void;
   onSubmitToServer: () => Promise<void>;
-  initialValues: LocalAppDraft;
+  tags: AppTagsQuery['appTags']['nodes'];
+  localAppDraft: LocalAppDraft;
 };
 
 function MainDetails({
-  onChangeFields, onSubmitToServer, initialValues,
+  onChangeFields, onSubmitToServer, tags, localAppDraft,
 }: MainDetailsProps) {
   const form = useForm({
     initialValues: {
-      name: initialValues.name,
-      shortDesc: initialValues.shortDesc,
-      websiteUrl: initialValues.websiteUrl,
+      name: localAppDraft.name,
+      shortDesc: localAppDraft.shortDesc,
+      websiteUrl: localAppDraft.websiteUrl,
       socialUrls: {
-        facebook: initialValues.socialUrls?.facebook || '',
-        instagram: initialValues.socialUrls?.instagram || '',
-        twitter: initialValues.socialUrls?.twitter || '',
-        linkedIn: initialValues.socialUrls?.linkedIn || '',
-        github: initialValues.socialUrls?.github || '',
+        facebook: localAppDraft.socialUrls?.facebook || '',
+        instagram: localAppDraft.socialUrls?.instagram || '',
+        twitter: localAppDraft.socialUrls?.twitter || '',
+        linkedIn: localAppDraft.socialUrls?.linkedIn || '',
+        github: localAppDraft.socialUrls?.github || '',
       },
     },
     validate: {
@@ -88,9 +91,10 @@ function MainDetails({
           />
           <Title order={3} mt="lg" mb="md">Categories</Title>
           <TagSelection
-            initialTags={initialValues?.tags || []}
+            initialTags={localAppDraft?.tags || []}
             onChangeFields={onChangeFields}
             onSubmitToServer={onSubmitToServer}
+            tags={tags}
           />
         </Grid.Col>
         <Grid.Col span={6}>
