@@ -1,9 +1,12 @@
 'use client';
 
 import React from 'react';
-import { Modal } from '@mantine/core';
+import {
+  Anchor, Box, Flex, Modal,
+} from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useRouter } from 'next/navigation';
+import { IconArrowRight } from '@tabler/icons-react';
 import { AppQuery } from '../../../../__generated__/graphql';
 import AppDetails from '../App/AppDetails/AppDetails';
 
@@ -43,18 +46,26 @@ function AppModal({ app }: AppModalProps) {
 
   return (
     <Modal opened={opened} onClose={handleCloseAppModal} size={1132}>
-      <AppDetails
-        _id={_id}
-        name={name}
-        shortDesc={shortDesc}
-        logoImg={logoImg}
-        tags={tags}
-        bannerImgs={bannerImgs}
-        htmlDesc={htmlDesc}
-        websiteUrl={websiteUrl}
-        isPreview={false}
-        videoUrl={videoUrl}
-      />
+      <Anchor href={`/apps/${app.slug}`} underline="never">
+        <Flex align="center">
+          Go to Page &nbsp;
+          <IconArrowRight size={16} />
+        </Flex>
+      </Anchor>
+      <Box mt={16}>
+        <AppDetails
+          _id={_id}
+          name={name}
+          shortDesc={shortDesc}
+          logoImg={logoImg}
+          tags={tags}
+          bannerImgs={bannerImgs}
+          htmlDesc={htmlDesc}
+          websiteUrl={websiteUrl}
+          isPreview={false}
+          videoUrl={videoUrl}
+        />
+      </Box>
     </Modal>
   );
 }
