@@ -3,7 +3,7 @@
 import React, {
   useCallback, useEffect, useMemo, useRef, useState,
 } from 'react';
-import { Box, Tabs } from '@mantine/core';
+import { Box, Tabs, Text } from '@mantine/core';
 import { useApolloClient } from '@apollo/client';
 import { IconArrowsShuffle2, IconCalendar } from '@tabler/icons-react';
 import dayjs from 'dayjs';
@@ -14,6 +14,7 @@ import { AppsOtherFilter, AppsSortBy } from '../../../../../../__generated__/gra
 import AppSkeleton from '../AppSkeleton/AppSkeleton';
 import APPS_BY_MONTH_PAGE_SIZE from '../../constants/APPS_BY_MONTH_PAGE_SIZE';
 import APPS_PER_LOAD from '../../constants/APPS_PER_LOAD';
+import App from '../App/App';
 
 type AppsListProps = {
   appsByMonth: AppsByMonth;
@@ -25,7 +26,11 @@ function AppsList({ appsByMonth: iAppsByMonth }: AppsListProps) {
   const [appsByMonth, setAppsByMonth] = useState(iAppsByMonth);
   const [appsByMonthLoading, setAppsByMonthLoading] = useState<AppsByMonthLoading>([]);
   const [hasMoreAppsByMonth, setHasMoreAppsByMonth] = useState(true);
+  const [randomApps, setRandomApps] = useState([]);
+  const [randomAppsPage, setRandomAppsPage] = useState(1);
+  const [hasMoreRandomApps, setHasMoreRandomApps] = useState(true);
   const [isLoadingAppsByMonth, setIsLoadingAppsByMonth] = useState(false);
+  const [isLoadingRandomApps, setIsLoadingRandomApps] = useState(false);
   const [viewMode, setViewMode] = useState<'most-recent' | 'random'>('most-recent');
 
   const apolloClient = useApolloClient();
@@ -126,6 +131,29 @@ function AppsList({ appsByMonth: iAppsByMonth }: AppsListProps) {
     setIsLoadingAppsByMonth(false);
   }, [appsByMonth]);
 
+  const loadMoreRandomApps = useCallback(async () => {
+    setIsLoadingRandomApps(true);
+    const result = await apolloClient.query({
+      query: AppsQry,
+      variables: {
+        publishedFromDate: undefined,
+        publishedToDate: undefined,
+        otherFilters: [AppsOtherFilter.ExcludeFeatured],
+        page: randomAppsPage,
+        pageSize: 10,
+        sortBy: AppsSortBy.Random,
+      },
+    });
+    const newRandomApps = result.data?.apps.nodes || [];
+    if (newRandomApps.length) {
+      setRandomApps([...randomApps, ...newRandomApps]);
+    } else {
+      setHasMoreRandomApps(false);
+    }
+    setRandomAppsPage(randomAppsPage + 1);
+    setIsLoadingRandomApps(false);
+  }, [randomApps, randomAppsPage]);
+
   const loadMoreApps = useCallback(async () => {
     if (viewMode === 'most-recent') {
       loadMoreAppsByMonth();
@@ -135,8 +163,12 @@ function AppsList({ appsByMonth: iAppsByMonth }: AppsListProps) {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && hasMoreAppsByMonth && !isLoadingAppsByMonth) {
-          loadMoreApps();
+        if (entries[0].isIntersecting) {
+          if (viewMode === 'most-recent' && hasMoreAppsByMonth && !isLoadingAppsByMonth) {
+            loadMoreApps();
+          } else if (viewMode === 'random' && hasMoreRandomApps && !isLoadingRandomApps) {
+            loadMoreRandomApps();
+          }
         }
       },
       { threshold: 1 },
@@ -151,7 +183,16 @@ function AppsList({ appsByMonth: iAppsByMonth }: AppsListProps) {
         observer.unobserve(observerTarget.current);
       }
     };
-  }, [observerTarget, loadMoreApps, isLoadingAppsByMonth, hasMoreAppsByMonth]);
+  }, [
+    observerTarget,
+    viewMode,
+    loadMoreApps,
+    loadMoreRandomApps,
+    isLoadingAppsByMonth,
+    hasMoreAppsByMonth,
+    isLoadingRandomApps,
+    hasMoreRandomApps,
+  ]);
 
   if (appsByMonth.length) {
     appsByMonthComp = appsByMonth.map((m) => {
@@ -177,7 +218,9 @@ function AppsList({ appsByMonth: iAppsByMonth }: AppsListProps) {
   };
 
   const appsLoadingComp = useMemo(() => {
-    if (isLoadingAppsByMonth) {
+    if ((viewMode === 'most-recent' && isLoadingAppsByMonth) || (
+      viewMode === 'random' && isLoadingRandomApps
+    )) {
       return (
         <>
           <Box mt={16}>
@@ -193,7 +236,23 @@ function AppsList({ appsByMonth: iAppsByMonth }: AppsListProps) {
       );
     }
     return null;
-  }, [isLoadingAppsByMonth]);
+  }, [viewMode, isLoadingAppsByMonth, isLoadingRandomApps]);
+
+  let listComp = appsByMonthComp;
+  if (viewMode === 'random') {
+    listComp = (
+      <Box mt={32}>
+        <Text fz={20} fw={500}>All Apps</Text>
+        <Box mt={32}>
+          {randomApps.map((a) => (
+            <Box mt={32} key={a._id}>
+              <App app={a} />
+            </Box>
+          ))}
+        </Box>
+      </Box>
+    );
+  }
 
   return (
     <>
@@ -213,7 +272,7 @@ function AppsList({ appsByMonth: iAppsByMonth }: AppsListProps) {
           </Tabs.Tab>
         </Tabs.List>
       </Tabs>
-      {appsByMonthComp}
+      {listComp}
       {appsLoadingComp}
       <div ref={observerTarget} />
     </>
