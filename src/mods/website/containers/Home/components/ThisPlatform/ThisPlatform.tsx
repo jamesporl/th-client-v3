@@ -4,8 +4,11 @@ import React from 'react';
 import { Button, Flex, Text } from '@mantine/core';
 import Image from 'next/image';
 import classes from './ThisPlatform.module.css';
+import useClickSubmitAnApp from '../../../../hooks/useClickSubmitAnApp';
 
 function ThisPlatform() {
+  const handleClickSubmitAnApp = useClickSubmitAnApp();
+
   return (
     <div className={classes.container}>
       <div className={classes.box}>
@@ -29,6 +32,7 @@ function ThisPlatform() {
           size="md"
           fullWidth
           mt={24}
+          onClick={handleClickSubmitAnApp}
           style={{ maxWidth: '350px' }}
         >
           Submit an App
