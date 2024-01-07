@@ -1,0 +1,17 @@
+.flex-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.apps-list-container {
+  flex-grow: 1;
+}
+
+.desktop-this-platform {
+  display: none;
+
+  @media (min-width: $mantine-breakpoint-md) {
+    display: flex;
+  }
+}

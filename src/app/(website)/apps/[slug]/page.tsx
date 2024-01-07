@@ -32,7 +32,7 @@ export async function generateMetadata(
       title: `${pageTitle} - TechHustlers PH`,
       type: 'article',
       description: `${textDesc || ''.slice(0, 120)}...`,
-      images: ogImageUrl,
+      images: [ogImageUrl],
       url: ogUrl,
     },
   };
