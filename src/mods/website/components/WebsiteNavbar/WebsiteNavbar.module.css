@@ -67,10 +67,28 @@
   display: none;
 
   @media (max-width: $mantine-breakpoint-lg) {
-    display: block;
+    flex-grow: 1;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: flex-end;
   }
 }
 
-.mobile-nav {
-  height: calc(100vh - 56px);
+.navbar-btn {
+  display: block;
+  width: 100%;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  color: var(--mantine-color-dark-8);
+}
+
+.navbar-btn:hover {
+  background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+}
+
+.navbar-btn.navbar-btn-submit {
+  font-weight: 700;
+  color: var(--mantine-color-blue-5);
 }
