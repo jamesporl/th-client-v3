@@ -5,6 +5,7 @@ export default gql(`
     $page: Int
     $pageSize: Int
     $tagSlug: String
+    $searchString: String
     $publishedFromDate: DateTime
     $publishedToDate: DateTime
     $otherFilters: [AppsOtherFilter!]
@@ -13,6 +14,7 @@ export default gql(`
     apps(
       page: $page
       pageSize: $pageSize
+      searchString: $searchString
       tagSlug: $tagSlug
       publishedFromDate: $publishedFromDate
       publishedToDate: $publishedToDate

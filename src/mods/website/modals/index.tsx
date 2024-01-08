@@ -21,9 +21,18 @@ const ImageCropperComponent = dynamic(
   },
 );
 
+const NavbarSearchResultsComponent = dynamic(
+  () => import('./NavbarSearchResults/NavbarSearchResults'),
+  {
+    ssr: false,
+    loading: () => <Spinner />,
+  },
+);
+
 const websiteModals = {
   newAppForm: (props: ContextModalProps) => <NewAppFormComponent {...props} />,
   imageCropper: (props: ContextModalProps) => <ImageCropperComponent {...props} />,
+  navbarSearchResults: (props: ContextModalProps) => <NavbarSearchResultsComponent {...props} />,
 };
 
 export default websiteModals;

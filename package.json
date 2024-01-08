@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "@apollo/client": "^3.8.0-rc.2",
-    "@apollo/experimental-nextjs-app-support": "^0.4.3",
+    "@apollo/experimental-nextjs-app-support": "^0.6.0",
     "@mantine/carousel": "^7.3.0",
     "@mantine/core": "^7.3.0",
     "@mantine/dates": "^7.3.0",
@@ -22,6 +22,7 @@
     "@mantine/hooks": "^7.3.0",
     "@mantine/modals": "^7.3.0",
     "@mantine/notifications": "^7.3.0",
+    "@mantine/spotlight": "^7.3.0",
     "@tabler/icons-react": "^2.35.0",
     "apollo-upload-client": "^17.0.0",
     "cropperjs": "^1.6.1",
