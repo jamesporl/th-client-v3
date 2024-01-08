@@ -1,0 +1,15 @@
+.input input {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: 0;
+  border-left: 0;
+}
+
+.app {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.app:hover {
+  background-color: var(--mantine-color-gray-1);
+}

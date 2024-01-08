@@ -7,17 +7,19 @@ import {
   Burger,
   Button,
   Group,
-  Input,
   Menu,
+  TextInput,
   UnstyledButton,
 } from '@mantine/core';
 import Link from 'next/link';
 import Image from 'next/image';
+import '@mantine/spotlight/styles.css';
 import {
   IconApps, IconLogout, IconSearch, IconUser,
 } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import { observer } from 'mobx-react';
+import { modals } from '@mantine/modals';
 import classes from './WebsiteNavbar.module.css';
 import AuthContext from '../../../../lib/mobx/Auth';
 import NextLink from '../../../components/NextLink/NextLink';
@@ -41,7 +43,7 @@ const menus = [
 ];
 
 function WebsiteNavbar({ children }: WebsiteNavbarProps) {
-  const [opened, { toggle }] = useDisclosure(false);
+  const [opened, { toggle: toggleBurger }] = useDisclosure(false);
 
   const authCtx = useContext(AuthContext);
 
@@ -50,6 +52,17 @@ function WebsiteNavbar({ children }: WebsiteNavbarProps) {
   const handleClickLogout = () => {
     authCtx.logout();
     window.location.href = '/';
+  };
+
+  const handleFocusSearch = () => {
+    modals.openContextModal({
+      modal: 'navbarSearchResults',
+      padding: 0,
+      withCloseButton: false,
+      returnFocus: false,
+      size: 'md',
+      innerProps: {},
+    });
   };
 
   const submitAppDesktopBtn = (
@@ -129,10 +142,11 @@ function WebsiteNavbar({ children }: WebsiteNavbarProps) {
             <Link href="/" as="/" passHref className={classes['mobile-logo']}>
               <Image src="/logo-simple.png" alt="logo" width={40} height={40} />
             </Link>
-            <Input
+            <TextInput
               className={classes.search}
               leftSection={<IconSearch size={16} />}
               placeholder="Search TechHustlers PH"
+              onFocus={handleFocusSearch}
             />
           </Group>
           <div className={classes['desktop-right']}>
@@ -144,13 +158,14 @@ function WebsiteNavbar({ children }: WebsiteNavbarProps) {
             </Group>
           </div>
           <div className={classes['mobile-right']}>
-            <Burger opened={opened} onClick={toggle} className={classes.burger} size="sm" />
+            <Burger opened={opened} onClick={toggleBurger} className={classes.burger} size="sm" />
           </div>
         </div>
       </AppShell.Header>
-
       <AppShell.Navbar p="md">Navbar</AppShell.Navbar>
-      <AppShell.Main>{children}</AppShell.Main>
+      <AppShell.Main>
+        {children}
+      </AppShell.Main>
     </AppShell>
   );
 }
