@@ -1,7 +1,8 @@
 'use client';
 
-import React, { ReactNode, useContext } from 'react';
+import React, { ReactNode, useCallback, useContext } from 'react';
 import {
+  Anchor,
   AppShell,
   Avatar,
   Burger,
@@ -49,6 +50,11 @@ function WebsiteNavbar({ children }: WebsiteNavbarProps) {
 
   const handleClickSubmitAnApp = useClickSubmitAnApp();
 
+  const handleClickMobileSumitAnApp = useCallback(() => {
+    handleClickSubmitAnApp();
+    toggleBurger();
+  }, [toggleBurger]);
+
   const handleClickLogout = () => {
     authCtx.logout();
     window.location.href = '/';
@@ -72,6 +78,7 @@ function WebsiteNavbar({ children }: WebsiteNavbarProps) {
   );
 
   let loginDesktopBtn = null;
+  let loginMobileBtn = null;
   let profileDesktopMenu = null;
 
   if (authCtx.myProfile) {
@@ -119,6 +126,13 @@ function WebsiteNavbar({ children }: WebsiteNavbarProps) {
         </Button>
       </Link>
     );
+    loginMobileBtn = (
+      <Link href="/account/login" key="login" passHref legacyBehavior>
+        <Anchor className={classes['navbar-btn']} underline="never" onClick={toggleBurger}>
+          Log in
+        </Anchor>
+      </Link>
+    );
   }
 
   const links = menus.map((m) => (
@@ -158,11 +172,28 @@ function WebsiteNavbar({ children }: WebsiteNavbarProps) {
             </Group>
           </div>
           <div className={classes['mobile-right']}>
+            {profileDesktopMenu}
             <Burger opened={opened} onClick={toggleBurger} className={classes.burger} size="sm" />
           </div>
         </div>
       </AppShell.Header>
-      <AppShell.Navbar p="md">Navbar</AppShell.Navbar>
+      <AppShell.Navbar p="md">
+        {menus.map((m) => (
+          <Link href={m.href} key={m.key} passHref legacyBehavior>
+            <Anchor className={classes['navbar-btn']} underline="never" onClick={toggleBurger}>
+              {m.label}
+            </Anchor>
+          </Link>
+        ))}
+        {loginMobileBtn}
+        <UnstyledButton
+          key="submit"
+          className={`${classes['navbar-btn']} ${classes['navbar-btn-submit']}`}
+          onClick={handleClickMobileSumitAnApp}
+        >
+          Submit an App
+        </UnstyledButton>
+      </AppShell.Navbar>
       <AppShell.Main>
         {children}
       </AppShell.Main>
