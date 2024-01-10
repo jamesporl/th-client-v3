@@ -1,0 +1,12 @@
+.comments-container {
+  display: flex;
+  justify-content: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.comments-child-container {
+  width: 100%;
+  max-width: 800px;
+  margin-top: 2rem;
+}

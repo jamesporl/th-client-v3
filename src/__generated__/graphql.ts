@@ -47,10 +47,11 @@ export type AddAppInput = {
   shortDesc: Scalars['String']['input'];
 };
 
-export type AddCommentToAppInput = {
-  appId: Scalars['ID']['input'];
+export type AddCommentInput = {
   jsonContent: Scalars['JSON']['input'];
   parentCommentId?: InputMaybe<Scalars['ID']['input']>;
+  refId: Scalars['ID']['input'];
+  type: CommentType;
 };
 
 export type AddJobInput = {
@@ -80,38 +81,6 @@ export type App = Node & {
   textDesc?: Maybe<Scalars['String']['output']>;
   videoUrl?: Maybe<Scalars['String']['output']>;
   websiteUrl?: Maybe<Scalars['String']['output']>;
-};
-
-export type AppComment = Node & {
-  __typename?: 'AppComment';
-  _id: Scalars['ID']['output'];
-  comments?: Maybe<AppCommentConnection>;
-  createdAt: Scalars['DateTime']['output'];
-  createdBy: SimpleAccount;
-  htmlContent?: Maybe<Scalars['String']['output']>;
-  isParent?: Maybe<Scalars['Boolean']['output']>;
-  isPinned?: Maybe<Scalars['Boolean']['output']>;
-  isSupported: Scalars['Boolean']['output'];
-  status: AppCommentStatusObject;
-  supportsCount: Scalars['Int']['output'];
-  textContent?: Maybe<Scalars['String']['output']>;
-};
-
-export type AppCommentConnection = NodeConnection & {
-  __typename?: 'AppCommentConnection';
-  nodes: Array<AppComment>;
-  totalCount: Scalars['Int']['output'];
-};
-
-export enum AppCommentStatus {
-  Deleted = 'deleted',
-  Published = 'published'
-}
-
-export type AppCommentStatusObject = {
-  __typename?: 'AppCommentStatusObject';
-  key: AppCommentStatus;
-  label: Scalars['String']['output'];
 };
 
 export type AppConnection = NodeConnection & {
@@ -212,6 +181,43 @@ export type BannerImg = Node & {
   order: Scalars['Int']['output'];
 };
 
+export type Comment = Node & {
+  __typename?: 'Comment';
+  _id: Scalars['ID']['output'];
+  comments?: Maybe<CommentConnection>;
+  createdAt: Scalars['DateTime']['output'];
+  createdBy: SimpleAccount;
+  htmlContent?: Maybe<Scalars['String']['output']>;
+  isParent?: Maybe<Scalars['Boolean']['output']>;
+  isPinned?: Maybe<Scalars['Boolean']['output']>;
+  isSupported: Scalars['Boolean']['output'];
+  status: CommentStatusObject;
+  supportsCount: Scalars['Int']['output'];
+  textContent?: Maybe<Scalars['String']['output']>;
+};
+
+export type CommentConnection = NodeConnection & {
+  __typename?: 'CommentConnection';
+  nodes: Array<Comment>;
+  totalCount: Scalars['Int']['output'];
+};
+
+export enum CommentStatus {
+  Deleted = 'deleted',
+  Published = 'published'
+}
+
+export type CommentStatusObject = {
+  __typename?: 'CommentStatusObject';
+  key: CommentStatus;
+  label: Scalars['String']['output'];
+};
+
+export enum CommentType {
+  App = 'app',
+  Post = 'post'
+}
+
 export type CreateAppDraftFromPublishedAppInput = {
   appId: Scalars['ID']['input'];
 };
@@ -219,10 +225,6 @@ export type CreateAppDraftFromPublishedAppInput = {
 export type DefaultMutationPayload = {
   __typename?: 'DefaultMutationPayload';
   isCompleted: Scalars['Boolean']['output'];
-};
-
-export type DeleteAppCommentInput = {
-  commentId: Scalars['ID']['input'];
 };
 
 export type DeleteAppDraftBannerImgInput = {
@@ -242,6 +244,10 @@ export type DeleteAppInput = {
   appId: Scalars['ID']['input'];
 };
 
+export type DeleteCommentInput = {
+  commentId: Scalars['ID']['input'];
+};
+
 export type LoginInput = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
@@ -256,15 +262,15 @@ export type Mutation = {
   __typename?: 'Mutation';
   addApp: App;
   addAppDraftBannerImg: BannerImg;
-  addCommentToApp: AppComment;
+  addComment: Comment;
   addJob: DefaultMutationPayload;
   createAppDraftFromPublishedApp: AppDraft;
   createGoogleOAuthUrl: Scalars['String']['output'];
   deleteApp: DefaultMutationPayload;
-  deleteAppComment: DefaultMutationPayload;
   deleteAppDraft: DefaultMutationPayload;
   deleteAppDraftBannerImg: DefaultMutationPayload;
   deleteAppDraftLogoImg: DefaultMutationPayload;
+  deleteComment: DefaultMutationPayload;
   echo: Scalars['String']['output'];
   /** Authenticates a user with email and password */
   login: Scalars['String']['output'];
@@ -279,9 +285,9 @@ export type Mutation = {
   sendVerificationCode: DefaultMutationPayload;
   signup: DefaultMutationPayload;
   submitAppDraft: SubmitAppDraftPayload;
-  toggleAppCommentSupport: DefaultMutationPayload;
   toggleAppSupport: DefaultMutationPayload;
-  togglePinAppComment: DefaultMutationPayload;
+  toggleCommentSupport: DefaultMutationPayload;
+  togglePinComment: DefaultMutationPayload;
   undoSubmitAppDraft: AppDraft;
   unpublishApp: DefaultMutationPayload;
   updateAppDraft: AppDraft;
@@ -304,8 +310,8 @@ export type MutationAddAppDraftBannerImgArgs = {
 };
 
 
-export type MutationAddCommentToAppArgs = {
-  input: AddCommentToAppInput;
+export type MutationAddCommentArgs = {
+  input: AddCommentInput;
 };
 
 
@@ -324,11 +330,6 @@ export type MutationDeleteAppArgs = {
 };
 
 
-export type MutationDeleteAppCommentArgs = {
-  input: DeleteAppCommentInput;
-};
-
-
 export type MutationDeleteAppDraftArgs = {
   input: DeleteAppDraftInput;
 };
@@ -341,6 +342,11 @@ export type MutationDeleteAppDraftBannerImgArgs = {
 
 export type MutationDeleteAppDraftLogoImgArgs = {
   input: DeleteAppDraftLogoImgInput;
+};
+
+
+export type MutationDeleteCommentArgs = {
+  input: DeleteCommentInput;
 };
 
 
@@ -399,18 +405,18 @@ export type MutationSubmitAppDraftArgs = {
 };
 
 
-export type MutationToggleAppCommentSupportArgs = {
-  input: ToggleAppCommentSupportInput;
-};
-
-
 export type MutationToggleAppSupportArgs = {
   input: ToggleAppSupportInput;
 };
 
 
-export type MutationTogglePinAppCommentArgs = {
-  input: TogglePinAppCommentInput;
+export type MutationToggleCommentSupportArgs = {
+  input: ToggleCommentSupportInput;
+};
+
+
+export type MutationTogglePinCommentArgs = {
+  input: TogglePinCommentInput;
 };
 
 
@@ -486,11 +492,11 @@ export type Query = {
   aAppDrafts?: Maybe<AppDraftConnection>;
   accounts?: Maybe<AccountConnection>;
   app: App;
-  appComments?: Maybe<AppCommentConnection>;
   appDraft?: Maybe<AppDraft>;
   appTag?: Maybe<AppTag>;
   appTags?: Maybe<AppTagConnection>;
   apps?: Maybe<AppConnection>;
+  comments?: Maybe<CommentConnection>;
   myAppDrafts?: Maybe<AppDraftConnection>;
   myApps?: Maybe<AppConnection>;
   myProfile?: Maybe<Profile>;
@@ -514,13 +520,6 @@ export type QueryAccountsArgs = {
 
 export type QueryAppArgs = {
   slug: Scalars['String']['input'];
-};
-
-
-export type QueryAppCommentsArgs = {
-  appId?: InputMaybe<Scalars['ID']['input']>;
-  page?: InputMaybe<Scalars['Int']['input']>;
-  pageSize?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -550,6 +549,14 @@ export type QueryAppsArgs = {
   searchString?: InputMaybe<Scalars['String']['input']>;
   sortBy?: InputMaybe<AppsSortBy>;
   tagSlug?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryCommentsArgs = {
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  refId: Scalars['ID']['input'];
+  type: CommentType;
 };
 
 
@@ -628,15 +635,15 @@ export type SubmitAppDraftPayload = {
   isSubmitted: Scalars['Boolean']['output'];
 };
 
-export type ToggleAppCommentSupportInput = {
-  commentId: Scalars['ID']['input'];
-};
-
 export type ToggleAppSupportInput = {
   appId: Scalars['ID']['input'];
 };
 
-export type TogglePinAppCommentInput = {
+export type ToggleCommentSupportInput = {
+  commentId: Scalars['ID']['input'];
+};
+
+export type TogglePinCommentInput = {
   commentId: Scalars['ID']['input'];
 };
 
@@ -749,6 +756,13 @@ export type AddAppMutationVariables = Exact<{
 
 export type AddAppMutation = { __typename?: 'Mutation', addApp: { __typename?: 'App', _id: string, name: string, shortDesc: string, htmlDesc?: string | null, textDesc?: string | null, logoImg?: string | null, videoUrl?: string | null, websiteUrl?: string | null, slug?: string | null, publishedAt?: any | null, supportsCount: number, commentsCount: number, isSupported: boolean, isFeatured?: boolean | null, bannerImgs?: Array<{ __typename?: 'BannerImg', _id: string, order: number, image: { __typename?: 'BannerImageUrls', large: string, thumbnail: string } } | null> | null, socialUrls?: { __typename?: 'SocialUrls', facebook?: string | null, instagram?: string | null, twitter?: string | null, linkedIn?: string | null, github?: string | null } | null, status: { __typename?: 'AppStatusObject', key: AppStatus, label: string }, tags?: Array<{ __typename?: 'AppTag', _id: string, name: string, slug: string } | null> | null, ownedBy?: { __typename?: 'SimpleAccount', _id: string, firstName?: string | null, lastName?: string | null, image?: string | null } | null } };
 
+export type AddCommentMutationVariables = Exact<{
+  input: AddCommentInput;
+}>;
+
+
+export type AddCommentMutation = { __typename?: 'Mutation', addComment: { __typename?: 'Comment', _id: string } };
+
 export type AppDraftQueryVariables = Exact<{
   _id: Scalars['ID']['input'];
 }>;
@@ -790,6 +804,16 @@ export type AppsQueryVariables = Exact<{
 
 
 export type AppsQuery = { __typename?: 'Query', apps?: { __typename?: 'AppConnection', totalCount: number, nodes: Array<{ __typename?: 'App', _id: string, name: string, shortDesc: string, logoImg?: string | null, websiteUrl?: string | null, slug?: string | null, supportsCount: number, commentsCount: number, isSupported: boolean, isFeatured?: boolean | null, tags?: Array<{ __typename?: 'AppTag', _id: string, name: string, slug: string } | null> | null }> } | null };
+
+export type CommentsQueryVariables = Exact<{
+  refId: Scalars['ID']['input'];
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  type: CommentType;
+}>;
+
+
+export type CommentsQuery = { __typename?: 'Query', comments?: { __typename?: 'CommentConnection', totalCount: number, nodes: Array<{ __typename?: 'Comment', _id: string, isParent?: boolean | null, htmlContent?: string | null, createdAt: any, isPinned?: boolean | null, supportsCount: number, isSupported: boolean, createdBy: { __typename?: 'SimpleAccount', _id: string, firstName?: string | null, lastName?: string | null, image?: string | null }, status: { __typename?: 'CommentStatusObject', key: CommentStatus, label: string }, comments?: { __typename?: 'CommentConnection', totalCount: number, nodes: Array<{ __typename?: 'Comment', _id: string, htmlContent?: string | null, createdAt: any, supportsCount: number, isSupported: boolean, createdBy: { __typename?: 'SimpleAccount', _id: string, firstName?: string | null, lastName?: string | null, image?: string | null }, status: { __typename?: 'CommentStatusObject', key: CommentStatus, label: string } }> } | null }> } | null };
 
 export type CreateAppDraftFromPublishedAppMutationVariables = Exact<{
   input: CreateAppDraftFromPublishedAppInput;
@@ -895,11 +919,13 @@ export const SignupDocument = {"kind":"Document","definitions":[{"kind":"Operati
 export const VerifyAccountByCodeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"VerifyAccountByCode"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"VerifyAccountByCodeInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"verifyAccountByCode"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}]}]}}]} as unknown as DocumentNode<VerifyAccountByCodeMutation, VerifyAccountByCodeMutationVariables>;
 export const AddAppDraftBannerImgDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddAppDraftBannerImg"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AddAppDraftBannerImgInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addAppDraftBannerImg"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"order"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"large"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"}}]}}]}}]}}]} as unknown as DocumentNode<AddAppDraftBannerImgMutation, AddAppDraftBannerImgMutationVariables>;
 export const AddAppDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddApp"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AddAppInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addApp"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"shortDesc"}},{"kind":"Field","name":{"kind":"Name","value":"htmlDesc"}},{"kind":"Field","name":{"kind":"Name","value":"textDesc"}},{"kind":"Field","name":{"kind":"Name","value":"logoImg"}},{"kind":"Field","name":{"kind":"Name","value":"videoUrl"}},{"kind":"Field","name":{"kind":"Name","value":"bannerImgs"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"large"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"}}]}},{"kind":"Field","name":{"kind":"Name","value":"order"}}]}},{"kind":"Field","name":{"kind":"Name","value":"socialUrls"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"facebook"}},{"kind":"Field","name":{"kind":"Name","value":"instagram"}},{"kind":"Field","name":{"kind":"Name","value":"twitter"}},{"kind":"Field","name":{"kind":"Name","value":"linkedIn"}},{"kind":"Field","name":{"kind":"Name","value":"github"}}]}},{"kind":"Field","name":{"kind":"Name","value":"websiteUrl"}},{"kind":"Field","name":{"kind":"Name","value":"status"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"label"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}},{"kind":"Field","name":{"kind":"Name","value":"ownedBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"publishedAt"}},{"kind":"Field","name":{"kind":"Name","value":"supportsCount"}},{"kind":"Field","name":{"kind":"Name","value":"commentsCount"}},{"kind":"Field","name":{"kind":"Name","value":"isSupported"}},{"kind":"Field","name":{"kind":"Name","value":"isFeatured"}}]}}]}}]} as unknown as DocumentNode<AddAppMutation, AddAppMutationVariables>;
+export const AddCommentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddComment"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AddCommentInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addComment"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}}]}}]}}]} as unknown as DocumentNode<AddCommentMutation, AddCommentMutationVariables>;
 export const AppDraftDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AppDraft"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"_id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"appDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"_id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"appId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"shortDesc"}},{"kind":"Field","name":{"kind":"Name","value":"jsonDesc"}},{"kind":"Field","name":{"kind":"Name","value":"htmlDesc"}},{"kind":"Field","name":{"kind":"Name","value":"logoImg"}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}},{"kind":"Field","name":{"kind":"Name","value":"videoUrl"}},{"kind":"Field","name":{"kind":"Name","value":"bannerImgs"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"large"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"}}]}},{"kind":"Field","name":{"kind":"Name","value":"order"}}]}},{"kind":"Field","name":{"kind":"Name","value":"ownedBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}},{"kind":"Field","name":{"kind":"Name","value":"websiteUrl"}},{"kind":"Field","name":{"kind":"Name","value":"status"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"label"}}]}},{"kind":"Field","name":{"kind":"Name","value":"socialUrls"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"facebook"}},{"kind":"Field","name":{"kind":"Name","value":"instagram"}},{"kind":"Field","name":{"kind":"Name","value":"twitter"}},{"kind":"Field","name":{"kind":"Name","value":"linkedIn"}},{"kind":"Field","name":{"kind":"Name","value":"github"}}]}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]} as unknown as DocumentNode<AppDraftQuery, AppDraftQueryVariables>;
 export const AppDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"App"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"slug"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"app"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"slug"},"value":{"kind":"Variable","name":{"kind":"Name","value":"slug"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"shortDesc"}},{"kind":"Field","name":{"kind":"Name","value":"htmlDesc"}},{"kind":"Field","name":{"kind":"Name","value":"textDesc"}},{"kind":"Field","name":{"kind":"Name","value":"logoImg"}},{"kind":"Field","name":{"kind":"Name","value":"videoUrl"}},{"kind":"Field","name":{"kind":"Name","value":"bannerImgs"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"large"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"}}]}},{"kind":"Field","name":{"kind":"Name","value":"order"}}]}},{"kind":"Field","name":{"kind":"Name","value":"socialUrls"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"facebook"}},{"kind":"Field","name":{"kind":"Name","value":"instagram"}},{"kind":"Field","name":{"kind":"Name","value":"twitter"}},{"kind":"Field","name":{"kind":"Name","value":"linkedIn"}},{"kind":"Field","name":{"kind":"Name","value":"github"}}]}},{"kind":"Field","name":{"kind":"Name","value":"websiteUrl"}},{"kind":"Field","name":{"kind":"Name","value":"status"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"label"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}},{"kind":"Field","name":{"kind":"Name","value":"ownedBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"publishedAt"}},{"kind":"Field","name":{"kind":"Name","value":"supportsCount"}},{"kind":"Field","name":{"kind":"Name","value":"commentsCount"}},{"kind":"Field","name":{"kind":"Name","value":"isSupported"}},{"kind":"Field","name":{"kind":"Name","value":"isFeatured"}}]}}]}}]} as unknown as DocumentNode<AppQuery, AppQueryVariables>;
 export const AppTagDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AppTag"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"slug"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"appTag"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"slug"},"value":{"kind":"Variable","name":{"kind":"Name","value":"slug"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"appsCount"}},{"kind":"Field","name":{"kind":"Name","value":"imgUrl"}}]}}]}}]} as unknown as DocumentNode<AppTagQuery, AppTagQueryVariables>;
 export const AppTagsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AppTags"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"searchString"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"appTags"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"searchString"},"value":{"kind":"Variable","name":{"kind":"Name","value":"searchString"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"appsCount"}},{"kind":"Field","name":{"kind":"Name","value":"imgUrl"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}}]} as unknown as DocumentNode<AppTagsQuery, AppTagsQueryVariables>;
 export const AppsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Apps"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"page"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pageSize"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"tagSlug"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"searchString"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"publishedFromDate"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"DateTime"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"publishedToDate"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"DateTime"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"otherFilters"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AppsOtherFilter"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sortBy"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"AppsSortBy"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"apps"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"Variable","name":{"kind":"Name","value":"page"}}},{"kind":"Argument","name":{"kind":"Name","value":"pageSize"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pageSize"}}},{"kind":"Argument","name":{"kind":"Name","value":"searchString"},"value":{"kind":"Variable","name":{"kind":"Name","value":"searchString"}}},{"kind":"Argument","name":{"kind":"Name","value":"tagSlug"},"value":{"kind":"Variable","name":{"kind":"Name","value":"tagSlug"}}},{"kind":"Argument","name":{"kind":"Name","value":"publishedFromDate"},"value":{"kind":"Variable","name":{"kind":"Name","value":"publishedFromDate"}}},{"kind":"Argument","name":{"kind":"Name","value":"publishedToDate"},"value":{"kind":"Variable","name":{"kind":"Name","value":"publishedToDate"}}},{"kind":"Argument","name":{"kind":"Name","value":"otherFilters"},"value":{"kind":"Variable","name":{"kind":"Name","value":"otherFilters"}}},{"kind":"Argument","name":{"kind":"Name","value":"sortBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sortBy"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"shortDesc"}},{"kind":"Field","name":{"kind":"Name","value":"logoImg"}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}},{"kind":"Field","name":{"kind":"Name","value":"websiteUrl"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"supportsCount"}},{"kind":"Field","name":{"kind":"Name","value":"commentsCount"}},{"kind":"Field","name":{"kind":"Name","value":"isSupported"}},{"kind":"Field","name":{"kind":"Name","value":"isFeatured"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}}]} as unknown as DocumentNode<AppsQuery, AppsQueryVariables>;
+export const CommentsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"comments"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"refId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pageSize"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"page"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"type"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CommentType"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"comments"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"refId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"refId"}}},{"kind":"Argument","name":{"kind":"Name","value":"type"},"value":{"kind":"Variable","name":{"kind":"Name","value":"type"}}},{"kind":"Argument","name":{"kind":"Name","value":"pageSize"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pageSize"}}},{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"Variable","name":{"kind":"Name","value":"page"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}},{"kind":"Field","name":{"kind":"Name","value":"isParent"}},{"kind":"Field","name":{"kind":"Name","value":"htmlContent"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isPinned"}},{"kind":"Field","name":{"kind":"Name","value":"status"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"label"}}]}},{"kind":"Field","name":{"kind":"Name","value":"supportsCount"}},{"kind":"Field","name":{"kind":"Name","value":"isSupported"}},{"kind":"Field","name":{"kind":"Name","value":"comments"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}},{"kind":"Field","name":{"kind":"Name","value":"htmlContent"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"label"}}]}},{"kind":"Field","name":{"kind":"Name","value":"supportsCount"}},{"kind":"Field","name":{"kind":"Name","value":"isSupported"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}}]} as unknown as DocumentNode<CommentsQuery, CommentsQueryVariables>;
 export const CreateAppDraftFromPublishedAppDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateAppDraftFromPublishedApp"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateAppDraftFromPublishedAppInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createAppDraftFromPublishedApp"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}}]}}]}}]} as unknown as DocumentNode<CreateAppDraftFromPublishedAppMutation, CreateAppDraftFromPublishedAppMutationVariables>;
 export const DeleteAppDraftBannerImgDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteAppDraftBannerImg"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"DeleteAppDraftBannerImgInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteAppDraftBannerImg"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"isCompleted"}}]}}]}}]} as unknown as DocumentNode<DeleteAppDraftBannerImgMutation, DeleteAppDraftBannerImgMutationVariables>;
 export const DeleteAppDraftDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteAppDraft"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"DeleteAppDraftInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteAppDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"isCompleted"}}]}}]}}]} as unknown as DocumentNode<DeleteAppDraftMutation, DeleteAppDraftMutationVariables>;

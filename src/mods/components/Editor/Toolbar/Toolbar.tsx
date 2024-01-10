@@ -28,7 +28,7 @@ function Toolbar() {
           variant={isMarkActive(editor, 'bold') ? 'filled' : 'subtle'}
           className={classes['toolbar-button']}
           size="xs"
-          color="green"
+          color="blue"
           onClick={(ev) => handleClickToolbarBtn(ev, 'bold')}
         >
           <IconBold size={16} />
@@ -37,7 +37,7 @@ function Toolbar() {
           variant={isMarkActive(editor, 'italic') ? 'filled' : 'subtle'}
           className={classes['toolbar-button']}
           size="xs"
-          color="green"
+          color="blue"
           onClick={(ev) => handleClickToolbarBtn(ev, 'italic')}
         >
           <IconItalic size={16} />
@@ -46,7 +46,7 @@ function Toolbar() {
           variant={isMarkActive(editor, 'underline') ? 'filled' : 'subtle'}
           className={classes['toolbar-button']}
           size="xs"
-          color="green"
+          color="blue"
           onClick={(ev) => handleClickToolbarBtn(ev, 'underline')}
         >
           <IconUnderline size={16} />
@@ -55,7 +55,7 @@ function Toolbar() {
           variant={isMarkActive(editor, 'code') ? 'filled' : 'subtle'}
           className={classes['toolbar-button']}
           size="xs"
-          color="green"
+          color="blue"
           onClick={(ev) => handleClickToolbarBtn(ev, 'code')}
         >
           <IconCode size={16} />
@@ -66,7 +66,7 @@ function Toolbar() {
           variant={isBlockActive(editor, 'numbered-list') ? 'filled' : 'subtle'}
           className={classes['toolbar-button']}
           size="xs"
-          color="green"
+          color="blue"
           onClick={(ev) => handleClickToolbarBtn(ev, 'numbered-list')}
         >
           <IconListNumbers size={16} />
@@ -75,7 +75,7 @@ function Toolbar() {
           variant={isBlockActive(editor, 'bulleted-list') ? 'filled' : 'subtle'}
           className={classes['toolbar-button']}
           size="xs"
-          color="green"
+          color="blue"
           onClick={(ev) => handleClickToolbarBtn(ev, 'bulleted-list')}
         >
           <IconList size={16} />

@@ -5,6 +5,7 @@ export type EditorProps = {
   initialValue: Descendant[],
   placeholder?: string;
   minHeight?: number;
+  // eslint-disable-next-line no-unused-vars
   onChange: (value: Descendant[]) => void,
   ref: MutableRefObject<any>
 };
