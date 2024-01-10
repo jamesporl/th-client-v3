@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import sortBy from 'lodash/sortBy';
 import getClient from '../../../../lib/apollo/apolloClient';
 import AppQry from '../../../../mods/website/gql/AppQry';
-import App from '../../../../mods/website/containers/App/App';
+import App from '../../../../mods/website/containers/App/App/App';
 
 type AppPageProps = {
   params: { slug: string }
