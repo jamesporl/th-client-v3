@@ -44,9 +44,9 @@ export default gql(`
         }
         slug
         publishedAt
-        supportsCount
+        upvotesCount
         commentsCount
-        isSupported
+        isUpvoted
         isFeatured
       }
       totalCount

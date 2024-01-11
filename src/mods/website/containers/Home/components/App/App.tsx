@@ -11,10 +11,12 @@ import { useRouter } from 'next/navigation';
 import { observer } from 'mobx-react';
 import { useMutation } from '@apollo/client';
 import classes from './App.module.css';
-import { AppsQuery } from '../../../../../../__generated__/graphql';
+import { AppsQuery, UpvoteType } from '../../../../../../__generated__/graphql';
 import AppHeader from '../../../../components/AppHeader/AppHeader';
 import UIContext from '../../../../../../lib/mobx/UI';
-import ToggleAppSupportMtn from '../../../../gql/ToggleAppSupportMtn';
+import ToggleUpvoteMtn from '../../../../gql/ToggleUpvoteMtn';
+import AuthContext from '../../../../../../lib/mobx/Auth';
+import useShowLoginRequired from '../../../../hooks/useShowLoginRequired';
 
 type AppProps = {
   app: AppsQuery['apps']['nodes'][0];
@@ -22,17 +24,20 @@ type AppProps = {
 
 function App({ app }: AppProps) {
   const uiCtx = useContext(UIContext);
+  const authCtx = useContext(AuthContext);
+
+  const showLoginRequired = useShowLoginRequired();
 
   const router = useRouter();
 
-  const [toggleAppSupport] = useMutation(ToggleAppSupportMtn);
+  const [toggleUpvote] = useMutation(ToggleUpvoteMtn);
 
   const handleOpenAppModal = () => {
     router.push(`/apps/${app.slug}`);
   };
 
   useEffect(() => {
-    uiCtx.addApp({ _id: app._id, supportsCount: app.supportsCount, isSupported: app.isSupported });
+    uiCtx.addApp({ _id: app._id, upvotesCount: app.upvotesCount, isUpvoted: app.isUpvoted });
   }, [app]);
 
   const handleClickGoToWebsite = (ev: MouseEvent<HTMLButtonElement>) => {
@@ -44,22 +49,26 @@ function App({ app }: AppProps) {
     const ctxApp = uiCtx.apps.find((a) => a._id === app._id);
     const serverApp = {
       _id: app._id,
-      supportsCount: app.supportsCount,
-      isSupported: app.isSupported,
+      upvotesCount: app.upvotesCount,
+      isUpvoted: app.isUpvoted,
     };
     return ctxApp || serverApp;
   }, [app, uiCtx.apps]);
 
-  const handleClickSupport = useCallback((ev: MouseEvent<HTMLButtonElement>) => {
+  const handleClickUpvote = useCallback((ev: MouseEvent<HTMLButtonElement>) => {
     ev.stopPropagation();
-    let newSupportsCount = storedApp.supportsCount - 1;
-    if (!storedApp.isSupported) {
-      newSupportsCount = storedApp.supportsCount + 1;
+    if (authCtx.myProfile) {
+      let newUpvotesCount = storedApp.upvotesCount - 1;
+      if (!storedApp.isUpvoted) {
+        newUpvotesCount = storedApp.upvotesCount + 1;
+      }
+      uiCtx.updateApp(app._id, !storedApp.isUpvoted, newUpvotesCount);
+      const input = { refId: app._id, type: UpvoteType.App };
+      toggleUpvote({ variables: { input } });
+    } else {
+      showLoginRequired();
     }
-    uiCtx.updateApp(app._id, !storedApp.isSupported, newSupportsCount);
-    const input = { appId: app._id };
-    toggleAppSupport({ variables: { input } });
-  }, [storedApp]);
+  }, [storedApp, authCtx.myProfile]);
 
   let websiteBtn = null;
   if (app.websiteUrl) {
@@ -98,12 +107,17 @@ function App({ app }: AppProps) {
             size="xs"
             radius="xl"
             leftSection={<IconArrowBigUp size={14} />}
-            variant={storedApp?.isSupported ? 'filled' : 'default'}
-            onClick={handleClickSupport}
+            variant={storedApp?.isUpvoted ? 'filled' : 'default'}
+            onClick={handleClickUpvote}
           >
-            {storedApp?.supportsCount || 0}
+            {storedApp?.upvotesCount || 0}
           </Button>
-          <Button size="xs" radius="xl" variant="default" leftSection={<IconMessageCircle size={14} />}>
+          <Button
+            size="xs"
+            radius="xl"
+            variant="default"
+            leftSection={<IconMessageCircle size={14} />}
+          >
             {app.commentsCount}
           </Button>
         </Flex>

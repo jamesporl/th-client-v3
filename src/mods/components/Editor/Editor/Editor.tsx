@@ -82,6 +82,7 @@ function Editor(props: EditorWithRefProps) {
             placeholder={placeholder}
             spellCheck
             onKeyDown={handleKeyPress}
+            style={{ padding: 8 }}
           />
         </div>
       </Slate>

@@ -26,8 +26,8 @@ function App({ app }: AppProps) {
     bannerImgs: iBannerImgs,
     tags: iTags,
     socialUrls: iSocialUrls,
-    supportsCount,
-    isSupported,
+    upvotesCount,
+    isUpvoted,
     videoUrl,
   } = app;
 
@@ -78,9 +78,10 @@ function App({ app }: AppProps) {
           htmlDesc={htmlDesc}
           websiteUrl={websiteUrl}
           socialUrls={socialUrls}
-          supportsCount={supportsCount}
-          isSupported={isSupported}
+          upvotesCount={upvotesCount}
+          isUpvoted={isUpvoted}
           videoUrl={videoUrl}
+          isPreview={false}
         />
         <Box mt={32} className={classes['comments-container']}>
           <Box className={classes['comments-child-container']}>

@@ -15,6 +15,7 @@ import CommentInput from '../CommentInput/CommentInput';
 import AddCommentMtn from '../../../gql/AddCommentMtn';
 import { CommentType } from '../../../../../__generated__/graphql';
 import CommentsQry from '../../../gql/CommentsQry';
+import CommentContent from '../CommentContent/CommentContent';
 
 type CommentsProps = {
   refId: string;
@@ -25,7 +26,7 @@ function Comments({ refId, type }: CommentsProps) {
   const authCtx = useContext(AuthContext);
 
   const [addComment] = useMutation(AddCommentMtn);
-  const { data } = useQuery(CommentsQry, {
+  const { data, refetch } = useQuery(CommentsQry, {
     variables: {
       refId,
       type,
@@ -56,6 +57,7 @@ function Comments({ refId, type }: CommentsProps) {
       <CommentInput
         placeholder="Got something nice to say about the app?"
         onSubmitComment={handleSubmitAddComment}
+        onRefetchComments={refetch}
       />
     );
   }
@@ -69,6 +71,12 @@ function Comments({ refId, type }: CommentsProps) {
             There are no comments here yet.
           </Text>
         </Flex>
+      );
+    } else {
+      commentsList = (
+        <Box mt={32}>
+          {data.comments.nodes.map((c) => <CommentContent comment={c} key={c._id} />)}
+        </Box>
       );
     }
   }

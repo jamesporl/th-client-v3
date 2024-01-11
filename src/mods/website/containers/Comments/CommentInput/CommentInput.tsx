@@ -8,17 +8,20 @@ import React, {
 } from 'react';
 import { IconSend } from '@tabler/icons-react';
 import { Descendant } from 'slate';
+import { ApolloQueryResult } from '@apollo/client';
 import EditorWithForwardeddRef from '../../../../components/Editor/DynamicEditor';
 import { DEFAULT_EDITOR_VALUE } from '../../../../components/Editor/_utils';
 import AuthContext from '../../../../../lib/mobx/Auth';
+import { CommentsQuery } from '../../../../../__generated__/graphql';
 
 type CommentInputProps = {
   placeholder: string;
   // eslint-disable-next-line no-unused-vars
   onSubmitComment: (value: Descendant[]) => Promise<void>;
+  onRefetchComments: () => Promise<ApolloQueryResult<CommentsQuery>>;
 };
 
-function CommentInput({ placeholder, onSubmitComment }: CommentInputProps) {
+function CommentInput({ placeholder, onSubmitComment, onRefetchComments }: CommentInputProps) {
   const authCtx = useContext(AuthContext);
 
   const [comment, setComment] = useState<Descendant[]>([]);
@@ -29,7 +32,7 @@ function CommentInput({ placeholder, onSubmitComment }: CommentInputProps) {
   const handleSubmitAddComment = useCallback(async () => {
     setIsSubmitting(true);
     await onSubmitComment(comment);
-    // onRefetchComments();
+    onRefetchComments();
     editorRef.current.resetEditor();
     setIsSubmitting(false);
   }, [comment, onSubmitComment, editorRef]);
@@ -45,7 +48,7 @@ function CommentInput({ placeholder, onSubmitComment }: CommentInputProps) {
           ref={editorRef}
           minHeight={0}
         />
-        <Box pl={8}>
+        <Box mt={8}>
           <Button
             leftSection={<IconSend size={16} />}
             onClick={handleSubmitAddComment}

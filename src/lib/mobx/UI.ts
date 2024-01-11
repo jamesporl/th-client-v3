@@ -1,10 +1,10 @@
 import { createContext } from 'react';
 import { observable, action, makeObservable } from 'mobx';
 
-export type AppSupport = {
+export type AppUpvote = {
   _id: string;
-  isSupported: boolean;
-  supportsCount: number;
+  isUpvoted: boolean;
+  upvotesCount: number;
 };
 
 export class UI {
@@ -12,7 +12,7 @@ export class UI {
     makeObservable(this);
   }
 
-  @observable apps: AppSupport[] = [];
+  @observable apps: AppUpvote[] = [];
 
   // use lower case only because react is confused that it can be a div attribute
   @observable screenheight = 768;
@@ -24,17 +24,17 @@ export class UI {
     this.screenheight = height;
   };
 
-  @action addApp = (app: AppSupport) => {
+  @action addApp = (app: AppUpvote) => {
     const appExists = this.apps.find((a) => a._id === app._id);
     if (!appExists) {
       this.apps = [...this.apps, app];
     }
   };
 
-  @action updateApp = (appId: string, isSupported: boolean, supportsCount: number) => {
+  @action updateApp = (appId: string, isUpvoted: boolean, upvotesCount: number) => {
     this.apps = this.apps.map((a) => {
       if (a._id === appId) {
-        return { ...a, isSupported, supportsCount };
+        return { ...a, isUpvoted, upvotesCount };
       }
       return a;
     });

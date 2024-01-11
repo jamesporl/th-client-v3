@@ -6,6 +6,7 @@ import { Notifications } from '@mantine/notifications';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 import ApolloWrapper from '../lib/apollo/apolloWrapper';
@@ -15,6 +16,7 @@ import modals from '../lib/utils/modals';
 // Initialize dayjs plugins somewhere in the project root
 dayjs.extend(utc);
 dayjs.extend(timezone);
+dayjs.extend(relativeTime);
 
 export const metadata: Metadata = {
   title: {
