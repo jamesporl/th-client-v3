@@ -33,9 +33,9 @@ export default gql(`
         }
         websiteUrl
         slug
-        supportsCount
+        upvotesCount
         commentsCount
-        isSupported
+        isUpvoted
         isFeatured
       }
       totalCount

@@ -19,8 +19,8 @@ export default gql(`
           key
           label
         }
-        supportsCount
-        isSupported
+        upvotesCount
+        isUpvoted
         comments {
           nodes {
             _id
@@ -36,8 +36,8 @@ export default gql(`
               key
               label
             }
-            supportsCount
-            isSupported
+            upvotesCount
+            isUpvoted
           }
           totalCount
         }

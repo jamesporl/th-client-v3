@@ -19,7 +19,10 @@ import '@mantine/carousel/styles.css';
 import TagsList from '../../../components/TagsList/TagsList';
 import EditorHtmlRender from '../../../../components/Editor/EditorHtmlRender/EditorHtmlRender';
 import UIContext from '../../../../../lib/mobx/UI';
-import ToggleAppSupportMtn from '../../../gql/ToggleAppSupportMtn';
+import ToggleUpvoteMtn from '../../../gql/ToggleUpvoteMtn';
+import { UpvoteType } from '../../../../../__generated__/graphql';
+import AuthContext from '../../../../../lib/mobx/Auth';
+import useShowLoginRequired from '../../../hooks/useShowLoginRequired';
 
 type AppDetailsProps = {
   _id: string;
@@ -50,8 +53,8 @@ type AppDetailsProps = {
     github?: string;
     linkedIn?: string;
   };
-  supportsCount?: number;
-  isSupported?: boolean;
+  upvotesCount?: number;
+  isUpvoted?: boolean;
   isPreview?: boolean;
 };
 
@@ -67,39 +70,46 @@ function AppDetails({
   tags,
   bannerImgs,
   socialUrls,
-  isSupported = true,
-  supportsCount = 101,
+  isUpvoted = true,
+  upvotesCount = 101,
   isPreview = true,
 }: AppDetailsProps) {
+  const authCtx = useContext(AuthContext);
   const uiCtx = useContext(UIContext);
 
-  const [toggleAppSupport] = useMutation(ToggleAppSupportMtn);
+  const [toggleUpvote] = useMutation(ToggleUpvoteMtn);
+
+  const showLoginRequired = useShowLoginRequired();
 
   useEffect(() => {
-    uiCtx.addApp({ _id, supportsCount, isSupported });
-  }, [_id, supportsCount, isSupported]);
+    uiCtx.addApp({ _id, upvotesCount, isUpvoted });
+  }, [_id, upvotesCount, isUpvoted]);
 
   const storedApp = useMemo(() => {
     const ctxApp = uiCtx.apps.find((a) => a._id === _id);
     const serverApp = {
       _id,
-      supportsCount,
-      isSupported,
+      upvotesCount,
+      isUpvoted,
     };
     return ctxApp || serverApp;
-  }, [_id, supportsCount, isSupported, uiCtx.apps]);
+  }, [_id, upvotesCount, isUpvoted, uiCtx.apps]);
 
-  const handleClickSupport = useCallback(() => {
+  const handleClickUpvote = useCallback(() => {
     if (!isPreview) {
-      let newSupportsCount = storedApp.supportsCount - 1;
-      if (!storedApp.isSupported) {
-        newSupportsCount = storedApp.supportsCount + 1;
+      if (authCtx.myProfile) {
+        let newUpvotesCount = storedApp.upvotesCount - 1;
+        if (!storedApp.isUpvoted) {
+          newUpvotesCount = storedApp.upvotesCount + 1;
+        }
+        uiCtx.updateApp(_id, !storedApp.isUpvoted, newUpvotesCount);
+        const input = { refId: _id, type: UpvoteType.App };
+        toggleUpvote({ variables: { input } });
+      } else {
+        showLoginRequired();
       }
-      uiCtx.updateApp(_id, !storedApp.isSupported, newSupportsCount);
-      const input = { appId: _id };
-      toggleAppSupport({ variables: { input } });
     }
-  }, [storedApp, _id, isPreview]);
+  }, [authCtx.myProfile, storedApp, _id, isPreview]);
 
   let logoSrc = logoImg;
   if (!logoSrc) {
@@ -231,17 +241,17 @@ function AppDetails({
         <TagsList tags={tags} />
       </Box>
       {linksLine}
-      <Flex mt={16} justify="space-between" align="center" className={classes['support-box']}>
+      <Flex mt={16} justify="space-between" align="center" className={classes['upvote-box']}>
         <Box>
           <Text size="md" fw="bold">Are you happy to support this app?</Text>
         </Box>
         <Flex gap={8}>
-          <Text size="xl" fw="bold">{storedApp?.supportsCount || 0}</Text>
+          <Text size="xl" fw="bold">{storedApp?.upvotesCount || 0}</Text>
           <Button
             size="xs"
             radius="xl"
-            variant={storedApp?.isSupported ? 'filled' : 'default'}
-            onClick={handleClickSupport}
+            variant={storedApp?.isUpvoted ? 'filled' : 'default'}
+            onClick={handleClickUpvote}
           >
             <IconArrowBigUp size={14} />
           </Button>
