@@ -16,15 +16,34 @@
   border-radius: 6px;
 }
 
-.carousel-container {
-  margin: 32px 0;
-  display: flex;
-  justify-content: center;
+.app-left-col {
+  width: 100%;  
+  max-width: 768px;
 }
 
-.carousel-container-width {
+.app-right-col-desktop {
+  margin-left: 16px;
+  width: 268px;
+  display: none;
+
+  @media (min-width: 1100px) {
+    display: block;
+  }
+}
+
+.app-right-col-mobile {
+  display: flex;
+  justify-content: center;
   width: 100%;
-  max-width: 740px;
+  margin-top: 32px;
+
+  @media (min-width: 1100px) {
+    display: none;
+  }
+}
+
+.app-right-col-mobile-content {
+  max-width: 268px;
 }
 
 .upvote-box {

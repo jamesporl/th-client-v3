@@ -8,10 +8,7 @@ import {
   Box, Button, Flex, Text, Title,
 } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
-import {
-  IconArrowBigUp,
-  IconBrandFacebook, IconBrandGithub, IconBrandInstagram, IconBrandLinkedin, IconBrandX, IconWorld,
-} from '@tabler/icons-react';
+import { IconArrowBigUp } from '@tabler/icons-react';
 import { useMutation } from '@apollo/client';
 import { observer } from 'mobx-react';
 import classes from './AppDetails.module.css';
@@ -20,9 +17,11 @@ import TagsList from '../../../components/TagsList/TagsList';
 import EditorHtmlRender from '../../../../components/Editor/EditorHtmlRender/EditorHtmlRender';
 import UIContext from '../../../../../lib/mobx/UI';
 import ToggleUpvoteMtn from '../../../gql/ToggleUpvoteMtn';
-import { UpvoteType } from '../../../../../__generated__/graphql';
+import { CommentType, UpvoteType } from '../../../../../__generated__/graphql';
 import AuthContext from '../../../../../lib/mobx/Auth';
 import useShowLoginRequired from '../../../hooks/useShowLoginRequired';
+import Comments from '../../Comments/Comments/Comments';
+import AppRightCol from '../AppRightCol/AppRightCol';
 
 type AppDetailsProps = {
   _id: string;
@@ -116,94 +115,10 @@ function AppDetails({
     logoSrc = '/img-sq-placeholder.png';
   }
 
-  let websiteBtn = null;
-  if (websiteUrl) {
-    websiteBtn = (
-      <a href={websiteUrl} target="_blank">
-        <Button leftSection={<IconWorld size={16} />}>
-          Go to website
-        </Button>
-      </a>
-    );
-  }
-
-  const {
-    facebook, instagram, twitter, linkedIn, github,
-  } = socialUrls || {};
-
-  let facebookBtn = null;
-  if (facebook) {
-    facebookBtn = (
-      <a href={facebook} target="_blank">
-        <Button color="gray" variant="outline">
-          <IconBrandFacebook size={16} />
-        </Button>
-      </a>
-    );
-  }
-
-  let instagramBtn = null;
-  if (instagram) {
-    instagramBtn = (
-      <a href={instagram} target="_blank">
-        <Button color="gray" variant="outline">
-          <IconBrandInstagram size={16} />
-        </Button>
-      </a>
-    );
-  }
-
-  let xBtn = null;
-  if (twitter) {
-    xBtn = (
-      <a href={twitter} target="_blank">
-        <Button color="gray" variant="outline">
-          <IconBrandX size={16} />
-        </Button>
-      </a>
-    );
-  }
-
-  let linkedInBtn = null;
-  if (linkedIn) {
-    linkedInBtn = (
-      <a href={linkedIn} target="_blank">
-        <Button color="gray" variant="outline">
-          <IconBrandLinkedin size={16} />
-        </Button>
-      </a>
-    );
-  }
-
-  let githubBtn = null;
-  if (github) {
-    githubBtn = (
-      <a href={github} target="_blank">
-        <Button color="gray" variant="outline">
-          <IconBrandGithub size={16} />
-        </Button>
-      </a>
-    );
-  }
-
-  let linksLine = null;
-  if (websiteBtn || facebookBtn) {
-    linksLine = (
-      <Flex gap={8} mt={16}>
-        {websiteBtn}
-        {facebookBtn}
-        {instagramBtn}
-        {xBtn}
-        {linkedInBtn}
-        {githubBtn}
-      </Flex>
-    );
-  }
-
   let embeddedVideo = null;
   let width = uiCtx.screenwidth - 32;
-  if (uiCtx.screenwidth > 609) {
-    width = 577;
+  if (uiCtx.screenwidth > 660) {
+    width = 604;
   }
   if (videoUrl) {
     embeddedVideo = (
@@ -219,6 +134,18 @@ function AppDetails({
       </Carousel.Slide>
     );
   }
+
+  let commentsList = null;
+  if (!isPreview) {
+    commentsList = (
+      <Box mt={32}>
+        <Text fz={22} fw={600}>Share Your Feedback</Text>
+        <Comments refId={_id} type={CommentType.App} />
+      </Box>
+    );
+  }
+
+  const appRightCol = <AppRightCol socialUrls={socialUrls} websiteUrl={websiteUrl} />;
 
   return (
     <>
@@ -240,38 +167,46 @@ function AppDetails({
       <Box mt={4}>
         <TagsList tags={tags} />
       </Box>
-      {linksLine}
-      <Flex mt={16} justify="space-between" align="center" className={classes['upvote-box']}>
-        <Box>
-          <Text size="md" fw="bold">Are you happy to support this app?</Text>
-        </Box>
-        <Flex gap={8}>
-          <Text size="xl" fw="bold">{storedApp?.upvotesCount || 0}</Text>
-          <Button
-            size="xs"
-            radius="xl"
-            variant={storedApp?.isUpvoted ? 'filled' : 'default'}
-            onClick={handleClickUpvote}
-          >
-            <IconArrowBigUp size={14} />
-          </Button>
-        </Flex>
-      </Flex>
-      <Box mt={32}>
-        <EditorHtmlRender htmlDesc={htmlDesc} />
-      </Box>
-      <div className={classes['carousel-container']}>
-        <div className={classes['carousel-container-width']}>
-          <Carousel slideSize="80%" height={330} controlsOffset="xs" controlSize={14} withIndicators align="start">
+      <Flex justify="space-between" mt={32}>
+        <Box className={classes['app-left-col']}>
+          <Carousel slideSize="80%" height={345} controlsOffset="xs" controlSize={14} withIndicators align="start">
             {embeddedVideo}
             {bannerImgs.map((bImg) => (
               <Carousel.Slide key={bImg.order}>
-                <Image src={bImg.image.large} alt="app-preview" height={330} width={577} />
+                <Image src={bImg.image.large} alt="app-preview" height={345} width={604} />
               </Carousel.Slide>
             ))}
           </Carousel>
-        </div>
-      </div>
+          <Box mt={32}>
+            <EditorHtmlRender htmlDesc={htmlDesc} />
+          </Box>
+          <Box className={classes['app-right-col-mobile']}>
+            <Box className={classes['app-right-col-mobile-content']}>
+              {appRightCol}
+            </Box>
+          </Box>
+          <Flex mt={32} justify="space-between" align="center" className={classes['upvote-box']}>
+            <Box>
+              <Text size="md" fw="bold">Are you happy to support this app?</Text>
+            </Box>
+            <Flex gap={8}>
+              <Text size="xl" fw="bold">{storedApp?.upvotesCount || 0}</Text>
+              <Button
+                size="xs"
+                radius="xl"
+                variant={storedApp?.isUpvoted ? 'filled' : 'default'}
+                onClick={handleClickUpvote}
+              >
+                <IconArrowBigUp size={14} />
+              </Button>
+            </Flex>
+          </Flex>
+          {commentsList}
+        </Box>
+        <Box className={classes['app-right-col-desktop']}>
+          {appRightCol}
+        </Box>
+      </Flex>
     </>
   );
 }

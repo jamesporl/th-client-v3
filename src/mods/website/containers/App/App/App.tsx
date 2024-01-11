@@ -1,15 +1,11 @@
 'use client';
 
 import React from 'react';
-import {
-  Anchor, Box, Breadcrumbs, Text,
-} from '@mantine/core';
+import { Anchor, Box, Breadcrumbs } from '@mantine/core';
 import Link from 'next/link';
-import { AppQuery, CommentType } from '../../../../../__generated__/graphql';
+import { AppQuery } from '../../../../../__generated__/graphql';
 import WebsiteMaxWidthWrapper from '../../../components/WebsiteMaxWidthWrapper/WebsiteMaxWidthWrapper';
 import AppDetails from '../AppDetails/AppDetails';
-import classes from './App.module.css';
-import Comments from '../../Comments/Comments/Comments';
 
 type AppProps = {
   app: AppQuery['app'];
@@ -83,12 +79,6 @@ function App({ app }: AppProps) {
           videoUrl={videoUrl}
           isPreview={false}
         />
-        <Box mt={32} className={classes['comments-container']}>
-          <Box className={classes['comments-child-container']}>
-            <Text fz={22} fw={600}>Share Your Feedback</Text>
-            <Comments refId={app._id} type={CommentType.App} />
-          </Box>
-        </Box>
       </Box>
     </WebsiteMaxWidthWrapper>
   );
