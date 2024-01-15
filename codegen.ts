@@ -12,6 +12,10 @@ const config: CodegenConfig = {
       plugins: [],
       presetConfig: {
         gqlTagName: 'gql',
+        noFragmentMasking: true,
+      },
+      config: {
+        skipTypename: true,
       },
     },
   },

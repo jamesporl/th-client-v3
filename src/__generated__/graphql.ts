@@ -23,7 +23,6 @@ export type Scalars = {
 };
 
 export type Account = Node & {
-  __typename?: 'Account';
   _id: Scalars['ID']['output'];
   email: Scalars['String']['output'];
   firstName?: Maybe<Scalars['String']['output']>;
@@ -32,7 +31,6 @@ export type Account = Node & {
 };
 
 export type AccountConnection = NodeConnection & {
-  __typename?: 'AccountConnection';
   nodes: Array<Account>;
   totalCount: Scalars['Int']['output'];
 };
@@ -60,7 +58,6 @@ export type AddJobInput = {
 };
 
 export type App = Node & {
-  __typename?: 'App';
   _id: Scalars['ID']['output'];
   bannerImgs?: Maybe<Array<Maybe<BannerImg>>>;
   commentsCount: Scalars['Int']['output'];
@@ -70,7 +67,7 @@ export type App = Node & {
   jsonDesc?: Maybe<Scalars['JSON']['output']>;
   logoImg?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
-  ownedBy?: Maybe<SimpleAccount>;
+  ownedBy: SimpleAccount;
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
   shortDesc: Scalars['String']['output'];
   slug?: Maybe<Scalars['String']['output']>;
@@ -84,13 +81,11 @@ export type App = Node & {
 };
 
 export type AppConnection = NodeConnection & {
-  __typename?: 'AppConnection';
   nodes: Array<App>;
   totalCount: Scalars['Int']['output'];
 };
 
 export type AppDraft = Node & {
-  __typename?: 'AppDraft';
   _id: Scalars['ID']['output'];
   appId: Scalars['String']['output'];
   bannerImgs?: Maybe<Array<Maybe<BannerImg>>>;
@@ -110,7 +105,6 @@ export type AppDraft = Node & {
 };
 
 export type AppDraftConnection = NodeConnection & {
-  __typename?: 'AppDraftConnection';
   nodes: Array<AppDraft>;
   totalCount: Scalars['Int']['output'];
 };
@@ -123,7 +117,6 @@ export enum AppDraftStatus {
 }
 
 export type AppDraftStatusObject = {
-  __typename?: 'AppDraftStatusObject';
   key: AppDraftStatus;
   label: Scalars['String']['output'];
 };
@@ -137,13 +130,11 @@ export enum AppStatus {
 }
 
 export type AppStatusObject = {
-  __typename?: 'AppStatusObject';
   key: AppStatus;
   label: Scalars['String']['output'];
 };
 
 export type AppTag = Node & {
-  __typename?: 'AppTag';
   _id: Scalars['ID']['output'];
   appsCount: Scalars['Int']['output'];
   imgUrl: Scalars['String']['output'];
@@ -152,7 +143,6 @@ export type AppTag = Node & {
 };
 
 export type AppTagConnection = NodeConnection & {
-  __typename?: 'AppTagConnection';
   nodes: Array<AppTag>;
   totalCount: Scalars['Int']['output'];
 };
@@ -169,37 +159,30 @@ export enum AppsSortBy {
 }
 
 export type BannerImageUrls = {
-  __typename?: 'BannerImageUrls';
   large: Scalars['String']['output'];
   thumbnail: Scalars['String']['output'];
 };
 
 export type BannerImg = Node & {
-  __typename?: 'BannerImg';
   _id: Scalars['ID']['output'];
   image: BannerImageUrls;
   order: Scalars['Int']['output'];
 };
 
 export type Comment = Node & {
-  __typename?: 'Comment';
   _id: Scalars['ID']['output'];
-  comments?: Maybe<CommentConnection>;
+  comments?: Maybe<Comments>;
   createdAt: Scalars['DateTime']['output'];
   createdBy: SimpleAccount;
-  htmlContent?: Maybe<Scalars['String']['output']>;
+  htmlContent: Scalars['String']['output'];
   isParent?: Maybe<Scalars['Boolean']['output']>;
   isPinned?: Maybe<Scalars['Boolean']['output']>;
   isUpvoted: Scalars['Boolean']['output'];
+  parentCommentId?: Maybe<Scalars['String']['output']>;
+  refId: Scalars['String']['output'];
   status: CommentStatusObject;
   textContent?: Maybe<Scalars['String']['output']>;
   upvotesCount: Scalars['Int']['output'];
-};
-
-export type CommentConnection = NodeConnection & {
-  __typename?: 'CommentConnection';
-  nodes: Array<Comment>;
-  totalCount: Scalars['Int']['output'];
 };
 
 export enum CommentStatus {
@@ -208,7 +191,6 @@ export enum CommentStatus {
 }
 
 export type CommentStatusObject = {
-  __typename?: 'CommentStatusObject';
   key: CommentStatus;
   label: Scalars['String']['output'];
 };
@@ -218,12 +200,16 @@ export enum CommentType {
   Post = 'post'
 }
 
+export type Comments = {
+  hasMore: Scalars['Boolean']['output'];
+  nodes: Array<Comment>;
+};
+
 export type CreateAppDraftFromPublishedAppInput = {
   appId: Scalars['ID']['input'];
 };
 
 export type DefaultMutationPayload = {
-  __typename?: 'DefaultMutationPayload';
   isCompleted: Scalars['Boolean']['output'];
 };
 
@@ -259,7 +245,6 @@ export type LoginWithGoogleInput = {
 };
 
 export type Mutation = {
-  __typename?: 'Mutation';
   addApp: App;
   addAppDraftBannerImg: BannerImg;
   addComment: Comment;
@@ -467,7 +452,6 @@ export type NodeConnection = {
 };
 
 export type Profile = Node & {
-  __typename?: 'Profile';
   _id: Scalars['ID']['output'];
   email: Scalars['String']['output'];
   firstName?: Maybe<Scalars['String']['output']>;
@@ -482,7 +466,6 @@ export type PublishAppDraftInput = {
 };
 
 export type Query = {
-  __typename?: 'Query';
   aAppDrafts?: Maybe<AppDraftConnection>;
   accounts?: Maybe<AccountConnection>;
   app: App;
@@ -490,7 +473,7 @@ export type Query = {
   appTag?: Maybe<AppTag>;
   appTags?: Maybe<AppTagConnection>;
   apps?: Maybe<AppConnection>;
-  comments?: Maybe<CommentConnection>;
+  comments?: Maybe<Comments>;
   myAppDrafts?: Maybe<AppDraftConnection>;
   myApps?: Maybe<AppConnection>;
   myProfile?: Maybe<Profile>;
@@ -547,8 +530,11 @@ export type QueryAppsArgs = {
 
 
 export type QueryCommentsArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
+  childCommentsPageSize?: InputMaybe<Scalars['Int']['input']>;
+  isPinned: Scalars['Boolean']['input'];
+  lastId?: InputMaybe<Scalars['ID']['input']>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
+  parentCommentId?: InputMaybe<Scalars['ID']['input']>;
   refId: Scalars['ID']['input'];
   type: CommentType;
 };
@@ -595,15 +581,13 @@ export type SignupInput = {
 };
 
 export type SimpleAccount = Node & {
-  __typename?: 'SimpleAccount';
   _id: Scalars['ID']['output'];
-  firstName?: Maybe<Scalars['String']['output']>;
+  firstName: Scalars['String']['output'];
   image?: Maybe<Scalars['String']['output']>;
-  lastName?: Maybe<Scalars['String']['output']>;
+  lastName: Scalars['String']['output'];
 };
 
 export type SocialUrls = {
-  __typename?: 'SocialUrls';
   facebook?: Maybe<Scalars['String']['output']>;
   github?: Maybe<Scalars['String']['output']>;
   instagram?: Maybe<Scalars['String']['output']>;
@@ -624,7 +608,6 @@ export type SubmitAppDraftInput = {
 };
 
 export type SubmitAppDraftPayload = {
-  __typename?: 'SubmitAppDraftPayload';
   errors: Array<Scalars['String']['output']>;
   isSubmitted: Scalars['Boolean']['output'];
 };
@@ -696,96 +679,96 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: string };
+export type LoginMutation = { login: string };
 
 export type MyProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyProfileQuery = { __typename?: 'Query', myProfile?: { __typename?: 'Profile', _id: string, firstName?: string | null, lastName?: string | null, email: string, shortDesc?: string | null, image?: string | null, isAdmin: boolean } | null };
+export type MyProfileQuery = { myProfile?: { _id: string, firstName?: string | null, lastName?: string | null, email: string, shortDesc?: string | null, image?: string | null, isAdmin: boolean } | null };
 
 export type ResetPasswordByTokenMutationVariables = Exact<{
   input: ResetPasswordByTokenInput;
 }>;
 
 
-export type ResetPasswordByTokenMutation = { __typename?: 'Mutation', resetPasswordByToken: { __typename?: 'DefaultMutationPayload', isCompleted: boolean } };
+export type ResetPasswordByTokenMutation = { resetPasswordByToken: { isCompleted: boolean } };
 
 export type SendPasswordResetLinkMutationVariables = Exact<{
   input: SendPasswordResetLinkInput;
 }>;
 
 
-export type SendPasswordResetLinkMutation = { __typename?: 'Mutation', sendPasswordResetLink: { __typename?: 'DefaultMutationPayload', isCompleted: boolean } };
+export type SendPasswordResetLinkMutation = { sendPasswordResetLink: { isCompleted: boolean } };
 
 export type SendVerificationCodeMutationVariables = Exact<{
   input: SendVerificationCodeInput;
 }>;
 
 
-export type SendVerificationCodeMutation = { __typename?: 'Mutation', sendVerificationCode: { __typename?: 'DefaultMutationPayload', isCompleted: boolean } };
+export type SendVerificationCodeMutation = { sendVerificationCode: { isCompleted: boolean } };
 
 export type SignupMutationVariables = Exact<{
   input: SignupInput;
 }>;
 
 
-export type SignupMutation = { __typename?: 'Mutation', signup: { __typename?: 'DefaultMutationPayload', isCompleted: boolean } };
+export type SignupMutation = { signup: { isCompleted: boolean } };
 
 export type VerifyAccountByCodeMutationVariables = Exact<{
   input: VerifyAccountByCodeInput;
 }>;
 
 
-export type VerifyAccountByCodeMutation = { __typename?: 'Mutation', verifyAccountByCode: string };
+export type VerifyAccountByCodeMutation = { verifyAccountByCode: string };
 
 export type AddAppDraftBannerImgMutationVariables = Exact<{
   input: AddAppDraftBannerImgInput;
 }>;
 
 
-export type AddAppDraftBannerImgMutation = { __typename?: 'Mutation', addAppDraftBannerImg: { __typename?: 'BannerImg', _id: string, order: number, image: { __typename?: 'BannerImageUrls', large: string, thumbnail: string } } };
+export type AddAppDraftBannerImgMutation = { addAppDraftBannerImg: { _id: string, order: number, image: { large: string, thumbnail: string } } };
 
 export type AddAppMutationVariables = Exact<{
   input: AddAppInput;
 }>;
 
 
-export type AddAppMutation = { __typename?: 'Mutation', addApp: { __typename?: 'App', _id: string, name: string, shortDesc: string, htmlDesc?: string | null, textDesc?: string | null, logoImg?: string | null, videoUrl?: string | null, websiteUrl?: string | null, slug?: string | null, publishedAt?: any | null, upvotesCount: number, commentsCount: number, isUpvoted: boolean, isFeatured?: boolean | null, bannerImgs?: Array<{ __typename?: 'BannerImg', _id: string, order: number, image: { __typename?: 'BannerImageUrls', large: string, thumbnail: string } } | null> | null, socialUrls?: { __typename?: 'SocialUrls', facebook?: string | null, instagram?: string | null, twitter?: string | null, linkedIn?: string | null, github?: string | null } | null, status: { __typename?: 'AppStatusObject', key: AppStatus, label: string }, tags?: Array<{ __typename?: 'AppTag', _id: string, name: string, slug: string } | null> | null, ownedBy?: { __typename?: 'SimpleAccount', _id: string, firstName?: string | null, lastName?: string | null, image?: string | null } | null } };
+export type AddAppMutation = { addApp: { _id: string, name: string, shortDesc: string, htmlDesc?: string | null, textDesc?: string | null, logoImg?: string | null, videoUrl?: string | null, websiteUrl?: string | null, slug?: string | null, publishedAt?: any | null, upvotesCount: number, commentsCount: number, isUpvoted: boolean, isFeatured?: boolean | null, bannerImgs?: Array<{ _id: string, order: number, image: { large: string, thumbnail: string } } | null> | null, socialUrls?: { facebook?: string | null, instagram?: string | null, twitter?: string | null, linkedIn?: string | null, github?: string | null } | null, status: { key: AppStatus, label: string }, tags?: Array<{ _id: string, name: string, slug: string } | null> | null, ownedBy: { _id: string, firstName: string, lastName: string, image?: string | null } } };
 
 export type AddCommentMutationVariables = Exact<{
   input: AddCommentInput;
 }>;
 
 
-export type AddCommentMutation = { __typename?: 'Mutation', addComment: { __typename?: 'Comment', _id: string } };
+export type AddCommentMutation = { addComment: { _id: string, refId: string, isParent?: boolean | null, htmlContent: string, createdAt: any, isPinned?: boolean | null, upvotesCount: number, isUpvoted: boolean, parentCommentId?: string | null, createdBy: { _id: string, firstName: string, lastName: string, image?: string | null } } };
 
 export type AppDraftQueryVariables = Exact<{
   _id: Scalars['ID']['input'];
 }>;
 
 
-export type AppDraftQuery = { __typename?: 'Query', appDraft?: { __typename?: 'AppDraft', _id: string, appId: string, name: string, shortDesc: string, jsonDesc?: any | null, htmlDesc?: string | null, logoImg?: string | null, videoUrl?: string | null, websiteUrl?: string | null, createdAt?: any | null, tags?: Array<{ __typename?: 'AppTag', _id: string, name: string, slug: string } | null> | null, bannerImgs?: Array<{ __typename?: 'BannerImg', _id: string, order: number, image: { __typename?: 'BannerImageUrls', large: string, thumbnail: string } } | null> | null, ownedBy?: { __typename?: 'SimpleAccount', _id: string, firstName?: string | null, lastName?: string | null, image?: string | null } | null, status: { __typename?: 'AppDraftStatusObject', key: AppDraftStatus, label: string }, socialUrls?: { __typename?: 'SocialUrls', facebook?: string | null, instagram?: string | null, twitter?: string | null, linkedIn?: string | null, github?: string | null } | null } | null };
+export type AppDraftQuery = { appDraft?: { _id: string, appId: string, name: string, shortDesc: string, jsonDesc?: any | null, htmlDesc?: string | null, logoImg?: string | null, videoUrl?: string | null, websiteUrl?: string | null, createdAt?: any | null, tags?: Array<{ _id: string, name: string, slug: string } | null> | null, bannerImgs?: Array<{ _id: string, order: number, image: { large: string, thumbnail: string } } | null> | null, ownedBy?: { _id: string, firstName: string, lastName: string, image?: string | null } | null, status: { key: AppDraftStatus, label: string }, socialUrls?: { facebook?: string | null, instagram?: string | null, twitter?: string | null, linkedIn?: string | null, github?: string | null } | null } | null };
 
 export type AppQueryVariables = Exact<{
   slug: Scalars['String']['input'];
 }>;
 
 
-export type AppQuery = { __typename?: 'Query', app: { __typename?: 'App', _id: string, name: string, shortDesc: string, htmlDesc?: string | null, textDesc?: string | null, logoImg?: string | null, videoUrl?: string | null, websiteUrl?: string | null, slug?: string | null, publishedAt?: any | null, upvotesCount: number, commentsCount: number, isUpvoted: boolean, isFeatured?: boolean | null, bannerImgs?: Array<{ __typename?: 'BannerImg', _id: string, order: number, image: { __typename?: 'BannerImageUrls', large: string, thumbnail: string } } | null> | null, socialUrls?: { __typename?: 'SocialUrls', facebook?: string | null, instagram?: string | null, twitter?: string | null, linkedIn?: string | null, github?: string | null } | null, status: { __typename?: 'AppStatusObject', key: AppStatus, label: string }, tags?: Array<{ __typename?: 'AppTag', _id: string, name: string, slug: string } | null> | null, ownedBy?: { __typename?: 'SimpleAccount', _id: string, firstName?: string | null, lastName?: string | null, image?: string | null } | null } };
+export type AppQuery = { app: { _id: string, name: string, shortDesc: string, htmlDesc?: string | null, textDesc?: string | null, logoImg?: string | null, videoUrl?: string | null, websiteUrl?: string | null, slug?: string | null, publishedAt?: any | null, upvotesCount: number, commentsCount: number, isUpvoted: boolean, isFeatured?: boolean | null, bannerImgs?: Array<{ _id: string, order: number, image: { large: string, thumbnail: string } } | null> | null, socialUrls?: { facebook?: string | null, instagram?: string | null, twitter?: string | null, linkedIn?: string | null, github?: string | null } | null, status: { key: AppStatus, label: string }, tags?: Array<{ _id: string, name: string, slug: string } | null> | null, ownedBy: { _id: string, firstName: string, lastName: string, image?: string | null } } };
 
 export type AppTagQueryVariables = Exact<{
   slug: Scalars['String']['input'];
 }>;
 
 
-export type AppTagQuery = { __typename?: 'Query', appTag?: { __typename?: 'AppTag', _id: string, name: string, slug: string, appsCount: number, imgUrl: string } | null };
+export type AppTagQuery = { appTag?: { _id: string, name: string, slug: string, appsCount: number, imgUrl: string } | null };
 
 export type AppTagsQueryVariables = Exact<{
   searchString?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type AppTagsQuery = { __typename?: 'Query', appTags?: { __typename?: 'AppTagConnection', totalCount: number, nodes: Array<{ __typename?: 'AppTag', _id: string, name: string, slug: string, appsCount: number, imgUrl: string }> } | null };
+export type AppTagsQuery = { appTags?: { totalCount: number, nodes: Array<{ _id: string, name: string, slug: string, appsCount: number, imgUrl: string }> } | null };
 
 export type AppsQueryVariables = Exact<{
   page?: InputMaybe<Scalars['Int']['input']>;
@@ -799,111 +782,114 @@ export type AppsQueryVariables = Exact<{
 }>;
 
 
-export type AppsQuery = { __typename?: 'Query', apps?: { __typename?: 'AppConnection', totalCount: number, nodes: Array<{ __typename?: 'App', _id: string, name: string, shortDesc: string, logoImg?: string | null, websiteUrl?: string | null, slug?: string | null, upvotesCount: number, commentsCount: number, isUpvoted: boolean, isFeatured?: boolean | null, tags?: Array<{ __typename?: 'AppTag', _id: string, name: string, slug: string } | null> | null }> } | null };
+export type AppsQuery = { apps?: { totalCount: number, nodes: Array<{ _id: string, name: string, shortDesc: string, logoImg?: string | null, websiteUrl?: string | null, slug?: string | null, upvotesCount: number, commentsCount: number, isUpvoted: boolean, isFeatured?: boolean | null, tags?: Array<{ _id: string, name: string, slug: string } | null> | null }> } | null };
 
 export type CommentsQueryVariables = Exact<{
   refId: Scalars['ID']['input'];
-  pageSize?: InputMaybe<Scalars['Int']['input']>;
-  page?: InputMaybe<Scalars['Int']['input']>;
   type: CommentType;
+  lastId?: InputMaybe<Scalars['ID']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  childCommentsPageSize?: InputMaybe<Scalars['Int']['input']>;
+  isPinned: Scalars['Boolean']['input'];
+  parentCommentId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
 
-export type CommentsQuery = { __typename?: 'Query', comments?: { __typename?: 'CommentConnection', totalCount: number, nodes: Array<{ __typename?: 'Comment', _id: string, isParent?: boolean | null, htmlContent?: string | null, createdAt: any, isPinned?: boolean | null, upvotesCount: number, isUpvoted: boolean, createdBy: { __typename?: 'SimpleAccount', _id: string, firstName?: string | null, lastName?: string | null, image?: string | null }, status: { __typename?: 'CommentStatusObject', key: CommentStatus, label: string }, comments?: { __typename?: 'CommentConnection', totalCount: number, nodes: Array<{ __typename?: 'Comment', _id: string, htmlContent?: string | null, createdAt: any, upvotesCount: number, isUpvoted: boolean, createdBy: { __typename?: 'SimpleAccount', _id: string, firstName?: string | null, lastName?: string | null, image?: string | null }, status: { __typename?: 'CommentStatusObject', key: CommentStatus, label: string } }> } | null }> } | null };
+export type CommentsQuery = { comments?: { hasMore: boolean, nodes: Array<{ _id: string, refId: string, isParent?: boolean | null, parentCommentId?: string | null, htmlContent: string, createdAt: any, isPinned?: boolean | null, upvotesCount: number, isUpvoted: boolean, createdBy: { _id: string, firstName: string, lastName: string, image?: string | null }, comments?: { hasMore: boolean, nodes: Array<{ _id: string, refId: string, isParent?: boolean | null, htmlContent: string, createdAt: any, isPinned?: boolean | null, parentCommentId?: string | null, upvotesCount: number, isUpvoted: boolean, createdBy: { _id: string, firstName: string, lastName: string, image?: string | null } }> } | null }> } | null };
 
 export type CreateAppDraftFromPublishedAppMutationVariables = Exact<{
   input: CreateAppDraftFromPublishedAppInput;
 }>;
 
 
-export type CreateAppDraftFromPublishedAppMutation = { __typename?: 'Mutation', createAppDraftFromPublishedApp: { __typename?: 'AppDraft', _id: string } };
+export type CreateAppDraftFromPublishedAppMutation = { createAppDraftFromPublishedApp: { _id: string } };
 
 export type DeleteAppDraftBannerImgMutationVariables = Exact<{
   input: DeleteAppDraftBannerImgInput;
 }>;
 
 
-export type DeleteAppDraftBannerImgMutation = { __typename?: 'Mutation', deleteAppDraftBannerImg: { __typename?: 'DefaultMutationPayload', isCompleted: boolean } };
+export type DeleteAppDraftBannerImgMutation = { deleteAppDraftBannerImg: { isCompleted: boolean } };
 
 export type DeleteAppDraftMutationVariables = Exact<{
   input: DeleteAppDraftInput;
 }>;
 
 
-export type DeleteAppDraftMutation = { __typename?: 'Mutation', deleteAppDraft: { __typename?: 'DefaultMutationPayload', isCompleted: boolean } };
+export type DeleteAppDraftMutation = { deleteAppDraft: { isCompleted: boolean } };
 
 export type DeleteAppMutationVariables = Exact<{
   input: DeleteAppInput;
 }>;
 
 
-export type DeleteAppMutation = { __typename?: 'Mutation', deleteApp: { __typename?: 'DefaultMutationPayload', isCompleted: boolean } };
+export type DeleteAppMutation = { deleteApp: { isCompleted: boolean } };
 
 export type MyAppDraftsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyAppDraftsQuery = { __typename?: 'Query', myAppDrafts?: { __typename?: 'AppDraftConnection', totalCount: number, nodes: Array<{ __typename?: 'AppDraft', _id: string, appId: string, name: string, shortDesc: string, jsonDesc?: any | null, htmlDesc?: string | null, logoImg?: string | null, videoUrl?: string | null, websiteUrl?: string | null, createdAt?: any | null, tags?: Array<{ __typename?: 'AppTag', _id: string, name: string } | null> | null, bannerImgs?: Array<{ __typename?: 'BannerImg', _id: string, order: number, image: { __typename?: 'BannerImageUrls', large: string, thumbnail: string } } | null> | null, ownedBy?: { __typename?: 'SimpleAccount', _id: string, firstName?: string | null, lastName?: string | null, image?: string | null } | null, status: { __typename?: 'AppDraftStatusObject', key: AppDraftStatus, label: string }, socialUrls?: { __typename?: 'SocialUrls', facebook?: string | null, instagram?: string | null, twitter?: string | null, linkedIn?: string | null, github?: string | null } | null }> } | null };
+export type MyAppDraftsQuery = { myAppDrafts?: { totalCount: number, nodes: Array<{ _id: string, appId: string, name: string, shortDesc: string, jsonDesc?: any | null, htmlDesc?: string | null, logoImg?: string | null, videoUrl?: string | null, websiteUrl?: string | null, createdAt?: any | null, tags?: Array<{ _id: string, name: string } | null> | null, bannerImgs?: Array<{ _id: string, order: number, image: { large: string, thumbnail: string } } | null> | null, ownedBy?: { _id: string, firstName: string, lastName: string, image?: string | null } | null, status: { key: AppDraftStatus, label: string }, socialUrls?: { facebook?: string | null, instagram?: string | null, twitter?: string | null, linkedIn?: string | null, github?: string | null } | null }> } | null };
 
 export type MyAppsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyAppsQuery = { __typename?: 'Query', myApps?: { __typename?: 'AppConnection', totalCount: number, nodes: Array<{ __typename?: 'App', _id: string, name: string, shortDesc: string, htmlDesc?: string | null, textDesc?: string | null, logoImg?: string | null, videoUrl?: string | null, websiteUrl?: string | null, slug?: string | null, publishedAt?: any | null, upvotesCount: number, commentsCount: number, isUpvoted: boolean, isFeatured?: boolean | null, bannerImgs?: Array<{ __typename?: 'BannerImg', _id: string, order: number, image: { __typename?: 'BannerImageUrls', large: string, thumbnail: string } } | null> | null, socialUrls?: { __typename?: 'SocialUrls', facebook?: string | null, instagram?: string | null, twitter?: string | null, linkedIn?: string | null, github?: string | null } | null, status: { __typename?: 'AppStatusObject', key: AppStatus, label: string }, tags?: Array<{ __typename?: 'AppTag', _id: string, name: string, slug: string } | null> | null, ownedBy?: { __typename?: 'SimpleAccount', _id: string, firstName?: string | null, lastName?: string | null, image?: string | null } | null }> } | null };
+export type MyAppsQuery = { myApps?: { totalCount: number, nodes: Array<{ _id: string, name: string, shortDesc: string, htmlDesc?: string | null, textDesc?: string | null, logoImg?: string | null, videoUrl?: string | null, websiteUrl?: string | null, slug?: string | null, publishedAt?: any | null, upvotesCount: number, commentsCount: number, isUpvoted: boolean, isFeatured?: boolean | null, bannerImgs?: Array<{ _id: string, order: number, image: { large: string, thumbnail: string } } | null> | null, socialUrls?: { facebook?: string | null, instagram?: string | null, twitter?: string | null, linkedIn?: string | null, github?: string | null } | null, status: { key: AppStatus, label: string }, tags?: Array<{ _id: string, name: string, slug: string } | null> | null, ownedBy: { _id: string, firstName: string, lastName: string, image?: string | null } }> } | null };
 
 export type RepublishAppMutationVariables = Exact<{
   input: RepublishAppInput;
 }>;
 
 
-export type RepublishAppMutation = { __typename?: 'Mutation', republishApp: { __typename?: 'DefaultMutationPayload', isCompleted: boolean } };
+export type RepublishAppMutation = { republishApp: { isCompleted: boolean } };
 
 export type SubmitAppDraftMutationVariables = Exact<{
   input: SubmitAppDraftInput;
 }>;
 
 
-export type SubmitAppDraftMutation = { __typename?: 'Mutation', submitAppDraft: { __typename?: 'SubmitAppDraftPayload', errors: Array<string>, isSubmitted: boolean } };
+export type SubmitAppDraftMutation = { submitAppDraft: { errors: Array<string>, isSubmitted: boolean } };
 
 export type ToggleUpvoteMutationVariables = Exact<{
   input: ToggleUpvoteInput;
 }>;
 
 
-export type ToggleUpvoteMutation = { __typename?: 'Mutation', toggleUpvote: { __typename?: 'DefaultMutationPayload', isCompleted: boolean } };
+export type ToggleUpvoteMutation = { toggleUpvote: { isCompleted: boolean } };
 
 export type UndoSubmitAppDraftMutationVariables = Exact<{
   input: UndoSubmitAppDraftInput;
 }>;
 
 
-export type UndoSubmitAppDraftMutation = { __typename?: 'Mutation', undoSubmitAppDraft: { __typename?: 'AppDraft', _id: string } };
+export type UndoSubmitAppDraftMutation = { undoSubmitAppDraft: { _id: string } };
 
 export type UnpublishAppMutationVariables = Exact<{
   input: UnpublishAppInput;
 }>;
 
 
-export type UnpublishAppMutation = { __typename?: 'Mutation', unpublishApp: { __typename?: 'DefaultMutationPayload', isCompleted: boolean } };
+export type UnpublishAppMutation = { unpublishApp: { isCompleted: boolean } };
 
 export type UpdateAppDraftBannerImgsOrderMutationVariables = Exact<{
   input: UpdateAppDraftBannerImgsOrderInput;
 }>;
 
 
-export type UpdateAppDraftBannerImgsOrderMutation = { __typename?: 'Mutation', updateAppDraftBannerImgsOrder: { __typename?: 'DefaultMutationPayload', isCompleted: boolean } };
+export type UpdateAppDraftBannerImgsOrderMutation = { updateAppDraftBannerImgsOrder: { isCompleted: boolean } };
 
 export type UpdateAppDraftLogoImgMutationVariables = Exact<{
   input: UpdateAppDraftLogoImgInput;
 }>;
 
 
-export type UpdateAppDraftLogoImgMutation = { __typename?: 'Mutation', updateAppDraftLogoImg: string };
+export type UpdateAppDraftLogoImgMutation = { updateAppDraftLogoImg: string };
 
 export type UpdateAppDraftMutationVariables = Exact<{
   input: UpdateAppDraftInput;
 }>;
 
 
-export type UpdateAppDraftMutation = { __typename?: 'Mutation', updateAppDraft: { __typename?: 'AppDraft', _id: string, appId: string, name: string, shortDesc: string, jsonDesc?: any | null, htmlDesc?: string | null, logoImg?: string | null, videoUrl?: string | null, websiteUrl?: string | null, createdAt?: any | null, tags?: Array<{ __typename?: 'AppTag', _id: string, name: string } | null> | null, bannerImgs?: Array<{ __typename?: 'BannerImg', _id: string, order: number, image: { __typename?: 'BannerImageUrls', large: string, thumbnail: string } } | null> | null, ownedBy?: { __typename?: 'SimpleAccount', _id: string, firstName?: string | null, lastName?: string | null, image?: string | null } | null, status: { __typename?: 'AppDraftStatusObject', key: AppDraftStatus, label: string }, socialUrls?: { __typename?: 'SocialUrls', facebook?: string | null, instagram?: string | null, twitter?: string | null, linkedIn?: string | null, github?: string | null } | null } };
+export type UpdateAppDraftMutation = { updateAppDraft: { _id: string, appId: string, name: string, shortDesc: string, jsonDesc?: any | null, htmlDesc?: string | null, logoImg?: string | null, videoUrl?: string | null, websiteUrl?: string | null, createdAt?: any | null, tags?: Array<{ _id: string, name: string } | null> | null, bannerImgs?: Array<{ _id: string, order: number, image: { large: string, thumbnail: string } } | null> | null, ownedBy?: { _id: string, firstName: string, lastName: string, image?: string | null } | null, status: { key: AppDraftStatus, label: string }, socialUrls?: { facebook?: string | null, instagram?: string | null, twitter?: string | null, linkedIn?: string | null, github?: string | null } | null } };
 
 
 export const LoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Login"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LoginInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}]}]}}]} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;
@@ -915,13 +901,13 @@ export const SignupDocument = {"kind":"Document","definitions":[{"kind":"Operati
 export const VerifyAccountByCodeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"VerifyAccountByCode"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"VerifyAccountByCodeInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"verifyAccountByCode"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}]}]}}]} as unknown as DocumentNode<VerifyAccountByCodeMutation, VerifyAccountByCodeMutationVariables>;
 export const AddAppDraftBannerImgDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddAppDraftBannerImg"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AddAppDraftBannerImgInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addAppDraftBannerImg"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"order"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"large"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"}}]}}]}}]}}]} as unknown as DocumentNode<AddAppDraftBannerImgMutation, AddAppDraftBannerImgMutationVariables>;
 export const AddAppDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddApp"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AddAppInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addApp"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"shortDesc"}},{"kind":"Field","name":{"kind":"Name","value":"htmlDesc"}},{"kind":"Field","name":{"kind":"Name","value":"textDesc"}},{"kind":"Field","name":{"kind":"Name","value":"logoImg"}},{"kind":"Field","name":{"kind":"Name","value":"videoUrl"}},{"kind":"Field","name":{"kind":"Name","value":"bannerImgs"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"large"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"}}]}},{"kind":"Field","name":{"kind":"Name","value":"order"}}]}},{"kind":"Field","name":{"kind":"Name","value":"socialUrls"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"facebook"}},{"kind":"Field","name":{"kind":"Name","value":"instagram"}},{"kind":"Field","name":{"kind":"Name","value":"twitter"}},{"kind":"Field","name":{"kind":"Name","value":"linkedIn"}},{"kind":"Field","name":{"kind":"Name","value":"github"}}]}},{"kind":"Field","name":{"kind":"Name","value":"websiteUrl"}},{"kind":"Field","name":{"kind":"Name","value":"status"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"label"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}},{"kind":"Field","name":{"kind":"Name","value":"ownedBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"publishedAt"}},{"kind":"Field","name":{"kind":"Name","value":"upvotesCount"}},{"kind":"Field","name":{"kind":"Name","value":"commentsCount"}},{"kind":"Field","name":{"kind":"Name","value":"isUpvoted"}},{"kind":"Field","name":{"kind":"Name","value":"isFeatured"}}]}}]}}]} as unknown as DocumentNode<AddAppMutation, AddAppMutationVariables>;
-export const AddCommentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddComment"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AddCommentInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addComment"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}}]}}]}}]} as unknown as DocumentNode<AddCommentMutation, AddCommentMutationVariables>;
+export const AddCommentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddComment"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AddCommentInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addComment"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"refId"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}},{"kind":"Field","name":{"kind":"Name","value":"isParent"}},{"kind":"Field","name":{"kind":"Name","value":"htmlContent"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isPinned"}},{"kind":"Field","name":{"kind":"Name","value":"upvotesCount"}},{"kind":"Field","name":{"kind":"Name","value":"isUpvoted"}},{"kind":"Field","name":{"kind":"Name","value":"parentCommentId"}}]}}]}}]} as unknown as DocumentNode<AddCommentMutation, AddCommentMutationVariables>;
 export const AppDraftDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AppDraft"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"_id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"appDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"_id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"appId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"shortDesc"}},{"kind":"Field","name":{"kind":"Name","value":"jsonDesc"}},{"kind":"Field","name":{"kind":"Name","value":"htmlDesc"}},{"kind":"Field","name":{"kind":"Name","value":"logoImg"}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}},{"kind":"Field","name":{"kind":"Name","value":"videoUrl"}},{"kind":"Field","name":{"kind":"Name","value":"bannerImgs"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"large"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"}}]}},{"kind":"Field","name":{"kind":"Name","value":"order"}}]}},{"kind":"Field","name":{"kind":"Name","value":"ownedBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}},{"kind":"Field","name":{"kind":"Name","value":"websiteUrl"}},{"kind":"Field","name":{"kind":"Name","value":"status"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"label"}}]}},{"kind":"Field","name":{"kind":"Name","value":"socialUrls"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"facebook"}},{"kind":"Field","name":{"kind":"Name","value":"instagram"}},{"kind":"Field","name":{"kind":"Name","value":"twitter"}},{"kind":"Field","name":{"kind":"Name","value":"linkedIn"}},{"kind":"Field","name":{"kind":"Name","value":"github"}}]}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]} as unknown as DocumentNode<AppDraftQuery, AppDraftQueryVariables>;
 export const AppDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"App"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"slug"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"app"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"slug"},"value":{"kind":"Variable","name":{"kind":"Name","value":"slug"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"shortDesc"}},{"kind":"Field","name":{"kind":"Name","value":"htmlDesc"}},{"kind":"Field","name":{"kind":"Name","value":"textDesc"}},{"kind":"Field","name":{"kind":"Name","value":"logoImg"}},{"kind":"Field","name":{"kind":"Name","value":"videoUrl"}},{"kind":"Field","name":{"kind":"Name","value":"bannerImgs"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"large"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"}}]}},{"kind":"Field","name":{"kind":"Name","value":"order"}}]}},{"kind":"Field","name":{"kind":"Name","value":"socialUrls"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"facebook"}},{"kind":"Field","name":{"kind":"Name","value":"instagram"}},{"kind":"Field","name":{"kind":"Name","value":"twitter"}},{"kind":"Field","name":{"kind":"Name","value":"linkedIn"}},{"kind":"Field","name":{"kind":"Name","value":"github"}}]}},{"kind":"Field","name":{"kind":"Name","value":"websiteUrl"}},{"kind":"Field","name":{"kind":"Name","value":"status"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"label"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}},{"kind":"Field","name":{"kind":"Name","value":"ownedBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"publishedAt"}},{"kind":"Field","name":{"kind":"Name","value":"upvotesCount"}},{"kind":"Field","name":{"kind":"Name","value":"commentsCount"}},{"kind":"Field","name":{"kind":"Name","value":"isUpvoted"}},{"kind":"Field","name":{"kind":"Name","value":"isFeatured"}}]}}]}}]} as unknown as DocumentNode<AppQuery, AppQueryVariables>;
 export const AppTagDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AppTag"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"slug"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"appTag"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"slug"},"value":{"kind":"Variable","name":{"kind":"Name","value":"slug"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"appsCount"}},{"kind":"Field","name":{"kind":"Name","value":"imgUrl"}}]}}]}}]} as unknown as DocumentNode<AppTagQuery, AppTagQueryVariables>;
 export const AppTagsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AppTags"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"searchString"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"appTags"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"searchString"},"value":{"kind":"Variable","name":{"kind":"Name","value":"searchString"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"appsCount"}},{"kind":"Field","name":{"kind":"Name","value":"imgUrl"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}}]} as unknown as DocumentNode<AppTagsQuery, AppTagsQueryVariables>;
 export const AppsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Apps"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"page"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pageSize"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"tagSlug"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"searchString"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"publishedFromDate"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"DateTime"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"publishedToDate"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"DateTime"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"otherFilters"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AppsOtherFilter"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sortBy"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"AppsSortBy"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"apps"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"Variable","name":{"kind":"Name","value":"page"}}},{"kind":"Argument","name":{"kind":"Name","value":"pageSize"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pageSize"}}},{"kind":"Argument","name":{"kind":"Name","value":"searchString"},"value":{"kind":"Variable","name":{"kind":"Name","value":"searchString"}}},{"kind":"Argument","name":{"kind":"Name","value":"tagSlug"},"value":{"kind":"Variable","name":{"kind":"Name","value":"tagSlug"}}},{"kind":"Argument","name":{"kind":"Name","value":"publishedFromDate"},"value":{"kind":"Variable","name":{"kind":"Name","value":"publishedFromDate"}}},{"kind":"Argument","name":{"kind":"Name","value":"publishedToDate"},"value":{"kind":"Variable","name":{"kind":"Name","value":"publishedToDate"}}},{"kind":"Argument","name":{"kind":"Name","value":"otherFilters"},"value":{"kind":"Variable","name":{"kind":"Name","value":"otherFilters"}}},{"kind":"Argument","name":{"kind":"Name","value":"sortBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sortBy"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"shortDesc"}},{"kind":"Field","name":{"kind":"Name","value":"logoImg"}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}},{"kind":"Field","name":{"kind":"Name","value":"websiteUrl"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"upvotesCount"}},{"kind":"Field","name":{"kind":"Name","value":"commentsCount"}},{"kind":"Field","name":{"kind":"Name","value":"isUpvoted"}},{"kind":"Field","name":{"kind":"Name","value":"isFeatured"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}}]} as unknown as DocumentNode<AppsQuery, AppsQueryVariables>;
-export const CommentsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"comments"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"refId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pageSize"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"page"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"type"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CommentType"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"comments"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"refId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"refId"}}},{"kind":"Argument","name":{"kind":"Name","value":"type"},"value":{"kind":"Variable","name":{"kind":"Name","value":"type"}}},{"kind":"Argument","name":{"kind":"Name","value":"pageSize"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pageSize"}}},{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"Variable","name":{"kind":"Name","value":"page"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}},{"kind":"Field","name":{"kind":"Name","value":"isParent"}},{"kind":"Field","name":{"kind":"Name","value":"htmlContent"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isPinned"}},{"kind":"Field","name":{"kind":"Name","value":"status"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"label"}}]}},{"kind":"Field","name":{"kind":"Name","value":"upvotesCount"}},{"kind":"Field","name":{"kind":"Name","value":"isUpvoted"}},{"kind":"Field","name":{"kind":"Name","value":"comments"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}},{"kind":"Field","name":{"kind":"Name","value":"htmlContent"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"label"}}]}},{"kind":"Field","name":{"kind":"Name","value":"upvotesCount"}},{"kind":"Field","name":{"kind":"Name","value":"isUpvoted"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}}]} as unknown as DocumentNode<CommentsQuery, CommentsQueryVariables>;
+export const CommentsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"comments"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"refId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"type"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CommentType"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lastId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pageSize"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"childCommentsPageSize"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"isPinned"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"parentCommentId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"comments"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"refId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"refId"}}},{"kind":"Argument","name":{"kind":"Name","value":"type"},"value":{"kind":"Variable","name":{"kind":"Name","value":"type"}}},{"kind":"Argument","name":{"kind":"Name","value":"lastId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lastId"}}},{"kind":"Argument","name":{"kind":"Name","value":"pageSize"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pageSize"}}},{"kind":"Argument","name":{"kind":"Name","value":"childCommentsPageSize"},"value":{"kind":"Variable","name":{"kind":"Name","value":"childCommentsPageSize"}}},{"kind":"Argument","name":{"kind":"Name","value":"isPinned"},"value":{"kind":"Variable","name":{"kind":"Name","value":"isPinned"}}},{"kind":"Argument","name":{"kind":"Name","value":"parentCommentId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"parentCommentId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"refId"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}},{"kind":"Field","name":{"kind":"Name","value":"isParent"}},{"kind":"Field","name":{"kind":"Name","value":"parentCommentId"}},{"kind":"Field","name":{"kind":"Name","value":"htmlContent"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isPinned"}},{"kind":"Field","name":{"kind":"Name","value":"upvotesCount"}},{"kind":"Field","name":{"kind":"Name","value":"isUpvoted"}},{"kind":"Field","name":{"kind":"Name","value":"comments"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"refId"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}},{"kind":"Field","name":{"kind":"Name","value":"isParent"}},{"kind":"Field","name":{"kind":"Name","value":"htmlContent"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isPinned"}},{"kind":"Field","name":{"kind":"Name","value":"parentCommentId"}},{"kind":"Field","name":{"kind":"Name","value":"upvotesCount"}},{"kind":"Field","name":{"kind":"Name","value":"isUpvoted"}}]}},{"kind":"Field","name":{"kind":"Name","value":"hasMore"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"hasMore"}}]}}]}}]} as unknown as DocumentNode<CommentsQuery, CommentsQueryVariables>;
 export const CreateAppDraftFromPublishedAppDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateAppDraftFromPublishedApp"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateAppDraftFromPublishedAppInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createAppDraftFromPublishedApp"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}}]}}]}}]} as unknown as DocumentNode<CreateAppDraftFromPublishedAppMutation, CreateAppDraftFromPublishedAppMutationVariables>;
 export const DeleteAppDraftBannerImgDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteAppDraftBannerImg"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"DeleteAppDraftBannerImgInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteAppDraftBannerImg"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"isCompleted"}}]}}]}}]} as unknown as DocumentNode<DeleteAppDraftBannerImgMutation, DeleteAppDraftBannerImgMutationVariables>;
 export const DeleteAppDraftDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteAppDraft"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"DeleteAppDraftInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteAppDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"isCompleted"}}]}}]}}]} as unknown as DocumentNode<DeleteAppDraftMutation, DeleteAppDraftMutationVariables>;

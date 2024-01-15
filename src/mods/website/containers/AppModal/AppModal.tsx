@@ -34,6 +34,7 @@ function AppModal({ app }: AppModalProps) {
     videoUrl,
     bannerImgs: iBannerImgs,
     tags: iTags,
+    ownedBy: iOwnedBy,
   } = app;
 
   const tags = iTags.map((t) => ({
@@ -43,6 +44,13 @@ function AppModal({ app }: AppModalProps) {
   const bannerImgs = iBannerImgs.map((b) => ({
     _id: b._id, image: { large: b.image.large, thumbnail: b.image.thumbnail }, order: b.order,
   }));
+
+  const ownedBy = {
+    _id: iOwnedBy._id,
+    firstName: iOwnedBy.firstName,
+    lastName: iOwnedBy.lastName,
+    image: iOwnedBy.image,
+  };
 
   return (
     <Modal opened={opened} onClose={handleCloseAppModal} size={1132}>
@@ -64,6 +72,7 @@ function AppModal({ app }: AppModalProps) {
           websiteUrl={websiteUrl}
           isPreview={false}
           videoUrl={videoUrl}
+          ownedBy={ownedBy}
         />
       </Box>
     </Modal>

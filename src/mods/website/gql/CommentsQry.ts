@@ -1,10 +1,27 @@
 import { gql } from '../../../__generated__/gql';
 
 export default gql(`
-  query comments($refId: ID!, $pageSize: Int, $page: Int, $type: CommentType!) {
-    comments(refId: $refId, type: $type, pageSize: $pageSize, page: $page) {
+  query comments(
+    $refId: ID!
+    $type: CommentType!
+    $lastId: ID
+    $pageSize: Int
+    $childCommentsPageSize: Int
+    $isPinned: Boolean!
+    $parentCommentId: ID
+  ) {
+    comments(
+      refId: $refId
+      type: $type
+      lastId: $lastId
+      pageSize: $pageSize
+      childCommentsPageSize: $childCommentsPageSize
+      isPinned: $isPinned
+      parentCommentId: $parentCommentId
+    ) {
       nodes {
         _id
+        refId
         createdBy {
           _id
           firstName
@@ -12,37 +29,34 @@ export default gql(`
           image
         }
         isParent
+        parentCommentId
         htmlContent
         createdAt
         isPinned
-        status {
-          key
-          label
-        }
         upvotesCount
         isUpvoted
         comments {
           nodes {
             _id
+            refId
             createdBy {
               _id
               firstName
               lastName
               image
             }
+            isParent
             htmlContent
             createdAt
-            status {
-              key
-              label
-            }
+            isPinned
+            parentCommentId
             upvotesCount
             isUpvoted
           }
-          totalCount
+          hasMore
         }
       }
-      totalCount
+      hasMore
     }
   }
 `);

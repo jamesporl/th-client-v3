@@ -41,7 +41,7 @@ function UpvoteComment({ comment }: UpvoteCommentProps) {
 
   return (
     <Button
-      size="xs"
+      size="compact-xs"
       radius="xl"
       leftSection={<IconArrowBigUp size={14} />}
       variant={isUpvoted ? 'filled' : 'default'}

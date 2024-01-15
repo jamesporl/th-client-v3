@@ -55,6 +55,12 @@ type AppDetailsProps = {
   upvotesCount?: number;
   isUpvoted?: boolean;
   isPreview?: boolean;
+  ownedBy: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    image: string;
+  };
 };
 
 function AppDetails({
@@ -72,6 +78,7 @@ function AppDetails({
   isUpvoted = true,
   upvotesCount = 101,
   isPreview = true,
+  ownedBy,
 }: AppDetailsProps) {
   const authCtx = useContext(AuthContext);
   const uiCtx = useContext(UIContext);
@@ -140,7 +147,7 @@ function AppDetails({
     commentsList = (
       <Box mt={32}>
         <Text fz={22} fw={600}>Share Your Feedback</Text>
-        <Comments refId={_id} type={CommentType.App} />
+        <Comments refId={_id} type={CommentType.App} ownerId={ownedBy._id} />
       </Box>
     );
   }
