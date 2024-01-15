@@ -33,7 +33,8 @@ function CommentInput({ placeholder, onSubmitComment, onRefetchComments }: Comme
     setIsSubmitting(true);
     await onSubmitComment(comment);
     onRefetchComments();
-    editorRef.current.resetEditor();
+    // When replying to a comment, the editor might dismount first so editorRef might be null
+    editorRef.current?.resetEditor();
     setIsSubmitting(false);
   }, [comment, onSubmitComment, editorRef]);
 

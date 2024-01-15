@@ -25,6 +25,7 @@ function App({ app }: AppProps) {
     upvotesCount,
     isUpvoted,
     videoUrl,
+    ownedBy: iOwnedBy,
   } = app;
 
   const tags = iTags.map((t) => ({
@@ -41,6 +42,13 @@ function App({ app }: AppProps) {
     twitter: iSocialUrls?.twitter || '',
     linkedIn: iSocialUrls?.linkedIn || '',
     github: iSocialUrls?.github || '',
+  };
+
+  const ownedBy = {
+    _id: iOwnedBy._id,
+    firstName: iOwnedBy.firstName,
+    lastName: iOwnedBy.lastName,
+    image: iOwnedBy.image,
   };
 
   // TODO: The link to current page should be a link not an a but next js seems to have a bug
@@ -77,6 +85,7 @@ function App({ app }: AppProps) {
           upvotesCount={upvotesCount}
           isUpvoted={isUpvoted}
           videoUrl={videoUrl}
+          ownedBy={ownedBy}
           isPreview={false}
         />
       </Box>

@@ -77,6 +77,7 @@ function Submission({ appId, onSubmitToServer }: SubmissionProps) {
     bannerImgs: iBannerImgs,
     socialUrls: iSocialUrls,
     videoUrl,
+    ownedBy: iOwnedBy,
   } = appDraft;
 
   const tags = iTags.map((t) => ({
@@ -93,6 +94,13 @@ function Submission({ appId, onSubmitToServer }: SubmissionProps) {
     twitter: iSocialUrls?.twitter || '',
     linkedIn: iSocialUrls?.linkedIn || '',
     github: iSocialUrls?.github || '',
+  };
+
+  const ownedBy = {
+    _id: iOwnedBy._id,
+    firstName: iOwnedBy.firstName,
+    lastName: iOwnedBy.lastName,
+    image: iOwnedBy.image,
   };
 
   let errorAlert = null;
@@ -151,6 +159,7 @@ function Submission({ appId, onSubmitToServer }: SubmissionProps) {
           bannerImgs={bannerImgs}
           socialUrls={socialUrls}
           videoUrl={videoUrl}
+          ownedBy={ownedBy}
         />
       </Box>
     </>
