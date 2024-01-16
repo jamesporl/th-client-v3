@@ -1,5 +1,5 @@
 import React from 'react';
-import Login from '../../../mods/auth/containers/Login/Login';
+import Login from '../../../../mods/auth/containers/Login/Login';
 
 export const metadata = {
   title: 'Login',
