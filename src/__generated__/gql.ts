@@ -14,6 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n  mutation Login($input: LoginInput!) {\n    login(input: $input)\n  }\n": types.LoginDocument,
+    "\n  mutation LoginWithGoogle($input: LoginWithGoogleInput!) {\n    loginWithGoogle(input: $input)\n  }\n": types.LoginWithGoogleDocument,
     "\n  query MyProfile {\n    myProfile {\n      _id\n      firstName\n      lastName\n      email\n      shortDesc\n      image\n      isAdmin\n    }\n  }\n": types.MyProfileDocument,
     "\n  mutation ResetPasswordByToken($input: ResetPasswordByTokenInput!) {\n    resetPasswordByToken(input: $input) {\n      isCompleted\n    }\n  }\n": types.ResetPasswordByTokenDocument,
     "\n  mutation SendPasswordResetLink($input: SendPasswordResetLinkInput!) {\n    sendPasswordResetLink(input: $input) {\n      isCompleted\n    }\n  }\n": types.SendPasswordResetLinkDocument,
@@ -63,6 +64,10 @@ export function gql(source: string): unknown;
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  mutation Login($input: LoginInput!) {\n    login(input: $input)\n  }\n"): (typeof documents)["\n  mutation Login($input: LoginInput!) {\n    login(input: $input)\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation LoginWithGoogle($input: LoginWithGoogleInput!) {\n    loginWithGoogle(input: $input)\n  }\n"): (typeof documents)["\n  mutation LoginWithGoogle($input: LoginWithGoogleInput!) {\n    loginWithGoogle(input: $input)\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

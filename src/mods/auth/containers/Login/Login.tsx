@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import Script from 'next/script';
 import {
   Alert, Button, Flex, PasswordInput, Text, TextInput,
 } from '@mantine/core';
@@ -15,18 +16,58 @@ import getErrorMessage from '../../../../lib/utils/getErrorMessage';
 import AuthContext from '../../../../lib/mobx/Auth';
 import useRedirectFromLogin from '../../../../lib/hooks/useRedirectFromLogin';
 import MyProfileQry from '../../gql/MyProfileQry';
+import LoginWithGoogleMtn from '../../gql/LoginWithGoogleMtn';
 
 function Login() {
   const authCtx = useContext(AuthContext);
 
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [googleScriptLoaded, setGoogleScriptLoaded] = useState(false);
 
   const apolloClient = useApolloClient();
 
   const redirectFromLogin = useRedirectFromLogin();
 
   const [login] = useMutation(LoginMtn);
+  const [loginWithGoogle] = useMutation(LoginWithGoogleMtn);
+
+  const handleGoogleLoginResponse = async (resp: { credential: string }) => {
+    setIsLoading(true);
+    try {
+      const { data } = await loginWithGoogle(
+        { variables: { input: { credential: resp.credential } } },
+      );
+      const authToken = data.loginWithGoogle;
+      setErrorMessage('');
+      authCtx.login(authToken);
+      const profileRes = await apolloClient.query({
+        query: MyProfileQry,
+        fetchPolicy: 'network-only',
+      });
+      const { myProfile } = profileRes.data;
+      authCtx.setMyProfile(myProfile);
+      redirectFromLogin({ myProfile });
+    } catch (error) {
+      const message = getErrorMessage(error);
+      setErrorMessage(message);
+    }
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    if (googleScriptLoaded) {
+      window.google.accounts.id.initialize({
+        client_id: process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID,
+        callback: handleGoogleLoginResponse,
+      });
+      window.google.accounts.id.renderButton(
+        document.getElementById('google-button-container'),
+        { theme: 'outline', size: 'large', width: 336 }, // customization attributes
+      );
+      window.google.accounts.id.prompt();
+    }
+  }, [googleScriptLoaded]);
 
   const form = useForm({
     initialValues: { email: '', password: '' },
@@ -96,6 +137,10 @@ function Login() {
 
   return (
     <AuthPageContainer>
+      <Script
+        src="https://accounts.google.com/gsi/client"
+        onLoad={() => setGoogleScriptLoaded(true)}
+      />
       {errorMessageAlert}
       <form onSubmit={form.onSubmit(handleSubmitForm)}>
         <TextInput
@@ -113,6 +158,9 @@ function Login() {
         <Button fullWidth mt="xl" size="md" color="blue" type="submit" loading={isLoading}>
           Log in
         </Button>
+        <Flex mt={8} justify="center">
+          <div id="google-button-container" />
+        </Flex>
       </form>
       <Flex mt={24} justify="center">
         <Text fz={14} c="dimmed">
