@@ -24,7 +24,7 @@ function NewAppForm({ context, id }: ContextModalProps) {
       },
       shortDesc: (value: string) => {
         if (!value) {
-          return 'Short description is required';
+          return 'Tagline is required';
         }
         return null;
       },
@@ -52,7 +52,7 @@ function NewAppForm({ context, id }: ContextModalProps) {
           {...form.getInputProps('name')}
         />
         <TextInput
-          label="Short Description / Slogan"
+          label="Tagline"
           mt="md"
           size="md"
           {...form.getInputProps('shortDesc')}
