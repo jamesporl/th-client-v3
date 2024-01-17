@@ -1,8 +1,8 @@
 import { gql } from '../../../__generated__/gql';
 
 export default gql(`
-  query MyProfile {
-    myProfile {
+  mutation UpdatePersonalInfo($input: UpdatePersonalInfoInput!) {
+    updatePersonalInfo(input: $input) {
       _id
       firstName
       lastName

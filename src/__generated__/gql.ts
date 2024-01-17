@@ -15,7 +15,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 const documents = {
     "\n  mutation Login($input: LoginInput!) {\n    login(input: $input)\n  }\n": types.LoginDocument,
     "\n  mutation LoginWithGoogle($input: LoginWithGoogleInput!) {\n    loginWithGoogle(input: $input)\n  }\n": types.LoginWithGoogleDocument,
-    "\n  query MyProfile {\n    myProfile {\n      _id\n      firstName\n      lastName\n      email\n      shortDesc\n      image\n      isAdmin\n    }\n  }\n": types.MyProfileDocument,
+    "\n  query MyProfile {\n    myProfile {\n      _id\n      firstName\n      lastName\n      email\n      shortDesc\n      image\n      isAdmin\n      bio\n      websiteUrl\n      location\n      socialUrls {\n        facebook\n        instagram\n        twitter\n        linkedIn\n        github\n      }\n    }\n  }\n": types.MyProfileDocument,
     "\n  mutation ResetPasswordByToken($input: ResetPasswordByTokenInput!) {\n    resetPasswordByToken(input: $input) {\n      isCompleted\n    }\n  }\n": types.ResetPasswordByTokenDocument,
     "\n  mutation SendPasswordResetLink($input: SendPasswordResetLinkInput!) {\n    sendPasswordResetLink(input: $input) {\n      isCompleted\n    }\n  }\n": types.SendPasswordResetLinkDocument,
     "\n  mutation SendVerificationCode($input: SendVerificationCodeInput!) {\n    sendVerificationCode(input: $input) {\n      isCompleted\n    }\n  }\n": types.SendVerificationCodeDocument,
@@ -44,6 +44,8 @@ const documents = {
     "\n  mutation UpdateAppDraftBannerImgsOrder($input: UpdateAppDraftBannerImgsOrderInput!) {\n    updateAppDraftBannerImgsOrder(input: $input) {\n      isCompleted\n    }\n  }\n": types.UpdateAppDraftBannerImgsOrderDocument,
     "\n  mutation UpdateAppDraftLogoImg($input: UpdateAppDraftLogoImgInput!) {\n    updateAppDraftLogoImg(input: $input)\n  }\n": types.UpdateAppDraftLogoImgDocument,
     "\n  mutation UpdateAppDraft($input: UpdateAppDraftInput!) {\n    updateAppDraft(input: $input) {\n      _id\n      appId\n      name\n      shortDesc\n      jsonDesc\n      htmlDesc\n      logoImg\n      tags {\n        _id\n        name\n      }\n      videoUrl\n      bannerImgs {\n        _id\n        image {\n          large\n          thumbnail\n        }\n        order\n      }\n      ownedBy {\n        _id\n        firstName\n        lastName\n        image\n      }\n      websiteUrl\n      status {\n        key\n        label\n      }\n      socialUrls {\n        facebook\n        instagram\n        twitter\n        linkedIn\n        github\n      }\n      createdAt\n    }\n  }\n": types.UpdateAppDraftDocument,
+    "\n  mutation UpdatePersonalInfo($input: UpdatePersonalInfoInput!) {\n    updatePersonalInfo(input: $input) {\n      _id\n      firstName\n      lastName\n      email\n      shortDesc\n      image\n      isAdmin\n      bio\n      websiteUrl\n      location\n      socialUrls {\n        facebook\n        instagram\n        twitter\n        linkedIn\n        github\n      }\n    }\n  }\n": types.UpdatePersonalInfoDocument,
+    "\n  mutation UpdateProfilePhoto($input: UpdateProfilePhotoInput!) {\n    updateProfilePhoto(input: $input) {\n      isCompleted\n    }\n  }\n": types.UpdateProfilePhotoDocument,
 };
 
 /**
@@ -71,7 +73,7 @@ export function gql(source: "\n  mutation LoginWithGoogle($input: LoginWithGoogl
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  query MyProfile {\n    myProfile {\n      _id\n      firstName\n      lastName\n      email\n      shortDesc\n      image\n      isAdmin\n    }\n  }\n"): (typeof documents)["\n  query MyProfile {\n    myProfile {\n      _id\n      firstName\n      lastName\n      email\n      shortDesc\n      image\n      isAdmin\n    }\n  }\n"];
+export function gql(source: "\n  query MyProfile {\n    myProfile {\n      _id\n      firstName\n      lastName\n      email\n      shortDesc\n      image\n      isAdmin\n      bio\n      websiteUrl\n      location\n      socialUrls {\n        facebook\n        instagram\n        twitter\n        linkedIn\n        github\n      }\n    }\n  }\n"): (typeof documents)["\n  query MyProfile {\n    myProfile {\n      _id\n      firstName\n      lastName\n      email\n      shortDesc\n      image\n      isAdmin\n      bio\n      websiteUrl\n      location\n      socialUrls {\n        facebook\n        instagram\n        twitter\n        linkedIn\n        github\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -184,6 +186,14 @@ export function gql(source: "\n  mutation UpdateAppDraftLogoImg($input: UpdateAp
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  mutation UpdateAppDraft($input: UpdateAppDraftInput!) {\n    updateAppDraft(input: $input) {\n      _id\n      appId\n      name\n      shortDesc\n      jsonDesc\n      htmlDesc\n      logoImg\n      tags {\n        _id\n        name\n      }\n      videoUrl\n      bannerImgs {\n        _id\n        image {\n          large\n          thumbnail\n        }\n        order\n      }\n      ownedBy {\n        _id\n        firstName\n        lastName\n        image\n      }\n      websiteUrl\n      status {\n        key\n        label\n      }\n      socialUrls {\n        facebook\n        instagram\n        twitter\n        linkedIn\n        github\n      }\n      createdAt\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateAppDraft($input: UpdateAppDraftInput!) {\n    updateAppDraft(input: $input) {\n      _id\n      appId\n      name\n      shortDesc\n      jsonDesc\n      htmlDesc\n      logoImg\n      tags {\n        _id\n        name\n      }\n      videoUrl\n      bannerImgs {\n        _id\n        image {\n          large\n          thumbnail\n        }\n        order\n      }\n      ownedBy {\n        _id\n        firstName\n        lastName\n        image\n      }\n      websiteUrl\n      status {\n        key\n        label\n      }\n      socialUrls {\n        facebook\n        instagram\n        twitter\n        linkedIn\n        github\n      }\n      createdAt\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation UpdatePersonalInfo($input: UpdatePersonalInfoInput!) {\n    updatePersonalInfo(input: $input) {\n      _id\n      firstName\n      lastName\n      email\n      shortDesc\n      image\n      isAdmin\n      bio\n      websiteUrl\n      location\n      socialUrls {\n        facebook\n        instagram\n        twitter\n        linkedIn\n        github\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation UpdatePersonalInfo($input: UpdatePersonalInfoInput!) {\n    updatePersonalInfo(input: $input) {\n      _id\n      firstName\n      lastName\n      email\n      shortDesc\n      image\n      isAdmin\n      bio\n      websiteUrl\n      location\n      socialUrls {\n        facebook\n        instagram\n        twitter\n        linkedIn\n        github\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation UpdateProfilePhoto($input: UpdateProfilePhotoInput!) {\n    updateProfilePhoto(input: $input) {\n      isCompleted\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateProfilePhoto($input: UpdateProfilePhotoInput!) {\n    updateProfilePhoto(input: $input) {\n      isCompleted\n    }\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

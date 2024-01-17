@@ -48,7 +48,7 @@ function MainDetails({
       },
       shortDesc: (value: string) => {
         if (!value) {
-          return 'Short description or slogan is required';
+          return 'Tagline is required';
         }
         return null;
       },
@@ -82,7 +82,7 @@ function MainDetails({
             onBlur={(ev: React.ChangeEvent<HTMLInputElement>) => handleBlurField(ev, 'name')}
           />
           <TextInput
-            label="Short Description / Slogan"
+            label="Tagline"
             size="md"
             mt="md"
             {...form.getInputProps('shortDesc')}
