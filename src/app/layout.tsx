@@ -19,9 +19,22 @@ dayjs.extend(timezone);
 dayjs.extend(relativeTime);
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_TH_CLIENT_BASE_URL),
   title: {
     template: '%s - TechHustlers PH',
     default: 'TechHustlers PH - Local Tech Products in One Place',
+  },
+  openGraph: {
+    title: 'TechHustlers PH - Local Tech Products in One Place',
+    type: 'website',
+    url: process.env.NEXT_PUBLIC_TH_CLIENT_BASE_URL,
+    images: [`${process.env.NEXT_PUBLIC_TH_CLIENT_BASE_URL}/techhustlers-logo-banner.png`],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'TechHustlers PH',
+    description: 'Local Tech Products in One Place',
+    images: [`${process.env.NEXT_PUBLIC_TH_CLIENT_BASE_URL}/techhustlers-logo-banner.png`],
   },
 };
 

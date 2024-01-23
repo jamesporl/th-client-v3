@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useSearchParams } from 'next/navigation';
 import {
   Alert, Button, Flex, PasswordInput,
 } from '@mantine/core';
@@ -13,16 +12,16 @@ import { notifications } from '@mantine/notifications';
 import AuthPageContainer from '../../components/AuthPageLayout/AuthPageLayout';
 import ResetPasswordByTokenMtn from '../../gql/ResetPasswordByTokenMtn';
 
-function ResetPassword() {
+type ResetPasswordProps = {
+  email: string;
+  token: string;
+};
+
+function ResetPassword({ email, token }: ResetPasswordProps) {
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const [resetPasswordByToken] = useMutation(ResetPasswordByTokenMtn);
-
-  const params = useSearchParams();
-
-  const email = params.get('email');
-  const token = params.get('token');
 
   const form = useForm({
     initialValues: { password: '' },

@@ -9,9 +9,9 @@ import {
 } from '@mantine/core';
 import set from 'lodash/set';
 import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react';
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { Descendant } from 'slate';
-import { AppDraftQuery, AppTagsQuery } from '../../../../__generated__/graphql';
+import { AppTagsQuery } from '../../../../__generated__/graphql';
 import WebsiteMaxWidthWrapper from '../../components/WebsiteMaxWidthWrapper/WebsiteMaxWidthWrapper';
 import MainDetails from './components/MainDetails';
 import UpdateAppDraftMtn from '../../gql/UpdateAppDraftMtn';
@@ -19,57 +19,62 @@ import { LocalAppDraft } from './_types';
 import Assets from './components/Assets/Assets';
 import Editor from '../../../components/Editor/DynamicEditor';
 import Submission from './components/Submission/Submission';
+import AppDraftQry from '../../gql/AppDraftQry';
 
 type EditAppProps = {
-  appDraft: AppDraftQuery['appDraft'];
+  appId: string;
   tags: AppTagsQuery['appTags']['nodes']
 };
 
-function EditApp({ appDraft, tags }: EditAppProps) {
+function EditApp({ tags, appId }: EditAppProps) {
   const editorRef = useRef(null);
 
   const [descIsTouched, setDescIsTouched] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
 
   const [updateAppDraft] = useMutation(UpdateAppDraftMtn);
+  const { data: appDraftData } = useQuery(AppDraftQry, { variables: { _id: appId } });
 
   const [localAppDraft, setLocalAppDraft] = useState<LocalAppDraft>();
 
-  const sessionStorageDraftKey = useMemo(() => `appDraft_${appDraft.appId}`, [appDraft.appId]);
+  const sessionStorageDraftKey = useMemo(() => `appDraft_${appId}`, [appId]);
 
   useEffect(() => {
-    const lValues = JSON.parse(sessionStorage.getItem(sessionStorageDraftKey) || '{}') as LocalAppDraft;
-    let initialValues = { ...appDraft };
-    if (lValues?._id === appDraft._id) {
-      initialValues = {
-        ...appDraft,
-        ...lValues,
-        logoImg: appDraft.logoImg,
-        bannerImgs: appDraft.bannerImgs,
-      };
-    }
-    setLocalAppDraft({
-      _id: initialValues._id,
-      appId: initialValues.appId,
-      name: initialValues.name || '',
-      shortDesc: initialValues.shortDesc || '',
-      websiteUrl: initialValues.websiteUrl || '',
-      socialUrls: {
-        facebook: initialValues.socialUrls?.facebook || '',
-        instagram: initialValues.socialUrls?.instagram || '',
-        twitter: initialValues.socialUrls?.twitter || '',
-        linkedIn: initialValues.socialUrls?.linkedIn || '',
-        github: initialValues.socialUrls?.github || '',
-      },
-      jsonDesc: initialValues.jsonDesc,
-      tags: initialValues.tags || [],
-      videoUrl: initialValues.videoUrl || '',
-      logoImg: initialValues.logoImg || '',
-      bannerImgs: initialValues.bannerImgs || [],
-    });
+    if (appDraftData) {
+      const { appDraft } = appDraftData;
+      const lValues = JSON.parse(sessionStorage.getItem(sessionStorageDraftKey) || '{}') as LocalAppDraft;
+      let initialValues = { ...appDraft };
+      if (lValues?._id === appDraft._id) {
+        initialValues = {
+          ...appDraft,
+          ...lValues,
+          logoImg: appDraft.logoImg,
+          bannerImgs: appDraft.bannerImgs,
+        };
+      }
+      setLocalAppDraft({
+        _id: initialValues._id,
+        appId: initialValues.appId,
+        name: initialValues.name || '',
+        shortDesc: initialValues.shortDesc || '',
+        websiteUrl: initialValues.websiteUrl || '',
+        socialUrls: {
+          facebook: initialValues.socialUrls?.facebook || '',
+          instagram: initialValues.socialUrls?.instagram || '',
+          twitter: initialValues.socialUrls?.twitter || '',
+          linkedIn: initialValues.socialUrls?.linkedIn || '',
+          github: initialValues.socialUrls?.github || '',
+        },
+        jsonDesc: initialValues.jsonDesc,
+        tags: initialValues.tags || [],
+        videoUrl: initialValues.videoUrl || '',
+        logoImg: initialValues.logoImg || '',
+        bannerImgs: initialValues.bannerImgs || [],
+      });
 
-    sessionStorage.setItem(sessionStorageDraftKey, JSON.stringify(initialValues));
-  }, []);
+      sessionStorage.setItem(sessionStorageDraftKey, JSON.stringify(initialValues));
+    }
+  }, [appDraftData]);
 
   const handleSubmitToServer = useCallback(async () => {
     const savedValues = JSON.parse(sessionStorage.getItem(sessionStorageDraftKey)) as LocalAppDraft;
@@ -86,7 +91,7 @@ function EditApp({ appDraft, tags }: EditAppProps) {
     const tagIds = (inputTags || []).map((tag) => tag._id);
 
     const input = {
-      appId: appDraft.appId,
+      appId,
       name,
       shortDesc,
       jsonDesc,
@@ -162,7 +167,7 @@ function EditApp({ appDraft, tags }: EditAppProps) {
     assets = (
       <Box mt={32}>
         <Assets
-          appId={appDraft.appId}
+          appId={appId}
           localAppDraft={localAppDraft}
           onChangeFields={handleChangeFields}
           onSubmitToServer={handleSubmitToServer}
@@ -181,7 +186,7 @@ function EditApp({ appDraft, tags }: EditAppProps) {
     );
     submissionComp = (
       <Box mt={32}>
-        <Submission appId={appDraft.appId} onSubmitToServer={handleSubmitToServer} />
+        <Submission appId={appId} onSubmitToServer={handleSubmitToServer} />
       </Box>
     );
   }

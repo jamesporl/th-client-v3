@@ -14,6 +14,11 @@ async function ServerCategoryApps({ params }: { params: { slug: string } }) {
       page: 1,
       sortBy: AppsSortBy.Name,
     },
+    context: {
+      fetchOptions: {
+        next: { revalidate: 3000 },
+      },
+    },
   });
 
   const { data: fData } = await getClient().query({
@@ -21,6 +26,11 @@ async function ServerCategoryApps({ params }: { params: { slug: string } }) {
     variables: {
       tagSlug: params.slug,
       otherFilters: [AppsOtherFilter.IsFeatured],
+    },
+    context: {
+      fetchOptions: {
+        next: { revalidate: 3000 },
+      },
     },
   });
 

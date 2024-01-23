@@ -15,6 +15,11 @@ export async function generateMetadata(
   const { data } = await getClient().query({
     query: AppQry,
     variables: { slug },
+    context: {
+      fetchOptions: {
+        next: { revalidate: 3000 },
+      },
+    },
   });
 
   const {
@@ -42,6 +47,11 @@ export default async function AppPage({ params }: { params: { slug: string } }) 
   const { data } = await getClient().query({
     query: AppQry,
     variables: { slug: params.slug },
+    context: {
+      fetchOptions: {
+        next: { revalidate: 3000 },
+      },
+    },
   });
 
   return <App app={data.app} />;

@@ -11,6 +11,11 @@ async function HomeAppPage({ params }: HomeAppPageProps) {
   const { data } = await getClient().query({
     query: AppQry,
     variables: { slug: params.slug },
+    context: {
+      fetchOptions: {
+        next: { revalidate: 3000 },
+      },
+    },
   });
 
   return <AppModal app={data.app} />;

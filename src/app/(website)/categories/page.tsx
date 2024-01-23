@@ -17,6 +17,11 @@ export const metadata: Metadata = {
 export default async function CategoriesPage() {
   const { data } = await getClient().query({
     query: AppTagsQry,
+    context: {
+      fetchOptions: {
+        next: { revalidate: 3000 },
+      },
+    },
   });
 
   return <Categories tags={data.appTags.nodes} />;

@@ -11,7 +11,6 @@ import Toolbar from '../Toolbar/Toolbar';
 import {
   DEFAULT_EDITOR_VALUE, HOTKEYS_MAP, HOTKEYS_MAP_KEYS, toggleMark,
 } from '../_utils';
-import withCustomPlugins from '../withCustomPlugins';
 import { EditorWithRefProps } from '../_types';
 import classes from './Editor.module.css';
 import Element from '../Element';
@@ -37,7 +36,7 @@ function Editor(props: EditorWithRefProps) {
     [],
   );
 
-  const editor = useMemo(() => withCustomPlugins(withHistory(withReact(createEditor()))), []);
+  const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 
   const handleKeyPress = (event: KeyboardEvent<HTMLDivElement>) => {
     /* eslint-disable-next-line no-restricted-syntax */

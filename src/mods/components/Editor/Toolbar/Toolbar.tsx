@@ -1,4 +1,5 @@
 import React, { MouseEvent } from 'react';
+import { Element as SlateElement } from 'slate';
 import { useSlate } from 'slate-react';
 import {
   IconBold, IconCode, IconItalic, IconList, IconListNumbers, IconUnderline,
@@ -9,6 +10,11 @@ import {
 } from '../_utils';
 import classes from './Toolbar.module.css';
 
+// See https://stackoverflow.com/questions/47573087/typescript-check-if-value-is-contained-in-type
+function isSlateElementType(format: string): format is SlateElement['type'] {
+  return ['paragraph', 'list-item', 'bulleted-list', 'numbered-list'].includes(format);
+}
+
 function Toolbar() {
   const editor = useSlate();
 
@@ -16,7 +22,7 @@ function Toolbar() {
     ev.preventDefault();
     if (isMark(format)) {
       toggleMark(editor, format);
-    } else {
+    } else if (isSlateElementType(format)) {
       toggleBlock(editor, format);
     }
   };

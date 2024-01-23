@@ -30,6 +30,11 @@ export default async function ServerAppsByMonth() {
         pageSize: APPS_BY_MONTH_PAGE_SIZE,
         sortBy: AppsSortBy.PublishedDate,
       },
+      context: {
+        fetchOptions: {
+          next: { revalidate: 3000 },
+        },
+      },
     });
 
     appsByMonth.push({
