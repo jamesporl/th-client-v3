@@ -34,6 +34,7 @@ const documents = {
     "\n  mutation DeleteAppDraftBannerImg($input: DeleteAppDraftBannerImgInput!) {\n    deleteAppDraftBannerImg(input: $input) {\n      isCompleted\n    }\n  }\n": types.DeleteAppDraftBannerImgDocument,
     "\n  mutation DeleteAppDraft($input: DeleteAppDraftInput!) {\n    deleteAppDraft(input: $input) {\n      isCompleted\n    }\n  }\n": types.DeleteAppDraftDocument,
     "\n  mutation DeleteApp($input: DeleteAppInput!) {\n    deleteApp(input: $input) {\n      isCompleted\n    }\n  }\n": types.DeleteAppDocument,
+    "\n  mutation DeleteComment($input: DeleteCommentInput!) {\n    deleteComment(input: $input) {\n      isCompleted\n    }\n  }\n": types.DeleteCommentDocument,
     "\n  query MyAppDrafts {\n    myAppDrafts {\n      nodes {\n        _id\n        appId\n        name\n        shortDesc\n        jsonDesc\n        htmlDesc\n        logoImg\n        tags {\n          _id\n          name\n        }\n        videoUrl\n        bannerImgs {\n          _id\n          image {\n            large\n            thumbnail\n          }\n          order\n        }\n        ownedBy {\n          _id\n          firstName\n          lastName\n          image\n        }\n        websiteUrl\n        status {\n          key\n          label\n        }\n        socialUrls {\n          facebook\n          instagram\n          twitter\n          linkedIn\n          github\n        }\n        createdAt\n      }\n      totalCount\n    }\n  }\n": types.MyAppDraftsDocument,
     "\n  query MyApps {\n    myApps {\n      nodes {\n        _id\n        name\n        shortDesc\n        htmlDesc\n        textDesc\n        logoImg\n        videoUrl\n        bannerImgs {\n          _id\n          image {\n            large\n            thumbnail\n          }\n          order\n        }\n        socialUrls {\n          facebook\n          instagram\n          twitter\n          linkedIn\n          github\n        }\n        websiteUrl\n        status {\n          key\n          label\n        }\n        tags {\n          _id\n          name\n          slug\n        }\n        ownedBy {\n          _id\n          firstName\n          lastName\n          image\n        }\n        slug\n        publishedAt\n        upvotesCount\n        commentsCount\n        isUpvoted\n        isFeatured\n      }\n      totalCount\n    }\n  }\n": types.MyAppsDocument,
     "\n  mutation RepublishApp($input: RepublishAppInput!) {\n    republishApp(input: $input) {\n      isCompleted\n    }\n  }\n": types.RepublishAppDocument,
@@ -146,6 +147,10 @@ export function gql(source: "\n  mutation DeleteAppDraft($input: DeleteAppDraftI
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  mutation DeleteApp($input: DeleteAppInput!) {\n    deleteApp(input: $input) {\n      isCompleted\n    }\n  }\n"): (typeof documents)["\n  mutation DeleteApp($input: DeleteAppInput!) {\n    deleteApp(input: $input) {\n      isCompleted\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation DeleteComment($input: DeleteCommentInput!) {\n    deleteComment(input: $input) {\n      isCompleted\n    }\n  }\n"): (typeof documents)["\n  mutation DeleteComment($input: DeleteCommentInput!) {\n    deleteComment(input: $input) {\n      isCompleted\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

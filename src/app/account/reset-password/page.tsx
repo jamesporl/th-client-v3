@@ -5,8 +5,8 @@ export const metadata = {
   title: 'Reset Password',
 };
 
-function ResetPasswordPage() {
-  return <ResetPassword />;
+function ResetPasswordPage({ searchParams }: { searchParams: { email: string, token: string } }) {
+  return <ResetPassword email={searchParams.email} token={searchParams.token} />;
 }
 
 export default ResetPasswordPage;

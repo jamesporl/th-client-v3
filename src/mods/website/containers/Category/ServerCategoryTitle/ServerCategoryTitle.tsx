@@ -7,6 +7,11 @@ async function ServerCategoryTitle({ params }: { params: { slug: string } }) {
   const { data } = await getClient().query({
     query: AppTagQry,
     variables: { slug: params.slug },
+    context: {
+      fetchOptions: {
+        next: { revalidate: 3000 },
+      },
+    },
   });
 
   return <ClientCategoryTitle tag={data.appTag} />;

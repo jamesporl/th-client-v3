@@ -1,14 +1,11 @@
 'use client';
 
-import React, {
-  useMemo, useState, useCallback, useContext,
-} from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 import {
   Alert, Text, PinInput, Flex, UnstyledButton,
 } from '@mantine/core';
 import { useApolloClient, useMutation } from '@apollo/client';
 import { IconAlertCircle, IconCircleCheck } from '@tabler/icons-react';
-import { useSearchParams } from 'next/navigation';
 import AuthPageContainer from '../../components/AuthPageLayout/AuthPageLayout';
 import getErrorMessage from '../../../../lib/utils/getErrorMessage';
 import VerifyAccountByCodeMtn from '../../gql/VerifyAccountByCodeMtn';
@@ -17,9 +14,11 @@ import AuthContext from '../../../../lib/mobx/Auth';
 import MyProfileQry from '../../gql/MyProfileQry';
 import useRedirectFromLogin from '../../../../lib/hooks/useRedirectFromLogin';
 
-function VerifyEmail() {
-  const searchParams = useSearchParams();
+type VerifyEmailProps = {
+  email: string;
+};
 
+function VerifyEmail({ email }: VerifyEmailProps) {
   const authCtx = useContext(AuthContext);
 
   const apolloClient = useApolloClient();
@@ -32,8 +31,6 @@ function VerifyEmail() {
 
   const [verifyAccountByCode] = useMutation(VerifyAccountByCodeMtn);
   const [sendVerificationCode] = useMutation(SendVerificationCodeMtn);
-
-  const email = useMemo(() => searchParams.get('email'), [searchParams]);
 
   const handleClickResendCode = useCallback(async () => {
     setIsLoading(true);

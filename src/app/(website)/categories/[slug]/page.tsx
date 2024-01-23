@@ -12,6 +12,11 @@ export async function generateMetadata(
   const { data } = await getClient().query({
     query: AppTagQry,
     variables: { slug },
+    context: {
+      fetchOptions: {
+        next: { revalidate: 3000 },
+      },
+    },
   });
 
   const pageTitle = data.appTag.name;

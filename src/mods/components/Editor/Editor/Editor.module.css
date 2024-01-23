@@ -14,11 +14,17 @@
   margin-top: 8px;
 }
 
-.editor p:first-child {
-  margin: 0;
+.editor p:first-child, 
+.editor ul:first-child,
+.editor ol:first-child {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
-.editor p:not(:first-child) {
+
+.editor p:not(:first-child),
+.editor ul:not(:first-child),
+.editor ol:first-child {
   margin-top: 14px;
   margin-bottom: 0;
 }

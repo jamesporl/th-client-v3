@@ -5,8 +5,10 @@ export const metadata = {
   title: 'Verify Email',
 };
 
-function VerifyEmailPage() {
-  return <VerifyEmail />;
+function VerifyEmailPage({ searchParams }: { searchParams: { email: string } }) {
+  return (
+    <VerifyEmail email={searchParams.email} />
+  );
 }
 
 export default VerifyEmailPage;
