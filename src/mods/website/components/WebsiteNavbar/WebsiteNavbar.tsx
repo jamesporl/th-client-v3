@@ -144,7 +144,7 @@ function WebsiteNavbar({ children }: WebsiteNavbarProps) {
   return (
     <AppShell
       header={{ height: 58 }}
-      navbar={{ width: 300, breakpoint: 'md', collapsed: { mobile: !opened, desktop: true } }}
+      navbar={{ width: 300, breakpoint: 'lg', collapsed: { mobile: !opened, desktop: true } }}
       padding={0}
     >
       <AppShell.Header>

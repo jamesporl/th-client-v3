@@ -64,14 +64,15 @@
 }
 
 .mobile-right {
-  display: none;
-
-  @media (max-width: $mantine-breakpoint-lg) {
-    flex-grow: 1;
+  flex-grow: 1;
     display: flex;
     gap: 12px;
     align-items: center;
     justify-content: flex-end;
+
+  @media (min-width: $mantine-breakpoint-lg) {
+    display: none;
+    
   }
 }
 
