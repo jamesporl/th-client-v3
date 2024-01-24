@@ -191,7 +191,7 @@ function ClientCategoryApps({ apps: iApps, featuredApps, tagSlug }: ClientCatego
       <Box mt={32}>
         {appsByName.map((a) => (
           <Box mt={32} key={a._id}>
-            <App app={a} />
+            <App app={a} tagSlug={tagSlug} />
           </Box>
         ))}
       </Box>
@@ -202,7 +202,7 @@ function ClientCategoryApps({ apps: iApps, featuredApps, tagSlug }: ClientCatego
         <Box mt={32}>
           {randomApps.map((a) => (
             <Box mt={32} key={a._id}>
-              <App app={a} />
+              <App app={a} tagSlug={tagSlug} />
             </Box>
           ))}
         </Box>

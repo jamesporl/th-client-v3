@@ -1,7 +1,9 @@
 'use client';
 
 import React from 'react';
-import { Anchor, Breadcrumbs, Title } from '@mantine/core';
+import {
+  Anchor, Breadcrumbs, Text, Title,
+} from '@mantine/core';
 import Link from 'next/link';
 import { AppTagQuery } from '../../../../../__generated__/graphql';
 
@@ -12,7 +14,7 @@ type CategoryProps = {
 function ClientCategoryTitle({ tag }: CategoryProps) {
   return (
     <>
-      <Breadcrumbs>
+      <Breadcrumbs mb={16}>
         <Link href="/" passHref legacyBehavior key="home">
           <Anchor>
             Home
@@ -23,11 +25,9 @@ function ClientCategoryTitle({ tag }: CategoryProps) {
             Categories
           </Anchor>
         </Link>
-        <Link href={`/categories/${tag.slug}`} passHref legacyBehavior key="categories">
-          <Anchor>
-            {tag.name}
-          </Anchor>
-        </Link>
+        <Text c="dimmed" key="category">
+          {tag.name}
+        </Text>
       </Breadcrumbs>
       <Title order={1}>{tag.name}</Title>
     </>

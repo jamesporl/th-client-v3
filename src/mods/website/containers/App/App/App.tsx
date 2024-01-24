@@ -1,17 +1,20 @@
 'use client';
 
 import React from 'react';
-import { Anchor, Box, Breadcrumbs } from '@mantine/core';
+import {
+  Anchor, Box, Breadcrumbs, Text,
+} from '@mantine/core';
 import Link from 'next/link';
-import { AppQuery } from '../../../../../__generated__/graphql';
+import { AppQuery, AppTagQuery } from '../../../../../__generated__/graphql';
 import WebsiteMaxWidthWrapper from '../../../components/WebsiteMaxWidthWrapper/WebsiteMaxWidthWrapper';
 import AppDetails from '../AppDetails/AppDetails';
 
 type AppProps = {
   app: AppQuery['app'];
+  appTag?: AppTagQuery['appTag'];
 };
 
-function App({ app }: AppProps) {
+function App({ app, appTag }: AppProps) {
   const {
     _id,
     name,
@@ -51,22 +54,38 @@ function App({ app }: AppProps) {
     image: iOwnedBy.image,
   };
 
-  // TODO: The link to current page should be a link not an a but next js seems to have a bug
-  // See: https://github.com/vercel/next.js/issues/60299
-  const breadcrumbs = (
-    <Box>
-      <Breadcrumbs>
-        <Link href="/" passHref legacyBehavior key="home">
+  let breadcrumbs = (
+    <Breadcrumbs mb={16}>
+      <Link href="/" passHref legacyBehavior key="home">
+        <Anchor>
+          Home
+        </Anchor>
+      </Link>
+      <Text c="dimmed" key="app">
+        {app.name}
+      </Text>
+    </Breadcrumbs>
+  );
+
+  if (appTag) {
+    breadcrumbs = (
+      <Breadcrumbs mb={16}>
+        <Link href="/categories" passHref legacyBehavior key="categories">
           <Anchor>
-            Home
+            Categories
           </Anchor>
         </Link>
-        <Anchor href={`/apps/${app.slug}`} key="app">
+        <Link href={`/categories/${appTag.slug}`} passHref legacyBehavior key="category">
+          <Anchor>
+            {appTag.name}
+          </Anchor>
+        </Link>
+        <Text c="dimmed" key="app">
           {app.name}
-        </Anchor>
+        </Text>
       </Breadcrumbs>
-    </Box>
-  );
+    );
+  }
 
   return (
     <WebsiteMaxWidthWrapper>
