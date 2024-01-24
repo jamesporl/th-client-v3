@@ -20,9 +20,10 @@ import useShowLoginRequired from '../../../../hooks/useShowLoginRequired';
 
 type AppProps = {
   app: AppsQuery['apps']['nodes'][0];
+  tagSlug?: string;
 };
 
-function App({ app }: AppProps) {
+function App({ app, tagSlug = '' }: AppProps) {
   const uiCtx = useContext(UIContext);
   const authCtx = useContext(AuthContext);
 
@@ -33,7 +34,11 @@ function App({ app }: AppProps) {
   const [toggleUpvote] = useMutation(ToggleUpvoteMtn);
 
   const handleOpenAppModal = () => {
-    router.push(`/apps/${app.slug}`);
+    let href = `/apps/${app.slug}`;
+    if (tagSlug) {
+      href = `/apps/${app.slug}?c=${tagSlug}`;
+    }
+    router.push(href);
   };
 
   useEffect(() => {

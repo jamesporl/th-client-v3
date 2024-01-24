@@ -9,6 +9,7 @@ import { ContextModalProps } from '@mantine/modals';
 import { IconArrowBack, IconSearch } from '@tabler/icons-react';
 import Image from 'next/image';
 import { debounce } from 'lodash';
+import { useRouter } from 'next/navigation';
 import classes from './NavbarSearchResults.module.css';
 import { AppsQuery, AppsSortBy } from '../../../../__generated__/graphql';
 import AppsQry from '../../gql/AppsQry';
@@ -17,6 +18,8 @@ function NewbarSearchResults({ context, id }: ContextModalProps) {
   const [searchString, setSearchString] = useState('');
   const [searchStringChanged, setSearchStringChanged] = useState(false);
   const [apps, setApps] = useState<AppsQuery['apps']['nodes']>([]);
+
+  const router = useRouter();
 
   const [getApps, { data, loading }] = useLazyQuery(AppsQry, {
     variables: {
@@ -54,7 +57,7 @@ function NewbarSearchResults({ context, id }: ContextModalProps) {
 
   const handleClickApp = (slug: string) => {
     context.closeContextModal(id);
-    window.location.href = `/apps/${slug}`;
+    router.push(`/apps/${slug}`);
   };
 
   let appsList = null;

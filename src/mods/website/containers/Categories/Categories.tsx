@@ -45,17 +45,15 @@ function Categories({ tags: iTags }: CategoriesProps) {
 
   return (
     <WebsiteMaxWidthWrapper>
-      <Breadcrumbs>
+      <Breadcrumbs mb={16}>
         <Link href="/" passHref legacyBehavior key="home">
           <Anchor>
             Home
           </Anchor>
         </Link>
-        <Link href="/categories" passHref legacyBehavior key="categories">
-          <Anchor>
-            Categories
-          </Anchor>
-        </Link>
+        <Text c="dimmed" key="categories">
+          Categories
+        </Text>
       </Breadcrumbs>
       <Title order={1}>Categories</Title>
       <TextInput

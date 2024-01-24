@@ -6,7 +6,7 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useRouter } from 'next/navigation';
-import { IconArrowRight } from '@tabler/icons-react';
+import { IconArrowRight, IconX } from '@tabler/icons-react';
 import { AppQuery } from '../../../../__generated__/graphql';
 import AppDetails from '../App/AppDetails/AppDetails';
 
@@ -53,13 +53,23 @@ function AppModal({ app }: AppModalProps) {
   };
 
   return (
-    <Modal opened={opened} onClose={handleCloseAppModal} size={1132}>
-      <Anchor href={`/apps/${app.slug}`} underline="never">
-        <Flex align="center">
-          Go to Page &nbsp;
-          <IconArrowRight size={16} />
-        </Flex>
-      </Anchor>
+    <Modal opened={opened} onClose={handleCloseAppModal} size={1132} withCloseButton={false} padding="xl">
+      <Flex gap={16}>
+        <Anchor onClick={handleCloseAppModal} underline="never">
+          <Flex align="center">
+            <IconX size={16} />
+            &nbsp;
+            Close
+          </Flex>
+        </Anchor>
+        <Anchor href={`/apps/${app.slug}`} underline="never">
+          <Flex align="center">
+            <IconArrowRight size={16} />
+            &nbsp;
+            Go to Page
+          </Flex>
+        </Anchor>
+      </Flex>
       <Box mt={16}>
         <AppDetails
           _id={_id}
