@@ -10,9 +10,7 @@ type WebsiteMaxWidthWrapperProps = {
 function WebsiteMaxWidthWrapper({ children }: WebsiteMaxWidthWrapperProps) {
   return (
     <div className={classes.container}>
-      <div className={classes['child-container']}>
-        {children}
-      </div>
+      {children}
     </div>
   );
 }

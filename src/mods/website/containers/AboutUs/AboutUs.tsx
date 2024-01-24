@@ -53,110 +53,106 @@ function AboutUs() {
       </Box>
       <Box bg="green.7">
         <Box className={classes['content-container']}>
-          <Box className={classes['child-container']}>
-            <Box ta="center" pt={64} pb={64} color="white">
-              <Grid gutter={64}>
-                <Grid.Col span={{ base: 12, lg: 4 }}>
-                  <Flex justify="center" align="center">
-                    <Flex align="center" direction="column" className={classes['feat-col']}>
-                      <IconListSearch size={48} color="#fff" />
-                      <Text fz={24} fw="bold" mt={32} c="white">
-                        be discovered
-                      </Text>
-                      <Text mt={16} c="white" fz={18}>
-                        Our main mission is to provide businesses and teams a place where potential
-                        users or customers are easy to find them.
-                      </Text>
-                    </Flex>
+          <Box ta="center" pt={64} pb={64} color="white">
+            <Grid gutter={64}>
+              <Grid.Col span={{ base: 12, lg: 4 }}>
+                <Flex justify="center" align="center">
+                  <Flex align="center" direction="column" className={classes['feat-col']}>
+                    <IconListSearch size={48} color="#fff" />
+                    <Text fz={24} fw="bold" mt={32} c="white">
+                      be discovered
+                    </Text>
+                    <Text mt={16} c="white" fz={18}>
+                      Our main mission is to provide businesses and teams a place where potential
+                      users or customers are easy to find them.
+                    </Text>
                   </Flex>
-                </Grid.Col>
-                <Grid.Col span={{ base: 12, lg: 4 }}>
-                  <Flex justify="center" align="center">
-                    <Flex align="center" direction="column" className={classes['feat-col']}>
-                      <IconMessage2Share size={48} color="#fff" />
-                      <Text fz={24} fw="bold" mt={32} c="white">
-                        receive feedback
-                      </Text>
-                      <Text mt={16} c="white" fz={18}>
-                        We encourage our members to provide feedback on apps listed on the platfom
-                        through a healthy discussion.
-                      </Text>
-                    </Flex>
+                </Flex>
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, lg: 4 }}>
+                <Flex justify="center" align="center">
+                  <Flex align="center" direction="column" className={classes['feat-col']}>
+                    <IconMessage2Share size={48} color="#fff" />
+                    <Text fz={24} fw="bold" mt={32} c="white">
+                      receive feedback
+                    </Text>
+                    <Text mt={16} c="white" fz={18}>
+                      We encourage our members to provide feedback on apps listed on the platfom
+                      through a healthy discussion.
+                    </Text>
                   </Flex>
-                </Grid.Col>
-                <Grid.Col span={{ base: 12, lg: 4 }}>
-                  <Flex justify="center" align="center">
-                    <Flex align="center" direction="column" className={classes['feat-col']}>
-                      <IconRocket size={48} color="#fff" />
-                      <Text fz={24} fw="bold" mt={32} c="white">
-                        get inspired
-                      </Text>
-                      <Text mt={16} c="white" fz={18}>
-                        See what others are up to and find your way to contribute to the
-                        tech startup community of the Philippines.
-                      </Text>
-                    </Flex>
+                </Flex>
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, lg: 4 }}>
+                <Flex justify="center" align="center">
+                  <Flex align="center" direction="column" className={classes['feat-col']}>
+                    <IconRocket size={48} color="#fff" />
+                    <Text fz={24} fw="bold" mt={32} c="white">
+                      get inspired
+                    </Text>
+                    <Text mt={16} c="white" fz={18}>
+                      See what others are up to and find your way to contribute to the
+                      tech startup community of the Philippines.
+                    </Text>
                   </Flex>
-                </Grid.Col>
-              </Grid>
-            </Box>
+                </Flex>
+              </Grid.Col>
+            </Grid>
           </Box>
         </Box>
       </Box>
       <Box className={classes['content-container']}>
-        <Box className={classes['child-container']}>
-          <Box mt={128}>
-            <Text fz={40} fw="bold" c="blue">
-              Frequently Asked Questions
-            </Text>
-          </Box>
-          <Accordion chevronPosition="right" variant="default" mt={64}>
-            <Accordion.Item value="free" key="free">
-              <Accordion.Control>
-                <Text fz={20} mt={16} mb={16}>Is submitting an app free</Text>
-              </Accordion.Control>
-              <Accordion.Panel pt={16} pb={16}>
-                <Text>Absolutely!</Text>
-              </Accordion.Panel>
-            </Accordion.Item>
-            <Accordion.Item value="kinds" key="kinds">
-              <Accordion.Control>
-                <Text fz={20} mt={16} mb={16}>What kind of apps can be submitted?</Text>
-              </Accordion.Control>
-              <Accordion.Panel pt={16} pb={16}>
-                <Text>
-                  We welcome all kinds of apps - be it a web app, a mobile app, or both. Online
-                  shops are welcome too, for as long as they are in their own website and not just
-                  in a marketplace. Digital products, like a Shopify plugin or a Notion template,
-                  are also allowed.
-                </Text>
-                <Text mt={16}>
-                  The following conditions should also be satisfied:
-                </Text>
-                <ul>
-                  <li>Must be built by a Filipino team/individual</li>
-                  <li>
-                    Must be accessible to potential users with ready core functionalities to be
-                    used or tested
-                  </li>
-                </ul>
-              </Accordion.Panel>
-            </Accordion.Item>
-            <Accordion.Item value="reviewed" key="reviewed">
-              <Accordion.Control>
-                <Text fz={20} mt={16} mb={16}>Are app submissions being reviewed?</Text>
-              </Accordion.Control>
-              <Accordion.Panel pt={16} pb={16}>
-                <Text>
-                  Yes. To ensure the quality of content in our site, all app submissions are being
-                  queued for review. We require apps to have good descriptions, appropriate tags,
-                  and good quality images and screenshots. TechHustlers PH admins reserve the
-                  right to decline submissions not meeting our standards.
-                </Text>
-              </Accordion.Panel>
-            </Accordion.Item>
-          </Accordion>
+        <Box mt={128}>
+          <Text fz={40} fw="bold" c="blue">
+            Frequently Asked Questions
+          </Text>
         </Box>
+        <Accordion chevronPosition="right" variant="default" mt={64}>
+          <Accordion.Item value="free" key="free">
+            <Accordion.Control>
+              <Text fz={20} mt={16} mb={16}>Is submitting an app free</Text>
+            </Accordion.Control>
+            <Accordion.Panel pt={16} pb={16}>
+              <Text>Absolutely!</Text>
+            </Accordion.Panel>
+          </Accordion.Item>
+          <Accordion.Item value="kinds" key="kinds">
+            <Accordion.Control>
+              <Text fz={20} mt={16} mb={16}>What kind of apps can be submitted?</Text>
+            </Accordion.Control>
+            <Accordion.Panel pt={16} pb={16}>
+              <Text>
+                We welcome all kinds of apps - be it a web app, a mobile app, or both. Online
+                shops are welcome too, for as long as they are in their own website and not just
+                in a marketplace. Digital products, like a Shopify plugin or a Notion template,
+                are also allowed.
+              </Text>
+              <Text mt={16}>
+                The following conditions should also be satisfied:
+              </Text>
+              <ul>
+                <li>Must be built by a Filipino team/individual</li>
+                <li>
+                  Must be accessible to potential users with ready core functionalities to be
+                  used or tested
+                </li>
+              </ul>
+            </Accordion.Panel>
+          </Accordion.Item>
+          <Accordion.Item value="reviewed" key="reviewed">
+            <Accordion.Control>
+              <Text fz={20} mt={16} mb={16}>Are app submissions being reviewed?</Text>
+            </Accordion.Control>
+            <Accordion.Panel pt={16} pb={16}>
+              <Text>
+                Yes. To ensure the quality of content in our site, all app submissions are being
+                queued for review. We require apps to have good descriptions, appropriate tags,
+                and good quality images and screenshots. TechHustlers PH admins reserve the
+                right to decline submissions not meeting our standards.
+              </Text>
+            </Accordion.Panel>
+          </Accordion.Item>
+        </Accordion>
       </Box>
       <Box mt={128} pb={128} ta="center" ml={16} mr={16}>
         <Text fz={40} fw="bold" c="blue">
@@ -172,7 +168,6 @@ function AboutUs() {
           &nbsp; admin@techhustlers.ph
           </Text>
         </Flex>
-
       </Box>
     </>
   );

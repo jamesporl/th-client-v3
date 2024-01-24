@@ -16,7 +16,6 @@ function CategoryLayout({ children, apps, title }: CategoryLayoutProps) {
       <div>
         <div className={classes['flex-container']}>
           <div className={classes['apps-list-container']}>
-
             <Box>
               {title}
               {apps}
