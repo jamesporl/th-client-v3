@@ -13,6 +13,8 @@ import { AppsOtherFilter, AppsQuery, AppsSortBy } from '../../../../../__generat
 import App from '../../Home/components/App/App';
 import AppsQry from '../../../gql/AppsQry';
 import AppSkeleton from '../../Home/components/AppSkeleton/AppSkeleton';
+import ThisPlatform from '../../Home/components/ThisPlatform/ThisPlatform';
+import classes from './ClientCategoryApps.module.css';
 
 type ClientCategoryAppsProps = {
   apps: AppsQuery['apps']['nodes'];
@@ -235,6 +237,9 @@ function ClientCategoryApps({ apps: iApps, featuredApps, tagSlug }: ClientCatego
   return (
     <>
       {featuredAppsList}
+      <div className={classes['mobile-this-platform']}>
+        <ThisPlatform />
+      </div>
       {appsListContainer}
     </>
   );

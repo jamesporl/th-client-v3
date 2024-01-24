@@ -10,8 +10,8 @@ function ThisPlatform() {
   const handleClickSubmitAnApp = useClickSubmitAnApp();
 
   return (
-    <div className={classes.container}>
-      <div className={classes.box}>
+    <div>
+      <div className={classes.container}>
         <Text fz={24} c="blue.5" fw="bold">This Platform</Text>
         <Flex justify="center" mt={24}>
           <Image src="/community.png" width={200} height={200} alt="community" />
@@ -27,16 +27,18 @@ function ThisPlatform() {
         <Text mt={32} c="dimmed" size="sm">
           Let&apos;s build this community together.
         </Text>
-        <Button
-          color="blue"
-          size="md"
-          fullWidth
-          mt={24}
-          onClick={handleClickSubmitAnApp}
-          style={{ maxWidth: '350px' }}
-        >
-          Submit an App
-        </Button>
+        <Flex justify="center">
+          <Button
+            color="blue"
+            size="md"
+            fullWidth
+            mt={24}
+            onClick={handleClickSubmitAnApp}
+            style={{ maxWidth: '350px' }}
+          >
+            Submit an App
+          </Button>
+        </Flex>
       </div>
     </div>
   );

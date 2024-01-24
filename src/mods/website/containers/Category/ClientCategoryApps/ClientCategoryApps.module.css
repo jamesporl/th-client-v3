@@ -1,0 +1,9 @@
+.mobile-this-platform {
+  display: flex;
+  margin-top: 32px;
+  justify-content: center;
+
+  @media (min-width: 1100px) {
+    display: none;
+  }
+}

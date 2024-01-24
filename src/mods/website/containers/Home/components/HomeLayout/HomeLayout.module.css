@@ -5,13 +5,24 @@
 }
 
 .apps-list-container {
-  flex-grow: 1;
+  width: 100%;
+  max-width: 655px;
 }
 
 .desktop-this-platform {
   display: none;
 
-  @media (min-width: $mantine-breakpoint-md) {
+  @media (min-width: 1100px) {
     display: flex;
+  }
+}
+
+.mobile-this-platform {
+  display: flex;
+  margin-top: 32px;
+  justify-content: center;
+
+  @media (min-width: 1100px) {
+    display: none;
   }
 }

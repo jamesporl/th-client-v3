@@ -21,6 +21,9 @@ function HomeLayout({ children, featuredApps, appsByMonth }: HomeLayoutProps) {
             </Title>
             <Box>
               {featuredApps}
+              <div className={classes['mobile-this-platform']}>
+                <ThisPlatform />
+              </div>
               {appsByMonth}
             </Box>
           </div>
