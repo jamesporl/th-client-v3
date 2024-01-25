@@ -19,7 +19,7 @@ export default async function CategoriesPage() {
     query: AppTagsQry,
     context: {
       fetchOptions: {
-        next: { revalidate: 3000 },
+        next: { revalidate: 300 },
       },
     },
   });

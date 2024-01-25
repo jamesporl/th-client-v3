@@ -52,6 +52,7 @@ function EditApp({ tags, appId }: EditAppProps) {
           bannerImgs: appDraft.bannerImgs,
         };
       }
+
       setLocalAppDraft({
         _id: initialValues._id,
         appId: initialValues.appId,

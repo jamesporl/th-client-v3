@@ -19,7 +19,7 @@ export async function generateMetadata(
     variables: { slug },
     context: {
       fetchOptions: {
-        next: { revalidate: 3000 },
+        next: { revalidate: 300 },
       },
     },
   });
@@ -60,7 +60,7 @@ export default async function AppPage({ params, searchParams }: AppPageParams) {
     variables: { slug: params.slug },
     context: {
       fetchOptions: {
-        next: { revalidate: 3000 },
+        next: { revalidate: 300 },
       },
     },
   });
@@ -74,7 +74,7 @@ export default async function AppPage({ params, searchParams }: AppPageParams) {
         variables: { slug: searchParams.c },
         context: {
           fetchOptions: {
-            next: { revalidate: 3000 },
+            next: { revalidate: 300 },
           },
         },
       });

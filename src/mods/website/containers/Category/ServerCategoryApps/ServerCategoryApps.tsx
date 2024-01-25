@@ -16,7 +16,7 @@ async function ServerCategoryApps({ params }: { params: { slug: string } }) {
     },
     context: {
       fetchOptions: {
-        next: { revalidate: 3000 },
+        next: { revalidate: 300 },
       },
     },
   });
@@ -29,7 +29,7 @@ async function ServerCategoryApps({ params }: { params: { slug: string } }) {
     },
     context: {
       fetchOptions: {
-        next: { revalidate: 3000 },
+        next: { revalidate: 300 },
       },
     },
   });

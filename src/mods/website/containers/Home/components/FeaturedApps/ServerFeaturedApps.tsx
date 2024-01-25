@@ -10,7 +10,7 @@ export default async function ServerFeaturedApps() {
     variables: { otherFilters: [AppsOtherFilter.IsFeatured] },
     context: {
       fetchOptions: {
-        next: { revalidate: 3000 },
+        next: { revalidate: 300 },
       },
     },
   });

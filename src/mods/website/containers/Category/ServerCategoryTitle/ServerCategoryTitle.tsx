@@ -9,7 +9,7 @@ async function ServerCategoryTitle({ params }: { params: { slug: string } }) {
     variables: { slug: params.slug },
     context: {
       fetchOptions: {
-        next: { revalidate: 3000 },
+        next: { revalidate: 300 },
       },
     },
   });
