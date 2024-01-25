@@ -13,7 +13,7 @@ async function HomeAppPage({ params }: HomeAppPageProps) {
     variables: { slug: params.slug },
     context: {
       fetchOptions: {
-        next: { revalidate: 3000 },
+        next: { revalidate: 300 },
       },
     },
   });

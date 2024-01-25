@@ -14,7 +14,7 @@ export async function generateMetadata(
     variables: { slug },
     context: {
       fetchOptions: {
-        next: { revalidate: 3000 },
+        next: { revalidate: 300 },
       },
     },
   });

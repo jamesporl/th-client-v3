@@ -32,7 +32,7 @@ export default async function ServerAppsByMonth() {
       },
       context: {
         fetchOptions: {
-          next: { revalidate: 3000 },
+          next: { revalidate: 300 },
         },
       },
     });

@@ -186,7 +186,7 @@ function Signup() {
       </form>
       <Text mt={24} c="dimmed" fz={14} fs="italic">
         Already have an account? &nbsp;
-        <Link href="/account/signup">
+        <Link href="/account/login">
           Log in here.
         </Link>
       </Text>
