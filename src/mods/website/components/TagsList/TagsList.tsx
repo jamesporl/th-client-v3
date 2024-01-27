@@ -3,6 +3,7 @@
 import React from 'react';
 import { Button } from '@mantine/core';
 import Link from 'next/link';
+import orderBy from 'lodash/orderBy';
 import classes from './TagsList.module.css';
 
 type TagsListProps = {
@@ -14,7 +15,7 @@ type TagsListProps = {
 };
 
 function TagsList({ tags }: TagsListProps) {
-  return (tags || []).map((t) => (
+  return orderBy((tags || []), 'name').map((t) => (
     <Link
       key={t._id}
       href={`/categories/${t.slug}`}

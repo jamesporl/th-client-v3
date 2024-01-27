@@ -7,6 +7,7 @@ import {
 } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 import debounce from 'lodash/debounce';
+import orderBy from 'lodash/orderBy';
 import AppTagsQry from '../../../../gql/AppTagsQry';
 import { AppTagsQuery } from '../../../../../../__generated__/graphql';
 import classes from './TagSelection.module.css';
@@ -99,7 +100,7 @@ function TagSelection({
           wrap="wrap"
           style={{ rowGap: '16px', columnGap: '8px' }}
         >
-          {selectedTags.map((t) => (
+          {orderBy(selectedTags, 'name').map((t) => (
             <Pill
               key={t._id}
               withRemoveButton

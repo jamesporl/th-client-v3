@@ -154,6 +154,27 @@ function AppDetails({
 
   const appRightCol = <AppRightCol socialUrls={socialUrls} websiteUrl={websiteUrl} />;
 
+  let carousel = (
+    <Image
+      src="/img-rect-placeholder.png"
+      alt="placeholder"
+      height={345}
+      width={604}
+    />
+  );
+  if (videoUrl || bannerImgs.length) {
+    carousel = (
+      <Carousel slideSize="80%" height={345} controlsOffset="xs" controlSize={14} withIndicators align="start">
+        {embeddedVideo}
+        {bannerImgs.map((bImg) => (
+          <Carousel.Slide key={bImg.order}>
+            <Image src={bImg.image.large} alt="app-preview" height={345} width={604} />
+          </Carousel.Slide>
+        ))}
+      </Carousel>
+    );
+  }
+
   return (
     <>
       <div className={classes['header-container']}>
@@ -176,14 +197,7 @@ function AppDetails({
       </Box>
       <Flex justify="space-between" mt={32}>
         <Box className={classes['app-left-col']}>
-          <Carousel slideSize="80%" height={345} controlsOffset="xs" controlSize={14} withIndicators align="start">
-            {embeddedVideo}
-            {bannerImgs.map((bImg) => (
-              <Carousel.Slide key={bImg.order}>
-                <Image src={bImg.image.large} alt="app-preview" height={345} width={604} />
-              </Carousel.Slide>
-            ))}
-          </Carousel>
+          {carousel}
           <Box mt={32}>
             <EditorHtmlRender htmlDesc={htmlDesc} />
           </Box>
