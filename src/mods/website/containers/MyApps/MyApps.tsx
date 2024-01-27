@@ -57,13 +57,11 @@ function MyApps() {
         draftsList = (
           <Box mt={32}>
             <Title order={3} c="blue.8">Drafts</Title>
-            <Box mt={32}>
+            <Box mt={16}>
               {drafts.map((a) => (
-                <AppDraft
-                  key={a._id}
-                  appDraft={a}
-                  refetchAppDrafts={refetchAppDrafts}
-                />
+                <Box mt={16} key={a._id}>
+                  <AppDraft appDraft={a} refetchAppDrafts={refetchAppDrafts} />
+                </Box>
               ))}
             </Box>
           </Box>
@@ -75,14 +73,16 @@ function MyApps() {
         appsList = (
           <Box mt={32}>
             <Title order={3} c="blue.8">Published</Title>
-            <Box mt={32}>
+            <Box mt={16}>
               {apps.map((a) => (
-                <App
-                  key={a._id}
-                  app={a}
-                  refetchApps={refetchApps}
-                  refetchAppDrafts={refetchAppDrafts}
-                />
+                <Box mt={16} key={a._id}>
+                  <App
+                    key={a._id}
+                    app={a}
+                    refetchApps={refetchApps}
+                    refetchAppDrafts={refetchAppDrafts}
+                  />
+                </Box>
               ))}
             </Box>
           </Box>
