@@ -20,15 +20,18 @@ type ClientCategoryAppsProps = {
   apps: AppsQuery['apps']['nodes'];
   featuredApps: AppsQuery['apps']['nodes'];
   tagSlug: string;
+  hasMoreAppsByName: boolean;
 };
 
 export const APPS_PAGE_SIZE = 10;
 
-function ClientCategoryApps({ apps: iApps, featuredApps, tagSlug }: ClientCategoryAppsProps) {
+function ClientCategoryApps({
+  apps: iApps, featuredApps, tagSlug, hasMoreAppsByName: iHasMoreAppsByName,
+}: ClientCategoryAppsProps) {
   const observerTarget = useRef(null);
 
   const [appsByName, setAppsByName] = useState(iApps);
-  const [hasMoreAppsByName, setHasMoreAppsByName] = useState(true);
+  const [hasMoreAppsByName, setHasMoreAppsByName] = useState(iHasMoreAppsByName);
   const [appsByNamePage, setAppsByNamePage] = useState(2);
   const [isLoadingAppsByName, setIsLoadingAppsByName] = useState(false);
   const [randomApps, setRandomApps] = useState<AppsQuery['apps']['nodes']>([]);
