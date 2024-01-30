@@ -7,6 +7,7 @@ import {
   IconBrandInstagram, IconBrandX, IconBrandFacebook, IconWorld, IconBrandGithub, IconBrandLinkedin,
 } from '@tabler/icons-react';
 import React from 'react';
+import addRefToLink from '../../../../../lib/utils/addRefToLink';
 
 type AppRightColProps = {
   socialUrls?: {
@@ -25,8 +26,9 @@ function AppRightCol({ socialUrls, websiteUrl }: AppRightColProps) {
   } = socialUrls || {};
   let websiteBtn = null;
   if (websiteUrl) {
+    const websiteUrlWithRef = addRefToLink(websiteUrl);
     websiteBtn = (
-      <Anchor href={websiteUrl} target="_blank" underline="never" w="100%">
+      <Anchor href={websiteUrlWithRef} target="_blank" underline="never" w="100%">
         <Button leftSection={<IconWorld size={16} />} fullWidth>
           Go to website
         </Button>
