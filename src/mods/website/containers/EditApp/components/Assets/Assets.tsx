@@ -160,7 +160,7 @@ function Assets({
           </Card.Section>
           <Text c="dimmed" mt="md" size="sm" fs="italic">
             Click on the Add button to upload an image. You can upload up to 10 images and
-            drag-and-drop them to reorder them. An image should ideally be 1050px or less by 600px.
+            drag-and-drop them to reorder them. An image should ideally be 1050px by 600px.
           </Text>
           <BannerImgsUpload localAppDraft={localAppDraft} onChangeFields={onChangeFields} />
         </Card>

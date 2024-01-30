@@ -17,6 +17,7 @@ import UIContext from '../../../../../../lib/mobx/UI';
 import ToggleUpvoteMtn from '../../../../gql/ToggleUpvoteMtn';
 import AuthContext from '../../../../../../lib/mobx/Auth';
 import useShowLoginRequired from '../../../../hooks/useShowLoginRequired';
+import addRefToLink from '../../../../../../lib/utils/addRefToLink';
 
 type AppProps = {
   app: AppsQuery['apps']['nodes'][0];
@@ -47,7 +48,8 @@ function App({ app, tagSlug = '' }: AppProps) {
 
   const handleClickGoToWebsite = (ev: MouseEvent<HTMLButtonElement>) => {
     ev.stopPropagation();
-    window.open(app.websiteUrl, '_blank', 'noopener noreferrer');
+    const websiteUrlWithRef = addRefToLink(app.websiteUrl);
+    window.open(websiteUrlWithRef, '_blank');
   };
 
   const storedApp = useMemo(() => {

@@ -25,6 +25,7 @@ import WebsiteMaxWidthWrapper from '../../components/WebsiteMaxWidthWrapper/Webs
 import AuthContext from '../../../../lib/mobx/Auth';
 import UpdateProfilePhotoMtn from '../../gql/UpdateProfilePhotoMtn';
 import dataUrltoFile from '../../../../lib/utils/dataUrlToFile';
+import addRefToLink from '../../../../lib/utils/addRefToLink';
 
 function MyProfile() {
   const [isLoadingPhoto, setIsLoadingPhoto] = useState(false);
@@ -91,11 +92,12 @@ function MyProfile() {
 
   let websiteUrlComp = <Text fz="sm">-</Text>;
   if (profile.websiteUrl) {
+    const websiteUrlWithRef = addRefToLink(profile.websiteUrl);
     websiteUrlComp = (
       <>
         <IconWorld size={14} />
         {' '}
-        <Anchor size="sm" href={profile.websiteUrl} target="_blank">
+        <Anchor size="sm" href={websiteUrlWithRef} target="_blank">
           {profile.websiteUrl}
         </Anchor>
       </>
