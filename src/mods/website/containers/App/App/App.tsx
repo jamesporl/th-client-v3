@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { AppQuery, AppTagQuery } from '../../../../../__generated__/graphql';
 import WebsiteMaxWidthWrapper from '../../../components/WebsiteMaxWidthWrapper/WebsiteMaxWidthWrapper';
 import AppDetails from '../AppDetails/AppDetails';
+import AnnouncementBar from '../../../components/AnnouncementBar/AnnouncementBar';
 
 type AppProps = {
   app: AppQuery['app'];
@@ -88,27 +89,30 @@ function App({ app, appTag }: AppProps) {
   }
 
   return (
-    <WebsiteMaxWidthWrapper>
-      {breadcrumbs}
-      <Box mt={32}>
-        <AppDetails
-          _id={_id}
-          name={name}
-          shortDesc={shortDesc}
-          logoImg={logoImg}
-          tags={tags}
-          bannerImgs={bannerImgs}
-          htmlDesc={htmlDesc}
-          websiteUrl={websiteUrl}
-          socialUrls={socialUrls}
-          upvotesCount={upvotesCount}
-          isUpvoted={isUpvoted}
-          videoUrl={videoUrl}
-          ownedBy={ownedBy}
-          isPreview={false}
-        />
-      </Box>
-    </WebsiteMaxWidthWrapper>
+    <>
+      <AnnouncementBar />
+      <WebsiteMaxWidthWrapper>
+        {breadcrumbs}
+        <Box mt={32}>
+          <AppDetails
+            _id={_id}
+            name={name}
+            shortDesc={shortDesc}
+            logoImg={logoImg}
+            tags={tags}
+            bannerImgs={bannerImgs}
+            htmlDesc={htmlDesc}
+            websiteUrl={websiteUrl}
+            socialUrls={socialUrls}
+            upvotesCount={upvotesCount}
+            isUpvoted={isUpvoted}
+            videoUrl={videoUrl}
+            ownedBy={ownedBy}
+            isPreview={false}
+          />
+        </Box>
+      </WebsiteMaxWidthWrapper>
+    </>
   );
 }
 
