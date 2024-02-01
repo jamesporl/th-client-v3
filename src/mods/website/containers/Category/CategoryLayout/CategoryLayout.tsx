@@ -3,6 +3,7 @@ import { Box } from '@mantine/core';
 import WebsiteMaxWidthWrapper from '../../../components/WebsiteMaxWidthWrapper/WebsiteMaxWidthWrapper';
 import ThisPlatform from '../../Home/components/ThisPlatform/ThisPlatform';
 import classes from './CategoryLayout.module.css';
+import AnnouncementBar from '../../../components/AnnouncementBar/AnnouncementBar';
 
 type CategoryLayoutProps = {
   children: ReactNode;
@@ -12,22 +13,25 @@ type CategoryLayoutProps = {
 
 function CategoryLayout({ children, apps, title }: CategoryLayoutProps) {
   return (
-    <WebsiteMaxWidthWrapper>
-      <div>
-        <div className={classes['flex-container']}>
-          <div className={classes['apps-list-container']}>
-            <Box>
-              {title}
-              {apps}
-            </Box>
-          </div>
-          <div className={classes['desktop-this-platform']}>
-            <ThisPlatform />
+    <>
+      <AnnouncementBar />
+      <WebsiteMaxWidthWrapper>
+        <div>
+          <div className={classes['flex-container']}>
+            <div className={classes['apps-list-container']}>
+              <Box>
+                {title}
+                {apps}
+              </Box>
+            </div>
+            <div className={classes['desktop-this-platform']}>
+              <ThisPlatform />
+            </div>
           </div>
         </div>
-      </div>
-      {children}
-    </WebsiteMaxWidthWrapper>
+        {children}
+      </WebsiteMaxWidthWrapper>
+    </>
   );
 }
 

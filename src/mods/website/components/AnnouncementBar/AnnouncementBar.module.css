@@ -1,0 +1,9 @@
+.container {
+  background-color: var(--mantine-color-orange-6);
+  padding: 1rem 1rem;
+  text-align: center;
+
+  @media (min-width: $mantine-breakpoint-sm) {
+    padding: 1rem 2rem;
+  }
+}

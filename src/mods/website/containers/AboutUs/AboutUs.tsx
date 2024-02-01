@@ -14,10 +14,12 @@ import {
   IconListSearch, IconMail, IconMessage2Share, IconRocket,
 } from '@tabler/icons-react';
 import classes from './AboutUs.module.css';
+import AnnouncementBar from '../../components/AnnouncementBar/AnnouncementBar';
 
 function AboutUs() {
   return (
     <>
+      <AnnouncementBar />
       <Box className={classes['about-hero-container']}>
         <Box className={classes['about-hero-bg']} />
         <Box className={classes['about-hero']}>
