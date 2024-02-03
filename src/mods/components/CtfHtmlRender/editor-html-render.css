@@ -1,0 +1,65 @@
+.ctf-html-container {
+  color: var(--text-color);
+  font-family: var(--mantine-font-family);
+  font-size: var(--mantine-font-size-sm);
+  line-height: var(--mantine-line-height);
+}
+.html-container ul,
+.html-container ol {
+  margin: revert;
+  padding: revert;
+}
+.ctf-html-container .ctf-text-bold {
+  font-weight: bold;
+}
+.ctf-html-container .ctf-text-underline {
+  text-decoration: underline;
+}
+.ctf-html-container .ctf-text-italic {
+  font-style: italic;
+}
+.ctf-html-container .ctf-text-code {
+  font-family: 'Menlo', 'DejaVu Sans Mono', 'Liberation Mono', 'Consolas', 'Ubuntu Mono',
+    'Courier New', 'andale mono', 'lucida console', monospace;
+  font-size: 12px;
+  color: #2d3748;
+  background-color: #edf2f7;
+  padding: 0.25rem 0.25rem;
+  border-radius: 0.125rem;
+}
+
+.ctf-html-container h1 {
+  font-weight: var(--mantine-h1-font-weight);
+  line-height: var(--mantine-h1-line-height);
+  font-size: var(--mantine-h1-font-size);
+}
+
+.ctf-html-container h2 {
+  font-weight: var(--mantine-h2-font-weight);
+  line-height: var(--mantine-h2-line-height);
+  font-size: var(--mantine-h2-font-size);
+}
+
+.ctf-html-container h3 {
+  font-weight: var(--mantine-h3-font-weight);
+  line-height: var(--mantine-h3-line-height);
+  font-size: var(--mantine-h3-font-size);
+}
+
+.ctf-html-container h4 {
+  font-weight: var(--mantine-h4-font-weight);
+  line-height: var(--mantine-h4-line-height);
+  font-size: var(--mantine-h4-font-size);
+}
+
+.ctf-html-container h5 {
+  font-weight: var(--mantine-h5-font-weight);
+  line-height: var(--mantine-h5-line-height);
+  font-size: var(--mantine-h5-font-size);
+}
+
+.ctf-html-container h6 {
+  font-weight: var(--mantine-h6-font-weight);
+  line-height: var(--mantine-h6-line-height);
+  font-size: var(--mantine-h6-font-size);
+}
