@@ -15,6 +15,7 @@ import {
 } from '@tabler/icons-react';
 import classes from './AboutUs.module.css';
 import AnnouncementBar from '../../components/AnnouncementBar/AnnouncementBar';
+import WebsiteFooter from '../../components/WebsiteFooter/WebsiteFooter';
 
 function AboutUs() {
   return (
@@ -171,6 +172,7 @@ function AboutUs() {
           </Text>
         </Flex>
       </Box>
+      <WebsiteFooter />
     </>
   );
 }

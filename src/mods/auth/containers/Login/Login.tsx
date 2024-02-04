@@ -3,7 +3,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Script from 'next/script';
 import {
-  Alert, Button, Flex, PasswordInput, Text, TextInput,
+  Alert, Anchor, Button, Flex, PasswordInput, Text, TextInput,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import Link from 'next/link';
@@ -161,18 +161,31 @@ function Login() {
         <Flex mt={8} justify="center">
           <div id="google-button-container" />
         </Flex>
+        <Text size="sm" c="dimmed" fs="italic" mt={8}>
+          {'By continuing, you agree to our '}
+          <Anchor href="/terms-of-use" target="_blank">
+            Terms of Use
+          </Anchor>
+          {' and '}
+          <Anchor href="/privacy-policy" target="_blank">
+            Privacy Policy
+          </Anchor>
+          .
+        </Text>
       </form>
       <Flex mt={24} justify="center">
-        <Text fz={14} c="dimmed">
-          <Link href="/account/forgot-password">
+        <Link href="/account/forgot-password" passHref legacyBehavior>
+          <Anchor underline="never" fz="sm">
             Forgot password?
-          </Link>
-        </Text>
+          </Anchor>
+        </Link>
       </Flex>
       <Text mt={24} c="dimmed" fz={14} fs="italic">
         Don&apos;t have an account? &nbsp;
-        <Link href="/account/signup">
-          Sign up here.
+        <Link href="/account/signup" passHref legacyBehavior>
+          <Anchor underline="never" fz="sm">
+            Sign up here.
+          </Anchor>
         </Link>
       </Text>
     </AuthPageContainer>

@@ -41,6 +41,16 @@ const menus = [
     href: '/about-us',
     key: 'about-us',
   },
+  // {
+  //   label: 'Blog',
+  //   href: '/blog',
+  //   key: 'blog',
+  // },
+  // {
+  //   label: 'Guides',
+  //   href: '/guides',
+  //   key: 'guides',
+  // },
 ];
 
 function WebsiteNavbar({ children }: WebsiteNavbarProps) {
