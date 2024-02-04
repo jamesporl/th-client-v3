@@ -56,7 +56,8 @@ function Login() {
   };
 
   useEffect(() => {
-    if (googleScriptLoaded) {
+    // googleScriptLoaded is false when navigating in the browser (ex. login to sign vv)
+    if (googleScriptLoaded || window.google) {
       window.google.accounts.id.initialize({
         client_id: process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID,
         callback: handleGoogleLoginResponse,
