@@ -4,16 +4,16 @@ import React from 'react';
 import { Box, Text, Title } from '@mantine/core';
 import dayjs from 'dayjs';
 import WebsiteMaxWidthWrapper from '../../components/WebsiteMaxWidthWrapper/WebsiteMaxWidthWrapper';
-import { CtfPrivacyPolicyItem } from '../../../../lib/utils/ctf/_types';
+import { CtfTermsOfUseItem } from '../../../../lib/utils/ctf/_types';
 import serializeCtfContentToHtml from '../../../../lib/utils/ctf/searializeCtfContentToHtml';
 import CtfHtmlRender from '../../../components/CtfHtmlRender/CtfHtmlRender';
 import WebsiteFooter from '../../components/WebsiteFooter/WebsiteFooter';
 
-type PrivacyPolicyProps = {
-  content: CtfPrivacyPolicyItem;
+type TermsOfUseProps = {
+  content: CtfTermsOfUseItem;
 };
 
-function PrivacyPolicy({ content }: PrivacyPolicyProps) {
+function TermsOfUse({ content }: TermsOfUseProps) {
   const effectiveDate = dayjs(content.fields.effectiveDate).format('MMM D, YYYY');
 
   const ctfHtml = serializeCtfContentToHtml(content.fields.content);
@@ -21,7 +21,7 @@ function PrivacyPolicy({ content }: PrivacyPolicyProps) {
   return (
     <>
       <WebsiteMaxWidthWrapper>
-        <Title order={1}>Privacy Policy</Title>
+        <Title order={1}>Terms of Use</Title>
         <Text fw="bold" mt={32} fs="italic">
           {`Updated as of ${effectiveDate}`}
         </Text>
@@ -34,4 +34,4 @@ function PrivacyPolicy({ content }: PrivacyPolicyProps) {
   );
 }
 
-export default PrivacyPolicy;
+export default TermsOfUse;
