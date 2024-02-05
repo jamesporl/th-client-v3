@@ -4,16 +4,16 @@ import React from 'react';
 import { Box, Text, Title } from '@mantine/core';
 import dayjs from 'dayjs';
 import WebsiteMaxWidthWrapper from '../../components/WebsiteMaxWidthWrapper/WebsiteMaxWidthWrapper';
-import { CtfTermsOfUseItem } from '../../../../lib/utils/ctf/_types';
+import { CtfTermsOfServiceItem } from '../../../../lib/utils/ctf/_types';
 import serializeCtfContentToHtml from '../../../../lib/utils/ctf/searializeCtfContentToHtml';
 import CtfHtmlRender from '../../../components/CtfHtmlRender/CtfHtmlRender';
 import WebsiteFooter from '../../components/WebsiteFooter/WebsiteFooter';
 
-type TermsOfUseProps = {
-  content: CtfTermsOfUseItem;
+type TermsOfServiceProps = {
+  content: CtfTermsOfServiceItem;
 };
 
-function TermsOfUse({ content }: TermsOfUseProps) {
+function TermsOfService({ content }: TermsOfServiceProps) {
   const effectiveDate = dayjs(content.fields.effectiveDate).format('MMM D, YYYY');
 
   const ctfHtml = serializeCtfContentToHtml(content.fields.content);
@@ -21,7 +21,7 @@ function TermsOfUse({ content }: TermsOfUseProps) {
   return (
     <>
       <WebsiteMaxWidthWrapper>
-        <Title order={1}>Terms of Use</Title>
+        <Title order={1}>Terms of Service</Title>
         <Text fw="bold" mt={32} fs="italic">
           {`Updated as of ${effectiveDate}`}
         </Text>
@@ -34,4 +34,4 @@ function TermsOfUse({ content }: TermsOfUseProps) {
   );
 }
 
-export default TermsOfUse;
+export default TermsOfService;

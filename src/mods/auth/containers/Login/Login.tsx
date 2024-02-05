@@ -164,8 +164,8 @@ function Login() {
         </Flex>
         <Text size="sm" c="dimmed" fs="italic" mt={8}>
           {'By continuing, you agree to our '}
-          <Anchor href="/terms-of-use" target="_blank">
-            Terms of Use
+          <Anchor href="/terms-of-service" target="_blank">
+            Terms of Service
           </Anchor>
           {' and '}
           <Anchor href="/privacy-policy" target="_blank">

@@ -27,9 +27,9 @@ function WebsiteFooter() {
           </Anchor>
         </Link>
         <Text c="dimmed">&bull;</Text>
-        <Link legacyBehavior passHref href="/terms-of-use">
+        <Link legacyBehavior passHref href="/terms-of-service">
           <Anchor underline="never" fz="sm">
-            Terms of Use
+            Terms of Service
           </Anchor>
         </Link>
       </Flex>
