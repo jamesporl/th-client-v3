@@ -31,12 +31,26 @@
   }
 }
 
-.search {
+.search-desktop {
   width: 300px;
-  margin-left: 2rem;
+  margin-left: 0.5rem;
+  display: none;
 
-  @media (max-width: $mantine-breakpoint-lg) {
-    margin-left: 0.5rem;
+  @media (min-width: $mantine-breakpoint-sm) {
+    display: block;
+  }
+  @media (min-width: $mantine-breakpoint-lg) {
+    margin-left: 2rem;
+  }
+}
+
+.search-mobile {
+  width: 200px;
+  margin-left: 0.5rem;
+  display: block;
+
+  @media (min-width: $mantine-breakpoint-sm) {
+    display: none;
   }
 }
 

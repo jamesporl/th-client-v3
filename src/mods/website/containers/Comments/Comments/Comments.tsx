@@ -244,7 +244,6 @@ function Comments({ refId, type, ownerId }: CommentsProps) {
       <CommentInput
         placeholder="Got something nice to say about the app?"
         onSubmitComment={handleSubmitAddComment}
-        onRefetchComments={() => undefined}
       />
     );
   }

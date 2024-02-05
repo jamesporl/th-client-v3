@@ -51,3 +51,19 @@
   padding: 24px;
   border-radius: 8px;
 }
+
+.support-desktop {
+  display: none;
+
+  @media (min-width: $mantine-breakpoint-xs) {
+    display: block;
+  }
+}
+
+.support-mobile {
+  display: block;
+
+  @media (min-width: $mantine-breakpoint-xs) {
+    display: none;
+  }
+}
