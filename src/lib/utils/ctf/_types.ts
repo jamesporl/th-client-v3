@@ -19,13 +19,13 @@ export type CtfPrivacyPolicyResp = {
   items: CtfPrivacyPolicyItem[]
 };
 
-export type CtfTermsOfUseItem = {
+export type CtfTermsOfServiceItem = {
   fields: {
     content: CtfRichTextContent;
     effectiveDate: string;
   }
 };
 
-export type CtfTermsOfUseResp = {
-  items: CtfTermsOfUseItem[]
+export type CtfTermsOfServiceResp = {
+  items: CtfTermsOfServiceItem[]
 };
