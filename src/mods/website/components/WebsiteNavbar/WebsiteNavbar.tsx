@@ -167,9 +167,15 @@ function WebsiteNavbar({ children }: WebsiteNavbarProps) {
               <Image src="/logo-simple.png" alt="logo" width={40} height={40} />
             </Link>
             <TextInput
-              className={classes.search}
+              className={classes['search-desktop']}
               leftSection={<IconSearch size={16} />}
               placeholder="Search TechHustlers PH"
+              onFocus={handleFocusSearch}
+            />
+            <TextInput
+              className={classes['search-mobile']}
+              leftSection={<IconSearch size={16} />}
+              placeholder="Search..."
               onFocus={handleFocusSearch}
             />
           </Group>

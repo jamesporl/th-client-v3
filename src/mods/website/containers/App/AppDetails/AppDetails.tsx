@@ -207,8 +207,11 @@ function AppDetails({
             </Box>
           </Box>
           <Flex mt={32} justify="space-between" align="center" className={classes['upvote-box']}>
-            <Box>
+            <Box className={classes['support-desktop']}>
               <Text size="md" fw="bold">Are you happy to support this app?</Text>
+            </Box>
+            <Box className={classes['support-mobile']}>
+              <Text size="md" fw="bold">Support this app?</Text>
             </Box>
             <Flex gap={8}>
               <Text size="xl" fw="bold">{storedApp?.upvotesCount || 0}</Text>

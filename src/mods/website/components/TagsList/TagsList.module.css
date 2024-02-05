@@ -1,3 +1,7 @@
+.app-tag-item {
+  line-height: 2.2;
+}
+
 .app-tag-item:not(:last-child) {
   margin-right: 6px;
 }
