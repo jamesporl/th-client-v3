@@ -59,7 +59,6 @@ function Comment({
     replyInput = (
       <CommentInput
         placeholder="Contribute to the the discussion"
-        onRefetchComments={onRefetchComments}
         onSubmitComment={handleSubmitAddComment}
       />
     );
