@@ -20,6 +20,7 @@ export default gql(`
         linkedIn
         github
       }
+      lastSeenAt
     }
   }
 `);
