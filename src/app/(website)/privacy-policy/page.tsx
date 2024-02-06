@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default async function PrivacyPolicyPage() {
   const resp = await sendCtfRequest<CtfPrivacyPolicyResp>(
     '/entries',
-    0,
+    3600,
     { content_type: 'thPrivacyPolicy', limit: '1', order: '-fields.effectiveDate' },
   );
   return <PrivacyPolicy content={resp.items[0]} />;
