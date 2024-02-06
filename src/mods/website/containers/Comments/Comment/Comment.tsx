@@ -2,7 +2,6 @@
 
 import React, { useCallback, useState } from 'react';
 import { Box, Button, Flex } from '@mantine/core';
-import { ApolloQueryResult } from '@apollo/client';
 import { notifications } from '@mantine/notifications';
 import { Descendant } from 'slate';
 import { CommentsQuery } from '../../../../../__generated__/graphql';
@@ -11,7 +10,6 @@ import CommentInput from '../CommentInput/CommentInput';
 
 type CommentProps = {
   comment: CommentsQuery['comments']['nodes'][0];
-  onRefetchComments: () => Promise<ApolloQueryResult<CommentsQuery>>;
   // eslint-disable-next-line no-unused-vars
   onAddComment: (content: Descendant[], parentCommentId?: string) => Promise<void>;
   // eslint-disable-next-line no-unused-vars
@@ -25,7 +23,6 @@ type CommentProps = {
 
 function Comment({
   comment,
-  onRefetchComments,
   ownerId,
   onAddComment,
   onLoadMoreChildComments,

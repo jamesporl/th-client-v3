@@ -91,9 +91,9 @@ function Categories({ tags: iTags }: CategoriesProps) {
                       />
                       <Flex align="center" ml={16}>
                         <Box>
-                        <Text fz="lg" fw="bold" c="dark">{t.name}</Text>
-                        <Text c="dark">{`${t.appsCount} ${appsCountText}`}</Text>
-                      </Box>
+                          <Text fz="lg" fw="bold" c="dark">{t.name}</Text>
+                          <Text c="dark">{`${t.appsCount} ${appsCountText}`}</Text>
+                        </Box>
                       </Flex>
                     </Flex>
                   </Paper>
