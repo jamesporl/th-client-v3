@@ -21,6 +21,7 @@ const documents = {
     "\n  mutation SendVerificationCode($input: SendVerificationCodeInput!) {\n    sendVerificationCode(input: $input) {\n      isCompleted\n    }\n  }\n": types.SendVerificationCodeDocument,
     "\n  mutation Signup($input: SignupInput!) {\n    signup(input: $input) {\n      isCompleted\n    }\n  }\n": types.SignupDocument,
     "\n  mutation VerifyAccountByCode($input: VerifyAccountByCodeInput!) {\n    verifyAccountByCode(input: $input)\n  }\n": types.VerifyAccountByCodeDocument,
+    "\n  mutation AddAnalyticsEvent($input: AddAnalyticsEventInput!) {\n    addAnalyticsEvent(input: $input) {\n      isCompleted\n    }\n  }\n": types.AddAnalyticsEventDocument,
     "\n  mutation AddAppDraftBannerImg($input: AddAppDraftBannerImgInput!) {\n    addAppDraftBannerImg(input: $input) {\n      _id\n      order\n      image {\n        large\n        thumbnail\n      }\n    }\n  }\n": types.AddAppDraftBannerImgDocument,
     "\n  mutation AddApp($input: AddAppInput!) {\n    addApp(input: $input) {\n      _id\n      name\n      shortDesc\n      htmlDesc\n      textDesc\n      logoImg\n      videoUrl\n      bannerImgs {\n        _id\n        image {\n          large\n          thumbnail\n        }\n        order\n      }\n      socialUrls {\n        facebook\n        instagram\n        twitter\n        linkedIn\n        github\n      }\n      websiteUrl\n      status {\n        key\n        label\n      }\n      tags {\n        _id\n        name\n        slug\n      }\n      ownedBy {\n        _id\n        firstName\n        lastName\n        image\n      }\n      slug\n      publishedAt\n      upvotesCount\n      commentsCount\n      isUpvoted\n      isFeatured\n    }\n  }\n": types.AddAppDocument,
     "\n  mutation AddComment($input: AddCommentInput!) {\n    addComment(input: $input) {\n      _id\n      refId\n      createdBy {\n        _id\n        firstName\n        lastName\n        image\n      }\n      isParent\n      htmlContent\n      createdAt\n      isPinned\n      upvotesCount\n      isUpvoted\n      parentCommentId\n    }\n  }\n": types.AddCommentDocument,
@@ -97,6 +98,10 @@ export function gql(source: "\n  mutation Signup($input: SignupInput!) {\n    si
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  mutation VerifyAccountByCode($input: VerifyAccountByCodeInput!) {\n    verifyAccountByCode(input: $input)\n  }\n"): (typeof documents)["\n  mutation VerifyAccountByCode($input: VerifyAccountByCodeInput!) {\n    verifyAccountByCode(input: $input)\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation AddAnalyticsEvent($input: AddAnalyticsEventInput!) {\n    addAnalyticsEvent(input: $input) {\n      isCompleted\n    }\n  }\n"): (typeof documents)["\n  mutation AddAnalyticsEvent($input: AddAnalyticsEventInput!) {\n    addAnalyticsEvent(input: $input) {\n      isCompleted\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

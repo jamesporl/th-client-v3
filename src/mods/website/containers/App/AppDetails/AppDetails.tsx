@@ -17,11 +17,12 @@ import TagsList from '../../../components/TagsList/TagsList';
 import EditorHtmlRender from '../../../../components/Editor/EditorHtmlRender/EditorHtmlRender';
 import UIContext from '../../../../../lib/mobx/UI';
 import ToggleUpvoteMtn from '../../../gql/ToggleUpvoteMtn';
-import { CommentType, UpvoteType } from '../../../../../__generated__/graphql';
+import { AnalyticsEventType, CommentType, UpvoteType } from '../../../../../__generated__/graphql';
 import AuthContext from '../../../../../lib/mobx/Auth';
 import useShowLoginRequired from '../../../hooks/useShowLoginRequired';
 import Comments from '../../Comments/Comments/Comments';
 import AppRightCol from '../AppRightCol/AppRightCol';
+import AddAnalyticsEventMtn from '../../../gql/AddAnalyticsEventMtn';
 
 type AppDetailsProps = {
   _id: string;
@@ -84,12 +85,21 @@ function AppDetails({
   const uiCtx = useContext(UIContext);
 
   const [toggleUpvote] = useMutation(ToggleUpvoteMtn);
+  const [addAnalyticsEvent] = useMutation(AddAnalyticsEventMtn);
 
   const showLoginRequired = useShowLoginRequired();
 
   useEffect(() => {
     uiCtx.addApp({ _id, upvotesCount, isUpvoted });
   }, [_id, upvotesCount, isUpvoted]);
+
+  useEffect(() => {
+    const input = {
+      appId: _id,
+      type: AnalyticsEventType.AppView,
+    };
+    addAnalyticsEvent({ variables: { input } });
+  }, [_id]);
 
   const storedApp = useMemo(() => {
     const ctxApp = uiCtx.apps.find((a) => a._id === _id);
