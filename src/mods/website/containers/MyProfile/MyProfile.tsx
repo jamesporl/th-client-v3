@@ -21,6 +21,7 @@ import Link from 'next/link';
 import { modals } from '@mantine/modals';
 import { useMutation } from '@apollo/client';
 import { notifications } from '@mantine/notifications';
+import dayjs from 'dayjs';
 import WebsiteMaxWidthWrapper from '../../components/WebsiteMaxWidthWrapper/WebsiteMaxWidthWrapper';
 import AuthContext from '../../../../lib/mobx/Auth';
 import UpdateProfilePhotoMtn from '../../gql/UpdateProfilePhotoMtn';
@@ -193,10 +194,13 @@ function MyProfile() {
           </label>
         </Button>
       </Box>
-      <Grid mt={32}>
+      <Grid mt={16}>
         <Grid.Col span={{ base: 12, lg: 9 }}>
           <Box bg="gray.0" p={32} style={{ borderRadius: 8 }}>
-            <Flex justify="flex-end">
+            <Flex justify="space-between" align="center">
+              <Text size="sm" fs="italic">
+                {`Last seen ${dayjs(profile.lastSeenAt).fromNow()}`}
+              </Text>
               <Link href="/my/profile/edit" legacyBehavior>
                 <Button leftSection={<IconEdit size={16} />} variant="transparent" size="sm">
                   Edit Profile

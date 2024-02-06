@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default async function TermsOfServicePage() {
   const resp = await sendCtfRequest<CtfTermsOfServiceResp>(
     '/entries',
-    0,
+    3600,
     { content_type: 'thTermsOfService', limit: '1', order: '-fields.effectiveDate' },
   );
   return <TermsOfService content={resp.items[0]} />;
