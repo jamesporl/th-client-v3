@@ -14,6 +14,7 @@ function CropImage({ context, id, innerProps }: ContextModalProps) {
   const {
     src, type, onSubmit, aspectRatio = 1,
   } = innerProps as {
+    // eslint-disable-next-line no-unused-vars
     src: string, type: string, aspectRatio?: number, onSubmit: (b64: string) => void
   };
 

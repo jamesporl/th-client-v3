@@ -268,7 +268,6 @@ function Comments({ refId, type, ownerId }: CommentsProps) {
             <Comment
               comment={c}
               key={c._id}
-              onRefetchComments={() => undefined}
               ownerId={ownerId}
               onAddComment={handleSubmitAddComment}
               onTogglePinComment={handleTogglePinComment}
@@ -280,7 +279,6 @@ function Comments({ refId, type, ownerId }: CommentsProps) {
             <Comment
               comment={c}
               key={c._id}
-              onRefetchComments={() => undefined}
               ownerId={ownerId}
               onAddComment={handleSubmitAddComment}
               onTogglePinComment={handleTogglePinComment}
