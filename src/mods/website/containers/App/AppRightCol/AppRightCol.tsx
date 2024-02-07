@@ -16,7 +16,7 @@ type AppRightColProps = {
   appId: string;
   socialUrls?: {
     facebook?: string;
-    twitter?: string;
+    x?: string;
     instagram?: string;
     github?: string;
     linkedIn?: string;
@@ -33,7 +33,7 @@ function AppRightCol({ appId, socialUrls, websiteUrl }: AppRightColProps) {
   }, [appId]);
 
   const {
-    facebook, instagram, twitter, linkedIn, github,
+    facebook, instagram, x, linkedIn, github,
   } = socialUrls || {};
   let websiteBtn = null;
   if (websiteUrl) {
@@ -54,7 +54,7 @@ function AppRightCol({ appId, socialUrls, websiteUrl }: AppRightColProps) {
   }
 
   let socialUrlBtns = null;
-  if (facebook || instagram || twitter || linkedIn || github) {
+  if (facebook || instagram || x || linkedIn || github) {
     let facebookBtn = null;
     if (facebook) {
       facebookBtn = (
@@ -88,12 +88,12 @@ function AppRightCol({ appId, socialUrls, websiteUrl }: AppRightColProps) {
     }
 
     let xBtn = null;
-    if (twitter) {
+    if (x) {
       xBtn = (
         <Anchor
-          href={twitter}
+          href={x}
           target="_blank"
-          onClick={() => handleClickLink(AnalyticsEventType.AppTwitterClick)}
+          onClick={() => handleClickLink(AnalyticsEventType.AppXClick)}
           underline="never"
         >
           <Button color="gray" variant="outline" size="compact-md">

@@ -34,7 +34,7 @@ function MainDetails({
       socialUrls: {
         facebook: localAppDraft.socialUrls?.facebook || '',
         instagram: localAppDraft.socialUrls?.instagram || '',
-        twitter: localAppDraft.socialUrls?.twitter || '',
+        x: localAppDraft.socialUrls?.x || '',
         linkedIn: localAppDraft.socialUrls?.linkedIn || '',
         github: localAppDraft.socialUrls?.github || '',
       },
@@ -131,9 +131,9 @@ function MainDetails({
             size="md"
             mt="md"
             leftSection={<IconBrandX size={16} />}
-            {...form.getInputProps('socialUrls.twitter')}
-            onChange={(ev: React.ChangeEvent<HTMLInputElement>) => handleChangeField(ev, 'socialUrls.twitter')}
-            onBlur={(ev: React.ChangeEvent<HTMLInputElement>) => handleBlurField(ev, 'socialUrls.twitter')}
+            {...form.getInputProps('socialUrls.x')}
+            onChange={(ev: React.ChangeEvent<HTMLInputElement>) => handleChangeField(ev, 'socialUrls.x')}
+            onBlur={(ev: React.ChangeEvent<HTMLInputElement>) => handleBlurField(ev, 'socialUrls.x')}
           />
           <TextInput
             label="LinkedIn"

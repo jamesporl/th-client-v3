@@ -132,13 +132,13 @@ function MyProfile() {
   }
 
   let xComp = <Text fz="sm">-</Text>;
-  if (profile.socialUrls?.twitter) {
+  if (profile.socialUrls?.x) {
     xComp = (
       <>
         <IconBrandX size={14} />
         {' '}
-        <Anchor size="sm" href={profile.socialUrls.twitter} target="_blank">
-          {profile.socialUrls.twitter}
+        <Anchor size="sm" href={profile.socialUrls.x} target="_blank">
+          {profile.socialUrls.x}
         </Anchor>
       </>
     );

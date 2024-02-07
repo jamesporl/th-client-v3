@@ -19,7 +19,7 @@ type AppAnalyticsProps = {
   websiteClicks: number;
   facebookClicks: number;
   instagramClicks: number;
-  twitterClicks: number;
+  xClicks: number;
   linkedInClicks: number;
   githubClicks: number;
 };
@@ -29,7 +29,7 @@ function AppAnalytics({
   websiteClicks,
   facebookClicks,
   instagramClicks,
-  twitterClicks,
+  xClicks,
   linkedInClicks,
   githubClicks,
 }: AppAnalyticsProps) {
@@ -37,7 +37,7 @@ function AppAnalytics({
     || websiteClicks
     || facebookClicks
     || instagramClicks
-    || twitterClicks
+    || xClicks
     || linkedInClicks
     || githubClicks
   )) {
@@ -123,9 +123,9 @@ function AppAnalytics({
     );
   }
 
-  let twitterSection = null;
-  if (twitterClicks) {
-    twitterSection = (
+  let xSection = null;
+  if (xClicks) {
+    xSection = (
       <Grid.Col span={2}>
         <Box bg="blue.0" p={16} style={{ borderRadius: 8 }}>
           <Flex align="center">
@@ -136,7 +136,7 @@ function AppAnalytics({
             </Text>
           </Flex>
           <Flex justify="center" mt={4}>
-            <Text c="blue.8" fw="bold">{twitterClicks}</Text>
+            <Text c="blue.8" fw="bold">{xClicks}</Text>
           </Flex>
         </Box>
       </Grid.Col>
@@ -189,7 +189,7 @@ function AppAnalytics({
       {websiteSection}
       {facebookSection}
       {instagramSection}
-      {twitterSection}
+      {xSection}
       {linkedInSection}
       {githubSection}
     </Grid>

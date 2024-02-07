@@ -43,7 +43,7 @@ function EditProfileForm({ profile }: EditProfileFormProps) {
       socialUrls: {
         facebook: profile.socialUrls?.facebook || '',
         instagram: profile.socialUrls?.instagram || '',
-        twitter: profile.socialUrls?.twitter || '',
+        x: profile.socialUrls?.x || '',
         linkedIn: profile.socialUrls?.linkedIn || '',
         github: profile.socialUrls?.github || '',
       },
@@ -155,7 +155,7 @@ function EditProfileForm({ profile }: EditProfileFormProps) {
               size="sm"
               leftSection={<IconBrandX size={14} />}
               mt={8}
-              {...form.getInputProps('socialUrls.twitter')}
+              {...form.getInputProps('socialUrls.x')}
             />
             <TextInput
               label="LinkedIn"

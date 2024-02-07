@@ -38,7 +38,7 @@ export default gql(`
         socialUrls {
           facebook
           instagram
-          twitter
+          x
           linkedIn
           github
         }
