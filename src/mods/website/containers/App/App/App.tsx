@@ -43,7 +43,7 @@ function App({ app, appTag }: AppProps) {
   const socialUrls = {
     facebook: iSocialUrls?.facebook || '',
     instagram: iSocialUrls?.instagram || '',
-    twitter: iSocialUrls?.twitter || '',
+    x: iSocialUrls?.x || '',
     linkedIn: iSocialUrls?.linkedIn || '',
     github: iSocialUrls?.github || '',
   };

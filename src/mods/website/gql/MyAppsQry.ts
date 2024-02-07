@@ -22,7 +22,7 @@ export default gql(`
         socialUrls {
           facebook
           instagram
-          twitter
+          x
           linkedIn
           github
         }
@@ -53,7 +53,7 @@ export default gql(`
           websiteClicks
           facebookClicks
           instagramClicks
-          twitterClicks
+          xClicks
           linkedInClicks
           githubClicks
         }

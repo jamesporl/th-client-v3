@@ -9,7 +9,7 @@ export type LocalAppDraft = {
   socialUrls?: {
     facebook?: string;
     instagram?: string;
-    twitter?: string;
+    x?: string;
     linkedIn?: string;
     github?: string;
   };

@@ -62,7 +62,7 @@ function EditApp({ tags, appId }: EditAppProps) {
         socialUrls: {
           facebook: initialValues.socialUrls?.facebook || '',
           instagram: initialValues.socialUrls?.instagram || '',
-          twitter: initialValues.socialUrls?.twitter || '',
+          x: initialValues.socialUrls?.x || '',
           linkedIn: initialValues.socialUrls?.linkedIn || '',
           github: initialValues.socialUrls?.github || '',
         },
@@ -102,7 +102,7 @@ function EditApp({ tags, appId }: EditAppProps) {
       socialUrls: {
         facebook: socialUrls?.facebook || '',
         instagram: socialUrls?.instagram || '',
-        twitter: socialUrls?.twitter || '',
+        x: socialUrls?.x || '',
         linkedIn: socialUrls?.linkedIn || '',
         github: socialUrls?.github || '',
       },

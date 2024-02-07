@@ -48,7 +48,7 @@ type AppDetailsProps = {
   }[];
   socialUrls?: {
     facebook?: string;
-    twitter?: string;
+    x?: string;
     instagram?: string;
     github?: string;
     linkedIn?: string;
