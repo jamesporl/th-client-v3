@@ -48,6 +48,15 @@ export default gql(`
         commentsCount
         isUpvoted
         isFeatured
+        analytics {
+          views
+          websiteClicks
+          facebookClicks
+          instagramClicks
+          twitterClicks
+          linkedInClicks
+          githubClicks
+        }
       }
       totalCount
     }

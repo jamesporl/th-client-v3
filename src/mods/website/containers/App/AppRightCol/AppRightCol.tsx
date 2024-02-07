@@ -6,10 +6,14 @@ import {
 import {
   IconBrandInstagram, IconBrandX, IconBrandFacebook, IconWorld, IconBrandGithub, IconBrandLinkedin,
 } from '@tabler/icons-react';
-import React from 'react';
+import React, { useCallback } from 'react';
+import { useMutation } from '@apollo/client';
 import addRefToLink from '../../../../../lib/utils/addRefToLink';
+import { AnalyticsEventType } from '../../../../../__generated__/graphql';
+import AddAnalyticsEventMtn from '../../../gql/AddAnalyticsEventMtn';
 
 type AppRightColProps = {
+  appId: string;
   socialUrls?: {
     facebook?: string;
     twitter?: string;
@@ -20,7 +24,14 @@ type AppRightColProps = {
   websiteUrl: string;
 };
 
-function AppRightCol({ socialUrls, websiteUrl }: AppRightColProps) {
+function AppRightCol({ appId, socialUrls, websiteUrl }: AppRightColProps) {
+  const [addAnalyticsEvent] = useMutation(AddAnalyticsEventMtn);
+
+  const handleClickLink = useCallback((type: AnalyticsEventType) => {
+    const input = { appId, type };
+    addAnalyticsEvent({ variables: { input } });
+  }, [appId]);
+
   const {
     facebook, instagram, twitter, linkedIn, github,
   } = socialUrls || {};
@@ -28,7 +39,13 @@ function AppRightCol({ socialUrls, websiteUrl }: AppRightColProps) {
   if (websiteUrl) {
     const websiteUrlWithRef = addRefToLink(websiteUrl);
     websiteBtn = (
-      <Anchor href={websiteUrlWithRef} target="_blank" underline="never" w="100%">
+      <Anchor
+        href={websiteUrlWithRef}
+        target="_blank"
+        onClick={() => handleClickLink(AnalyticsEventType.AppWebsiteClick)}
+        underline="never"
+        w="100%"
+      >
         <Button leftSection={<IconWorld size={16} />} fullWidth>
           Go to website
         </Button>
@@ -41,7 +58,12 @@ function AppRightCol({ socialUrls, websiteUrl }: AppRightColProps) {
     let facebookBtn = null;
     if (facebook) {
       facebookBtn = (
-        <Anchor href={facebook} target="_blank" underline="never">
+        <Anchor
+          href={facebook}
+          target="_blank"
+          onClick={() => handleClickLink(AnalyticsEventType.AppFacebookClick)}
+          underline="never"
+        >
           <Button color="gray" variant="outline" size="compact-md">
             <IconBrandFacebook size={20} />
           </Button>
@@ -52,7 +74,12 @@ function AppRightCol({ socialUrls, websiteUrl }: AppRightColProps) {
     let instagramBtn = null;
     if (instagram) {
       instagramBtn = (
-        <Anchor href={instagram} target="_blank" underline="never">
+        <Anchor
+          href={instagram}
+          target="_blank"
+          onClick={() => handleClickLink(AnalyticsEventType.AppInstagramClick)}
+          underline="never"
+        >
           <Button color="gray" variant="outline" size="compact-md">
             <IconBrandInstagram size={20} />
           </Button>
@@ -63,7 +90,12 @@ function AppRightCol({ socialUrls, websiteUrl }: AppRightColProps) {
     let xBtn = null;
     if (twitter) {
       xBtn = (
-        <Anchor href={twitter} target="_blank" underline="never">
+        <Anchor
+          href={twitter}
+          target="_blank"
+          onClick={() => handleClickLink(AnalyticsEventType.AppTwitterClick)}
+          underline="never"
+        >
           <Button color="gray" variant="outline" size="compact-md">
             <IconBrandX size={20} />
           </Button>
@@ -74,7 +106,12 @@ function AppRightCol({ socialUrls, websiteUrl }: AppRightColProps) {
     let linkedInBtn = null;
     if (linkedIn) {
       linkedInBtn = (
-        <Anchor href={linkedIn} target="_blank" underline="never">
+        <Anchor
+          href={linkedIn}
+          target="_blank"
+          onClick={() => handleClickLink(AnalyticsEventType.AppLinkedInClick)}
+          underline="never"
+        >
           <Button color="gray" variant="outline" size="compact-md">
             <IconBrandLinkedin size={20} />
           </Button>
@@ -85,7 +122,12 @@ function AppRightCol({ socialUrls, websiteUrl }: AppRightColProps) {
     let githubBtn = null;
     if (github) {
       githubBtn = (
-        <Anchor href={githubBtn} target="_blank" underline="never">
+        <Anchor
+          href={githubBtn}
+          target="_blank"
+          onClick={() => handleClickLink(AnalyticsEventType.AppGithubClick)}
+          underline="never"
+        >
           <Button color="gray" variant="outline" size="compact-md">
             <IconBrandGithub size={20} />
           </Button>

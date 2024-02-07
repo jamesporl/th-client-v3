@@ -11,13 +11,14 @@ import { useRouter } from 'next/navigation';
 import { observer } from 'mobx-react';
 import { useMutation } from '@apollo/client';
 import classes from './App.module.css';
-import { AppsQuery, UpvoteType } from '../../../../../../__generated__/graphql';
+import { AnalyticsEventType, AppsQuery, UpvoteType } from '../../../../../../__generated__/graphql';
 import AppHeader from '../../../../components/AppHeader/AppHeader';
 import UIContext from '../../../../../../lib/mobx/UI';
 import ToggleUpvoteMtn from '../../../../gql/ToggleUpvoteMtn';
 import AuthContext from '../../../../../../lib/mobx/Auth';
 import useShowLoginRequired from '../../../../hooks/useShowLoginRequired';
 import addRefToLink from '../../../../../../lib/utils/addRefToLink';
+import AddAnalyticsEventMtn from '../../../../gql/AddAnalyticsEventMtn';
 
 type AppProps = {
   app: AppsQuery['apps']['nodes'][0];
@@ -33,6 +34,7 @@ function App({ app, tagSlug = '' }: AppProps) {
   const router = useRouter();
 
   const [toggleUpvote] = useMutation(ToggleUpvoteMtn);
+  const [addAnalyticsEvent] = useMutation(AddAnalyticsEventMtn);
 
   const handleOpenAppModal = () => {
     let href = `/apps/${app.slug}`;
@@ -48,6 +50,11 @@ function App({ app, tagSlug = '' }: AppProps) {
 
   const handleClickGoToWebsite = (ev: MouseEvent<HTMLButtonElement>) => {
     ev.stopPropagation();
+    addAnalyticsEvent({
+      variables: {
+        input: { appId: app._id, type: AnalyticsEventType.AppWebsiteClick },
+      },
+    });
     const websiteUrlWithRef = addRefToLink(app.websiteUrl);
     window.open(websiteUrlWithRef, '_blank');
   };

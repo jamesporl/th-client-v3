@@ -4,7 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { ApolloQueryResult, useMutation } from '@apollo/client';
 import {
-  Badge, Button, Flex, Menu, Text, Title,
+  Badge, Box, Button, Flex, Menu, Text, Title,
 } from '@mantine/core';
 import {
   IconArrowBackUp,
@@ -16,12 +16,13 @@ import {
 import { useRouter } from 'next/navigation';
 import { notifications } from '@mantine/notifications';
 import { modals } from '@mantine/modals';
-import { MyAppDraftsQuery, MyAppsQuery } from '../../../../../../__generated__/graphql';
+import { AppStatus, MyAppDraftsQuery, MyAppsQuery } from '../../../../../../__generated__/graphql';
 import classes from './App.module.css';
 import CreateAppDraftFromPublishedAppMtn from '../../../../gql/CreateAppDraftFromPublishedAppMtn';
 import UnpublishAppMtn from '../../../../gql/UnpublishAppMtn';
 import RepublishAppMtn from '../../../../gql/RepublishAppMtn';
 import DeleteAppMtn from '../../../../gql/DeleteAppMtn';
+import AppAnalytics from '../AppAnalytics/AppAnalytics';
 
 type AppProps = {
   app: MyAppsQuery['myApps']['nodes'][0];
@@ -102,7 +103,7 @@ function App({ app, refetchApps, refetchAppDrafts }: AppProps) {
   };
 
   let badgeColor = 'green';
-  if (app.status.key === 'unpublished') {
+  if (app.status.key === AppStatus.Unpublished) {
     badgeColor = 'orange';
   }
 
@@ -156,32 +157,40 @@ function App({ app, refetchApps, refetchAppDrafts }: AppProps) {
   );
 
   let menuItems = [viewInSiteMenuItem, editMenuItem, unpublishMenuItem, divider, deleteMenuItem];
-  if (app.status.key === 'unpublished') {
+  if (app.status.key === AppStatus.Unpublished) {
     menuItems = [editMenuItem, republishMenuItem, divider, deleteMenuItem];
   }
 
+  let analyticsSection = null;
+  if (app.status.key === AppStatus.Published) {
+    analyticsSection = <AppAnalytics {...app.analytics} />;
+  }
+
   return (
-    <Flex align="center" justify="space-between" className={classes.app}>
-      <Flex gap={16} align="center">
-        <Image height={48} width={48} src={app.logoImg} alt="app-logo" className={classes.logo} />
-        <Title order={4}>{app.name}</Title>
+    <Box className={classes.app}>
+      <Flex align="center" justify="space-between">
+        <Flex gap={16} align="center">
+          <Image height={48} width={48} src={app.logoImg} alt="app-logo" className={classes.logo} />
+          <Title order={4}>{app.name}</Title>
+        </Flex>
+        <Flex gap={16} align="center">
+          <Badge color={badgeColor} variant="filled">
+            {app.status.label}
+          </Badge>
+          <Menu shadow="md" width={200} position="bottom-end">
+            <Menu.Target>
+              <Button variant="subtle" rightSection={<IconChevronDown size={14} />}>
+                Actions
+              </Button>
+            </Menu.Target>
+            <Menu.Dropdown>
+              {menuItems}
+            </Menu.Dropdown>
+          </Menu>
+        </Flex>
       </Flex>
-      <Flex gap={16} align="center">
-        <Badge color={badgeColor} variant="filled">
-          {app.status.label}
-        </Badge>
-        <Menu shadow="md" width={200} position="bottom-end">
-          <Menu.Target>
-            <Button variant="subtle" rightSection={<IconChevronDown size={14} />}>
-              Actions
-            </Button>
-          </Menu.Target>
-          <Menu.Dropdown>
-            {menuItems}
-          </Menu.Dropdown>
-        </Menu>
-      </Flex>
-    </Flex>
+      {analyticsSection}
+    </Box>
   );
 }
 
