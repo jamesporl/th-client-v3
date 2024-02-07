@@ -162,7 +162,7 @@ function AppDetails({
     );
   }
 
-  const appRightCol = <AppRightCol socialUrls={socialUrls} websiteUrl={websiteUrl} />;
+  const appRightCol = <AppRightCol socialUrls={socialUrls} websiteUrl={websiteUrl} appId={_id} />;
 
   let carousel = (
     <Image
