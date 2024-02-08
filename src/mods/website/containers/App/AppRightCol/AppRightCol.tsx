@@ -123,7 +123,7 @@ function AppRightCol({ appId, socialUrls, websiteUrl }: AppRightColProps) {
     if (github) {
       githubBtn = (
         <Anchor
-          href={githubBtn}
+          href={github}
           target="_blank"
           onClick={() => handleClickLink(AnalyticsEventType.AppGithubClick)}
           underline="never"

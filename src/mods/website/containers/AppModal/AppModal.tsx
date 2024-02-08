@@ -35,6 +35,7 @@ function AppModal({ app }: AppModalProps) {
     bannerImgs: iBannerImgs,
     tags: iTags,
     ownedBy: iOwnedBy,
+    socialUrls,
   } = app;
 
   const tags = iTags.map((t) => ({
@@ -80,6 +81,7 @@ function AppModal({ app }: AppModalProps) {
           bannerImgs={bannerImgs}
           htmlDesc={htmlDesc}
           websiteUrl={websiteUrl}
+          socialUrls={socialUrls}
           isPreview={false}
           videoUrl={videoUrl}
           ownedBy={ownedBy}

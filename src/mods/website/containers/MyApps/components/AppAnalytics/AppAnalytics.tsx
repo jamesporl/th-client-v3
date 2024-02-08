@@ -9,6 +9,7 @@ import {
   IconBrandInstagram,
   IconBrandLinkedin,
   IconBrandX,
+  IconChartBar,
   IconEye,
   IconWorld,
 } from '@tabler/icons-react';
@@ -48,7 +49,7 @@ function AppAnalytics({
     viewsSection = (
       <Grid.Col span={2}>
         <Box bg="blue.0" p={16} style={{ borderRadius: 8 }}>
-          <Flex align="center">
+          <Flex align="center" justify="center">
             <IconEye size={14} color="#1971c2" />
             <Text fz="xs" c="blue.8" fw="bold">
               &nbsp;
@@ -68,7 +69,7 @@ function AppAnalytics({
     websiteSection = (
       <Grid.Col span={2}>
         <Box bg="blue.0" p={16} style={{ borderRadius: 8 }}>
-          <Flex align="center">
+          <Flex align="center" justify="center">
             <IconWorld size={14} color="#1971c2" />
             <Text fz="xs" c="blue.8" fw="bold">
               &nbsp;
@@ -88,7 +89,7 @@ function AppAnalytics({
     facebookSection = (
       <Grid.Col span={2}>
         <Box bg="blue.0" p={16} style={{ borderRadius: 8 }}>
-          <Flex align="center">
+          <Flex align="center" justify="center">
             <IconBrandFacebook size={14} color="#1971c2" />
             <Text fz="xs" c="blue.8" fw="bold">
               &nbsp;
@@ -108,7 +109,7 @@ function AppAnalytics({
     instagramSection = (
       <Grid.Col span={2}>
         <Box bg="blue.0" p={16} style={{ borderRadius: 8 }}>
-          <Flex align="center">
+          <Flex align="center" justify="center">
             <IconBrandInstagram size={14} color="#1971c2" />
             <Text fz="xs" c="blue.8" fw="bold">
               &nbsp;
@@ -128,7 +129,7 @@ function AppAnalytics({
     xSection = (
       <Grid.Col span={2}>
         <Box bg="blue.0" p={16} style={{ borderRadius: 8 }}>
-          <Flex align="center">
+          <Flex align="center" justify="center">
             <IconBrandX size={14} color="#1971c2" />
             <Text fz="xs" c="blue.8" fw="bold">
               &nbsp;
@@ -148,7 +149,7 @@ function AppAnalytics({
     linkedInSection = (
       <Grid.Col span={2}>
         <Box bg="blue.0" p={16} style={{ borderRadius: 8 }}>
-          <Flex align="center">
+          <Flex align="center" justify="center">
             <IconBrandLinkedin size={14} color="#1971c2" />
             <Text fz="xs" c="blue.8" fw="bold">
               &nbsp;
@@ -168,7 +169,7 @@ function AppAnalytics({
     githubSection = (
       <Grid.Col span={2}>
         <Box bg="blue.0" p={16} style={{ borderRadius: 8 }}>
-          <Flex align="center">
+          <Flex align="center" justify="center">
             <IconBrandGithub size={14} color="#1971c2" />
             <Text fz="xs" c="blue.8" fw="bold">
               &nbsp;
@@ -184,15 +185,24 @@ function AppAnalytics({
   }
 
   return (
-    <Grid mt={32} gutter={8}>
-      {viewsSection}
-      {websiteSection}
-      {facebookSection}
-      {instagramSection}
-      {xSection}
-      {linkedInSection}
-      {githubSection}
-    </Grid>
+    <Box mt={32}>
+      <Flex align="center">
+        <IconChartBar size={18} color="#1971c2" />
+        <Text fz="md" c="blue.8" fw="bold">
+          &nbsp;
+          Analytics
+        </Text>
+      </Flex>
+      <Grid gutter={8} mt={16}>
+        {viewsSection}
+        {websiteSection}
+        {facebookSection}
+        {instagramSection}
+        {xSection}
+        {linkedInSection}
+        {githubSection}
+      </Grid>
+    </Box>
   );
 }
 
