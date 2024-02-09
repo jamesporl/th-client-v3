@@ -23,6 +23,7 @@ import useShowLoginRequired from '../../../hooks/useShowLoginRequired';
 import Comments from '../../Comments/Comments/Comments';
 import AppRightCol from '../AppRightCol/AppRightCol';
 import AddAnalyticsEventMtn from '../../../gql/AddAnalyticsEventMtn';
+import displayNumber from '../../../../../lib/utils/displayNumber';
 
 type AppDetailsProps = {
   _id: string;
@@ -224,7 +225,7 @@ function AppDetails({
               <Text size="md" fw="bold">Support this app?</Text>
             </Box>
             <Flex gap={8}>
-              <Text size="xl" fw="bold">{storedApp?.upvotesCount || 0}</Text>
+              <Text size="xl" fw="bold">{displayNumber(storedApp?.upvotesCount || 0)}</Text>
               <Button
                 size="xs"
                 radius="xl"

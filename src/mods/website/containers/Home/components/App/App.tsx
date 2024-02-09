@@ -19,6 +19,7 @@ import AuthContext from '../../../../../../lib/mobx/Auth';
 import useShowLoginRequired from '../../../../hooks/useShowLoginRequired';
 import addRefToLink from '../../../../../../lib/utils/addRefToLink';
 import AddAnalyticsEventMtn from '../../../../gql/AddAnalyticsEventMtn';
+import displayNumber from '../../../../../../lib/utils/displayNumber';
 
 type AppProps = {
   app: AppsQuery['apps']['nodes'][0];
@@ -124,7 +125,7 @@ function App({ app, tagSlug = '' }: AppProps) {
             variant={storedApp?.isUpvoted ? 'filled' : 'default'}
             onClick={handleClickUpvote}
           >
-            {storedApp?.upvotesCount || 0}
+            {displayNumber(storedApp?.upvotesCount || 0)}
           </Button>
           <Button
             size="xs"
@@ -132,7 +133,7 @@ function App({ app, tagSlug = '' }: AppProps) {
             variant="default"
             leftSection={<IconMessageCircle size={14} />}
           >
-            {app.commentsCount}
+            {displayNumber(app.commentsCount)}
           </Button>
         </Flex>
         {websiteBtn}
