@@ -14,6 +14,7 @@ import {
   IconWorld,
 } from '@tabler/icons-react';
 import React from 'react';
+import displayNumber from '../../../../../../lib/utils/displayNumber';
 
 type AppAnalyticsProps = {
   views: number;
@@ -57,7 +58,7 @@ function AppAnalytics({
             </Text>
           </Flex>
           <Flex justify="center" mt={4}>
-            <Text c="blue.8" fw="bold">{views}</Text>
+            <Text c="blue.8" fw="bold">{displayNumber(views)}</Text>
           </Flex>
         </Box>
       </Grid.Col>
@@ -77,7 +78,7 @@ function AppAnalytics({
             </Text>
           </Flex>
           <Flex justify="center" mt={4}>
-            <Text c="blue.8" fw="bold">{websiteClicks}</Text>
+            <Text c="blue.8" fw="bold">{displayNumber(websiteClicks)}</Text>
           </Flex>
         </Box>
       </Grid.Col>
@@ -97,7 +98,7 @@ function AppAnalytics({
             </Text>
           </Flex>
           <Flex justify="center" mt={4}>
-            <Text c="blue.8" fw="bold">{facebookClicks}</Text>
+            <Text c="blue.8" fw="bold">{displayNumber(facebookClicks)}</Text>
           </Flex>
         </Box>
       </Grid.Col>
@@ -117,7 +118,7 @@ function AppAnalytics({
             </Text>
           </Flex>
           <Flex justify="center" mt={4}>
-            <Text c="blue.8" fw="bold">{instagramClicks}</Text>
+            <Text c="blue.8" fw="bold">{displayNumber(instagramClicks)}</Text>
           </Flex>
         </Box>
       </Grid.Col>
@@ -137,7 +138,7 @@ function AppAnalytics({
             </Text>
           </Flex>
           <Flex justify="center" mt={4}>
-            <Text c="blue.8" fw="bold">{xClicks}</Text>
+            <Text c="blue.8" fw="bold">{displayNumber(xClicks)}</Text>
           </Flex>
         </Box>
       </Grid.Col>
@@ -157,7 +158,7 @@ function AppAnalytics({
             </Text>
           </Flex>
           <Flex justify="center" mt={4}>
-            <Text c="blue.8" fw="bold">{linkedInClicks}</Text>
+            <Text c="blue.8" fw="bold">{displayNumber(linkedInClicks)}</Text>
           </Flex>
         </Box>
       </Grid.Col>
@@ -177,7 +178,7 @@ function AppAnalytics({
             </Text>
           </Flex>
           <Flex justify="center" mt={4}>
-            <Text c="blue.8" fw="bold">{githubClicks}</Text>
+            <Text c="blue.8" fw="bold">{displayNumber(githubClicks)}</Text>
           </Flex>
         </Box>
       </Grid.Col>
