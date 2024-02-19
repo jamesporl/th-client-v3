@@ -11,8 +11,11 @@ import {
   IconBrandGithub,
   IconBrandInstagram,
   IconBrandLinkedin,
+  IconBrandThreads,
+  IconBrandTiktok,
   IconBrandX,
   IconEdit,
+  IconLink,
   IconMapPin,
   IconWorld,
 } from '@tabler/icons-react';
@@ -21,7 +24,6 @@ import Link from 'next/link';
 import { modals } from '@mantine/modals';
 import { useMutation } from '@apollo/client';
 import { notifications } from '@mantine/notifications';
-import dayjs from 'dayjs';
 import WebsiteMaxWidthWrapper from '../../components/WebsiteMaxWidthWrapper/WebsiteMaxWidthWrapper';
 import AuthContext from '../../../../lib/mobx/Auth';
 import UpdateProfilePhotoMtn from '../../gql/UpdateProfilePhotoMtn';
@@ -81,91 +83,232 @@ function MyProfile() {
     return null;
   }
 
+  const {
+    firstName,
+    lastName,
+    image,
+    shortDesc,
+    bio,
+    email,
+    location,
+    websiteUrl,
+    socialUrls,
+  } = profile;
+
+  const {
+    facebook, instagram, threads, x, github, linkedIn, tiktok,
+  } = socialUrls || {};
+
   let locationComp = <Text fz="sm">-</Text>;
-  if (profile.location) {
+  if (location) {
     locationComp = (
       <Text fz="sm">
         <IconMapPin size={14} />
-        {` ${profile.location}`}
+        {` ${location}`}
       </Text>
     );
   }
 
-  let websiteUrlComp = <Text fz="sm">-</Text>;
-  if (profile.websiteUrl) {
-    const websiteUrlWithRef = addRefToLink(profile.websiteUrl);
-    websiteUrlComp = (
-      <>
-        <IconWorld size={14} />
-        {' '}
-        <Anchor size="sm" href={websiteUrlWithRef} target="_blank">
-          {profile.websiteUrl}
-        </Anchor>
-      </>
-    );
-  }
+  let linksSection = null;
+  if (websiteUrl || facebook || instagram || threads || github || linkedIn || tiktok || x) {
+    let websiteUrlComp = null;
+    if (websiteUrl) {
+      const websiteUrlWithRef = addRefToLink(websiteUrl);
+      websiteUrlComp = (
+        <Grid mt={16}>
+          <Grid.Col span={{ base: 12, md: 4, lg: 3 }}>
+            <Text fw="bold" fz="sm">Website</Text>
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 8, lg: 9 }}>
+            <Flex align="center">
+              <IconWorld size={14} />
+              &nbsp;
+              <Text fz="sm">
+                <Anchor size="sm" href={websiteUrlWithRef} target="_blank">
+                  {websiteUrl}
+                </Anchor>
+              </Text>
+            </Flex>
+          </Grid.Col>
+        </Grid>
+      );
+    }
 
-  let facebookComp = <Text fz="sm">-</Text>;
-  if (profile.socialUrls?.facebook) {
-    facebookComp = (
-      <>
-        <IconBrandFacebook size={14} />
-        {' '}
-        <Anchor size="sm" href={profile.socialUrls.facebook} target="_blank">
-          {profile.socialUrls.facebook}
-        </Anchor>
-      </>
-    );
-  }
+    let facebookComp = null;
+    if (facebook) {
+      facebookComp = (
+        <Grid mt={16}>
+          <Grid.Col span={{ base: 12, md: 4, lg: 3 }}>
+            <Text fw="bold" fz="sm">Facebook</Text>
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 8, lg: 9 }}>
+            <Flex align="center">
+              <IconBrandFacebook size={14} />
+              &nbsp;
+              <Text fz="sm">
+                <Anchor size="sm" href={facebook} target="_blank">
+                  {facebook}
+                </Anchor>
+              </Text>
+            </Flex>
+          </Grid.Col>
+        </Grid>
+      );
+    }
 
-  let instagramComp = <Text fz="sm">-</Text>;
-  if (profile.socialUrls?.instagram) {
-    instagramComp = (
-      <>
-        <IconBrandInstagram size={14} />
-        {' '}
-        <Anchor size="sm" href={profile.socialUrls.instagram} target="_blank">
-          {profile.socialUrls.instagram}
-        </Anchor>
-      </>
-    );
-  }
+    let instagramComp = null;
+    if (instagram) {
+      instagramComp = (
+        <Grid mt={16}>
+          <Grid.Col span={{ base: 12, md: 4, lg: 3 }}>
+            <Text fw="bold" fz="sm">Instagram</Text>
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 8, lg: 9 }}>
+            <Flex align="center">
+              <IconBrandInstagram size={14} />
+              &nbsp;
+              <Text fz="sm">
+                <Anchor size="sm" href={instagram} target="_blank">
+                  {instagram}
+                </Anchor>
+              </Text>
+            </Flex>
+          </Grid.Col>
+        </Grid>
+      );
+    }
 
-  let xComp = <Text fz="sm">-</Text>;
-  if (profile.socialUrls?.x) {
-    xComp = (
-      <>
-        <IconBrandX size={14} />
-        {' '}
-        <Anchor size="sm" href={profile.socialUrls.x} target="_blank">
-          {profile.socialUrls.x}
-        </Anchor>
-      </>
-    );
-  }
+    let threadsComp = null;
+    if (threads) {
+      threadsComp = (
+        <Grid mt={16}>
+          <Grid.Col span={{ base: 12, md: 4, lg: 3 }}>
+            <Text fw="bold" fz="sm">Threads</Text>
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 8, lg: 9 }}>
+            <Flex align="center">
+              <IconBrandThreads size={14} />
+              &nbsp;
+              <Text fz="sm">
+                <Anchor size="sm" href={threads} target="_blank">
+                  {threads}
+                </Anchor>
+              </Text>
+            </Flex>
+          </Grid.Col>
+        </Grid>
+      );
+    }
 
-  let linkedInComp = <Text fz="sm">-</Text>;
-  if (profile.socialUrls?.linkedIn) {
-    linkedInComp = (
-      <>
-        <IconBrandLinkedin size={14} />
-        {' '}
-        <Anchor size="sm" href={profile.socialUrls.linkedIn} target="_blank">
-          {profile.socialUrls.linkedIn}
-        </Anchor>
-      </>
-    );
-  }
+    let tiktokComp = null;
+    if (tiktok) {
+      tiktokComp = (
+        <Grid mt={16}>
+          <Grid.Col span={{ base: 12, md: 4, lg: 3 }}>
+            <Text fw="bold" fz="sm">Tiktok</Text>
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 8, lg: 9 }}>
+            <Flex align="center">
+              <IconBrandTiktok size={14} />
+              &nbsp;
+              <Text fz="sm">
+                <Anchor size="sm" href={tiktok} target="_blank">
+                  {tiktok}
+                </Anchor>
+              </Text>
+            </Flex>
+          </Grid.Col>
+        </Grid>
+      );
+    }
 
-  let githubComp = <Text fz="sm">-</Text>;
-  if (profile.socialUrls?.github) {
-    githubComp = (
+    let xComp = null;
+    if (x) {
+      xComp = (
+        <Grid mt={16}>
+          <Grid.Col span={{ base: 12, md: 4, lg: 3 }}>
+            <Text fw="bold" fz="sm">X</Text>
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 8, lg: 9 }}>
+            <Flex align="center">
+              <IconBrandX size={14} />
+              &nbsp;
+              <Text fz="sm">
+                <Anchor size="sm" href={x} target="_blank">
+                  {x}
+                </Anchor>
+              </Text>
+            </Flex>
+          </Grid.Col>
+        </Grid>
+      );
+    }
+
+    let linkedInComp = null;
+    if (linkedIn) {
+      linkedInComp = (
+        <Grid mt={16}>
+          <Grid.Col span={{ base: 12, md: 4, lg: 3 }}>
+            <Text fw="bold" fz="sm">LinkedIn</Text>
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 8, lg: 9 }}>
+            <Flex align="center">
+              <IconBrandLinkedin size={14} />
+              &nbsp;
+              <Text fz="sm">
+                <Anchor size="sm" href={linkedIn} target="_blank">
+                  {linkedIn}
+                </Anchor>
+              </Text>
+            </Flex>
+          </Grid.Col>
+        </Grid>
+      );
+    }
+
+    let githubComp = null;
+    if (github) {
+      githubComp = (
+        <Grid mt={16}>
+          <Grid.Col span={{ base: 12, md: 4, lg: 3 }}>
+            <Text fw="bold" fz="sm">Github</Text>
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 8, lg: 9 }}>
+            <Flex align="center">
+              <IconBrandGithub size={14} />
+              &nbsp;
+              <Text fz="sm">
+                <Anchor size="sm" href={github} target="_blank">
+                  {github}
+                </Anchor>
+              </Text>
+            </Flex>
+          </Grid.Col>
+        </Grid>
+      );
+    }
+
+    linksSection = (
       <>
-        <IconBrandGithub size={14} />
-        {' '}
-        <Anchor size="sm" href={profile.socialUrls.github} target="_blank">
-          {profile.socialUrls.github}
-        </Anchor>
+        <Grid mt={32}>
+          <Grid.Col span={{ base: 12 }}>
+            <Flex align="center">
+              <IconLink size={16} />
+              <Text fw="bold" fz="md" span>
+                &nbsp;
+                Links
+              </Text>
+            </Flex>
+          </Grid.Col>
+        </Grid>
+        {websiteUrlComp}
+        {facebookComp}
+        {instagramComp}
+        {threadsComp}
+        {tiktokComp}
+        {xComp}
+        {linkedInComp}
+        {githubComp}
       </>
     );
   }
@@ -174,7 +317,7 @@ function MyProfile() {
     <WebsiteMaxWidthWrapper>
       <Title order={1}>Profile</Title>
       <Box mt={32}>
-        <Avatar src={profile.image} alt="profile" size={80} />
+        <Avatar src={image} alt="profile" size={80} />
         <Button
           leftSection={<IconEdit size={16} />}
           variant="transparent"
@@ -199,7 +342,7 @@ function MyProfile() {
           <Box bg="gray.0" p={32} style={{ borderRadius: 8 }}>
             <Flex justify="space-between" align="center">
               <Text size="sm" fs="italic">
-                {`Last seen ${dayjs(profile.lastSeenAt).fromNow()}`}
+                Last seen a minute ago
               </Text>
               <Link href="/my/profile/edit" legacyBehavior>
                 <Button leftSection={<IconEdit size={16} />} variant="transparent" size="sm">
@@ -213,7 +356,7 @@ function MyProfile() {
               </Grid.Col>
               <Grid.Col span={{ base: 12, md: 8, lg: 9 }}>
                 <Text fz="sm">
-                  {` ${profile.email}`}
+                  {` ${email}`}
                 </Text>
               </Grid.Col>
             </Grid>
@@ -223,7 +366,7 @@ function MyProfile() {
               </Grid.Col>
               <Grid.Col span={{ base: 12, md: 8, lg: 9 }}>
                 <Text fz="sm">
-                  {`${profile.firstName} ${profile.lastName}`}
+                  {`${firstName} ${lastName}`}
                 </Text>
               </Grid.Col>
             </Grid>
@@ -232,7 +375,7 @@ function MyProfile() {
                 <Text fw="bold" fz="sm">Tagline</Text>
               </Grid.Col>
               <Grid.Col span={{ base: 12, md: 8, lg: 9 }}>
-                <Text fz="sm">{profile.shortDesc || '-'}</Text>
+                <Text fz="sm">{shortDesc || '-'}</Text>
               </Grid.Col>
             </Grid>
             <Grid mt={16}>
@@ -241,7 +384,7 @@ function MyProfile() {
               </Grid.Col>
               <Grid.Col span={{ base: 12, md: 8, lg: 9 }}>
                 <Text fz="sm">
-                  {profile.bio || '-'}
+                  {bio || '-'}
                 </Text>
               </Grid.Col>
             </Grid>
@@ -253,54 +396,7 @@ function MyProfile() {
                 {locationComp}
               </Grid.Col>
             </Grid>
-            <Grid mt={16}>
-              <Grid.Col span={{ base: 12, md: 4, lg: 3 }}>
-                <Text fw="bold" fz="sm">Website</Text>
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 8, lg: 9 }}>
-                {websiteUrlComp}
-              </Grid.Col>
-            </Grid>
-            <Grid mt={16}>
-              <Grid.Col span={{ base: 12, md: 4, lg: 3 }}>
-                <Text fw="bold" fz="sm">Facebook</Text>
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 8, lg: 9 }}>
-                {facebookComp}
-              </Grid.Col>
-            </Grid>
-            <Grid mt={16}>
-              <Grid.Col span={{ base: 12, md: 4, lg: 3 }}>
-                <Text fw="bold" fz="sm">Instagram</Text>
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 8, lg: 9 }}>
-                {instagramComp}
-              </Grid.Col>
-            </Grid>
-            <Grid mt={16}>
-              <Grid.Col span={{ base: 12, md: 4, lg: 3 }}>
-                <Text fw="bold" fz="sm">X</Text>
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 8, lg: 9 }}>
-                {xComp}
-              </Grid.Col>
-            </Grid>
-            <Grid mt={16}>
-              <Grid.Col span={{ base: 12, md: 4, lg: 3 }}>
-                <Text fw="bold" fz="sm">LinkedIn</Text>
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 8, lg: 9 }}>
-                {linkedInComp}
-              </Grid.Col>
-            </Grid>
-            <Grid mt={16}>
-              <Grid.Col span={{ base: 12, md: 4, lg: 3 }}>
-                <Text fw="bold" fz="sm">Github</Text>
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 8, lg: 9 }}>
-                {githubComp}
-              </Grid.Col>
-            </Grid>
+            {linksSection}
           </Box>
         </Grid.Col>
       </Grid>

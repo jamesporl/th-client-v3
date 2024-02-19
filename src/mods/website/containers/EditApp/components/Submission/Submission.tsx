@@ -94,6 +94,8 @@ function Submission({ appId, onSubmitToServer }: SubmissionProps) {
     x: iSocialUrls?.x || '',
     linkedIn: iSocialUrls?.linkedIn || '',
     github: iSocialUrls?.github || '',
+    threads: iSocialUrls?.threads || '',
+    tiktok: iSocialUrls?.tiktok || '',
   };
 
   const ownedBy = {

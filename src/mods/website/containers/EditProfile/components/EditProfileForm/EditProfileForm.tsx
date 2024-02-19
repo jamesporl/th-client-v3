@@ -12,6 +12,8 @@ import {
   IconBrandGithub,
   IconBrandInstagram,
   IconBrandLinkedin,
+  IconBrandThreads,
+  IconBrandTiktok,
   IconBrandX,
   IconCheck,
   IconMapPin,
@@ -46,6 +48,8 @@ function EditProfileForm({ profile }: EditProfileFormProps) {
         x: profile.socialUrls?.x || '',
         linkedIn: profile.socialUrls?.linkedIn || '',
         github: profile.socialUrls?.github || '',
+        threads: profile.socialUrls?.threads || '',
+        tiktok: profile.socialUrls?.tiktok || '',
       },
     },
     validate: {
@@ -149,6 +153,20 @@ function EditProfileForm({ profile }: EditProfileFormProps) {
               mt={8}
               leftSection={<IconBrandInstagram size={14} />}
               {...form.getInputProps('socialUrls.instagram')}
+            />
+            <TextInput
+              label="Threads"
+              size="sm"
+              mt={8}
+              leftSection={<IconBrandThreads size={14} />}
+              {...form.getInputProps('socialUrls.threads')}
+            />
+            <TextInput
+              label="Tiktok"
+              size="sm"
+              mt={8}
+              leftSection={<IconBrandTiktok size={14} />}
+              {...form.getInputProps('socialUrls.tiktok')}
             />
             <TextInput
               label="X"

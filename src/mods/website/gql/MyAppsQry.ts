@@ -25,6 +25,8 @@ export default gql(`
           x
           linkedIn
           github
+          threads
+          tiktok
         }
         websiteUrl
         status {
@@ -56,6 +58,8 @@ export default gql(`
           xClicks
           linkedInClicks
           githubClicks
+          threadsClicks
+          tiktokClicks
         }
       }
       totalCount
