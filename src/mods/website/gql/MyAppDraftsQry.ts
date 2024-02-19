@@ -41,6 +41,8 @@ export default gql(`
           x
           linkedIn
           github
+          threads
+          tiktok
         }
         createdAt
       }

@@ -8,6 +8,8 @@ import {
   IconBrandGithub,
   IconBrandInstagram,
   IconBrandLinkedin,
+  IconBrandThreads,
+  IconBrandTiktok,
   IconBrandX,
   IconWorld,
 } from '@tabler/icons-react';
@@ -23,6 +25,8 @@ type MainDetailsProps = {
   localAppDraft: LocalAppDraft;
 };
 
+type InputChange = React.ChangeEvent<HTMLInputElement>;
+
 function MainDetails({
   onChangeFields, onSubmitToServer, tags, localAppDraft,
 }: MainDetailsProps) {
@@ -37,6 +41,8 @@ function MainDetails({
         x: localAppDraft.socialUrls?.x || '',
         linkedIn: localAppDraft.socialUrls?.linkedIn || '',
         github: localAppDraft.socialUrls?.github || '',
+        threads: localAppDraft.socialUrls?.threads || '',
+        tiktok: localAppDraft.socialUrls?.tiktok || '',
       },
     },
     validate: {
@@ -55,12 +61,12 @@ function MainDetails({
     },
   });
 
-  const handleChangeField = (ev: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
+  const handleChangeField = (ev: InputChange, fieldName: string) => {
     form.getInputProps(fieldName).onChange(ev);
     onChangeFields({ [fieldName]: ev.target.value });
   };
 
-  const handleBlurField = (ev: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
+  const handleBlurField = (ev: InputChange, fieldName: string) => {
     form.getInputProps(fieldName).onBlur(ev);
     form.validate();
     if (!Object.keys(form.errors).length) {
@@ -78,16 +84,16 @@ function MainDetails({
             size="md"
             mt="md"
             {...form.getInputProps('name')}
-            onChange={(ev: React.ChangeEvent<HTMLInputElement>) => handleChangeField(ev, 'name')}
-            onBlur={(ev: React.ChangeEvent<HTMLInputElement>) => handleBlurField(ev, 'name')}
+            onChange={(ev: InputChange) => handleChangeField(ev, 'name')}
+            onBlur={(ev: InputChange) => handleBlurField(ev, 'name')}
           />
           <TextInput
             label="Tagline"
             size="md"
             mt="md"
             {...form.getInputProps('shortDesc')}
-            onChange={(ev: React.ChangeEvent<HTMLInputElement>) => handleChangeField(ev, 'shortDesc')}
-            onBlur={(ev: React.ChangeEvent<HTMLInputElement>) => handleBlurField(ev, 'shortDesc')}
+            onChange={(ev: InputChange) => handleChangeField(ev, 'shortDesc')}
+            onBlur={(ev: InputChange) => handleBlurField(ev, 'shortDesc')}
           />
           <Title order={3} mt="lg" mb="md">Categories</Title>
           <TagSelection
@@ -105,8 +111,8 @@ function MainDetails({
             mt="md"
             leftSection={<IconWorld size={16} />}
             {...form.getInputProps('websiteUrl')}
-            onChange={(ev: React.ChangeEvent<HTMLInputElement>) => handleChangeField(ev, 'websiteUrl')}
-            onBlur={(ev: React.ChangeEvent<HTMLInputElement>) => handleBlurField(ev, 'websiteUrl')}
+            onChange={(ev: InputChange) => handleChangeField(ev, 'websiteUrl')}
+            onBlur={(ev: InputChange) => handleBlurField(ev, 'websiteUrl')}
           />
           <TextInput
             label="Facebook"
@@ -114,8 +120,8 @@ function MainDetails({
             mt="md"
             leftSection={<IconBrandFacebook size={16} />}
             {...form.getInputProps('socialUrls.facebook')}
-            onChange={(ev: React.ChangeEvent<HTMLInputElement>) => handleChangeField(ev, 'socialUrls.facebook')}
-            onBlur={(ev: React.ChangeEvent<HTMLInputElement>) => handleBlurField(ev, 'socialUrls.facebook')}
+            onChange={(ev: InputChange) => handleChangeField(ev, 'socialUrls.facebook')}
+            onBlur={(ev: InputChange) => handleBlurField(ev, 'socialUrls.facebook')}
           />
           <TextInput
             label="Instagram"
@@ -123,8 +129,26 @@ function MainDetails({
             mt="md"
             leftSection={<IconBrandInstagram size={16} />}
             {...form.getInputProps('socialUrls.instagram')}
-            onChange={(ev: React.ChangeEvent<HTMLInputElement>) => handleChangeField(ev, 'socialUrls.instagram')}
-            onBlur={(ev: React.ChangeEvent<HTMLInputElement>) => handleBlurField(ev, 'socialUrls.instagram')}
+            onChange={(ev: InputChange) => handleChangeField(ev, 'socialUrls.instagram')}
+            onBlur={(ev: InputChange) => handleBlurField(ev, 'socialUrls.instagram')}
+          />
+          <TextInput
+            label="Threads"
+            size="md"
+            mt="md"
+            leftSection={<IconBrandThreads size={16} />}
+            {...form.getInputProps('socialUrls.threads')}
+            onChange={(ev: InputChange) => handleChangeField(ev, 'socialUrls.threads')}
+            onBlur={(ev: InputChange) => handleBlurField(ev, 'socialUrls.threads')}
+          />
+          <TextInput
+            label="Tiktok"
+            size="md"
+            mt="md"
+            leftSection={<IconBrandTiktok size={16} />}
+            {...form.getInputProps('socialUrls.tiktok')}
+            onChange={(ev: InputChange) => handleChangeField(ev, 'socialUrls.tiktok')}
+            onBlur={(ev: InputChange) => handleBlurField(ev, 'socialUrls.tiktok')}
           />
           <TextInput
             label="X"
@@ -132,8 +156,8 @@ function MainDetails({
             mt="md"
             leftSection={<IconBrandX size={16} />}
             {...form.getInputProps('socialUrls.x')}
-            onChange={(ev: React.ChangeEvent<HTMLInputElement>) => handleChangeField(ev, 'socialUrls.x')}
-            onBlur={(ev: React.ChangeEvent<HTMLInputElement>) => handleBlurField(ev, 'socialUrls.x')}
+            onChange={(ev: InputChange) => handleChangeField(ev, 'socialUrls.x')}
+            onBlur={(ev: InputChange) => handleBlurField(ev, 'socialUrls.x')}
           />
           <TextInput
             label="LinkedIn"
@@ -141,8 +165,8 @@ function MainDetails({
             mt="md"
             leftSection={<IconBrandLinkedin size={16} />}
             {...form.getInputProps('socialUrls.linkedIn')}
-            onChange={(ev: React.ChangeEvent<HTMLInputElement>) => handleChangeField(ev, 'socialUrls.linkedIn')}
-            onBlur={(ev: React.ChangeEvent<HTMLInputElement>) => handleBlurField(ev, 'socialUrls.linkedIn')}
+            onChange={(ev: InputChange) => handleChangeField(ev, 'socialUrls.linkedIn')}
+            onBlur={(ev: InputChange) => handleBlurField(ev, 'socialUrls.linkedIn')}
           />
           <TextInput
             label="Github"
@@ -150,8 +174,8 @@ function MainDetails({
             mt="md"
             leftSection={<IconBrandGithub size={16} />}
             {...form.getInputProps('socialUrls.github')}
-            onChange={(ev: React.ChangeEvent<HTMLInputElement>) => handleChangeField(ev, 'socialUrls.github')}
-            onBlur={(ev: React.ChangeEvent<HTMLInputElement>) => handleBlurField(ev, 'socialUrls.github')}
+            onChange={(ev: InputChange) => handleChangeField(ev, 'socialUrls.github')}
+            onBlur={(ev: InputChange) => handleBlurField(ev, 'socialUrls.github')}
           />
         </Grid.Col>
       </Grid>

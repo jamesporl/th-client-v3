@@ -24,6 +24,8 @@ export default gql(`
         x
         linkedIn
         github
+        threads
+        tiktok
       }
       websiteUrl
       status {

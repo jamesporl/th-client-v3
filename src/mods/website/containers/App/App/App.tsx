@@ -46,6 +46,8 @@ function App({ app, appTag }: AppProps) {
     x: iSocialUrls?.x || '',
     linkedIn: iSocialUrls?.linkedIn || '',
     github: iSocialUrls?.github || '',
+    threads: iSocialUrls?.threads || '',
+    tiktok: iSocialUrls?.tiktok || '',
   };
 
   const ownedBy = {

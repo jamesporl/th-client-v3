@@ -65,6 +65,8 @@ function EditApp({ tags, appId }: EditAppProps) {
           x: initialValues.socialUrls?.x || '',
           linkedIn: initialValues.socialUrls?.linkedIn || '',
           github: initialValues.socialUrls?.github || '',
+          threads: initialValues.socialUrls?.threads || '',
+          tiktok: initialValues.socialUrls?.tiktok || '',
         },
         jsonDesc: initialValues.jsonDesc,
         tags: initialValues.tags || [],
@@ -105,6 +107,8 @@ function EditApp({ tags, appId }: EditAppProps) {
         x: socialUrls?.x || '',
         linkedIn: socialUrls?.linkedIn || '',
         github: socialUrls?.github || '',
+        threads: socialUrls?.threads || '',
+        tiktok: socialUrls?.tiktok || '',
       },
     };
     try {

@@ -8,6 +8,8 @@ import {
   IconBrandGithub,
   IconBrandInstagram,
   IconBrandLinkedin,
+  IconBrandThreads,
+  IconBrandTiktok,
   IconBrandX,
   IconChartBar,
   IconEye,
@@ -24,6 +26,8 @@ type AppAnalyticsProps = {
   xClicks: number;
   linkedInClicks: number;
   githubClicks: number;
+  threadsClicks: number;
+  tiktokClicks: number;
 };
 
 function AppAnalytics({
@@ -34,6 +38,8 @@ function AppAnalytics({
   xClicks,
   linkedInClicks,
   githubClicks,
+  threadsClicks,
+  tiktokClicks,
 }: AppAnalyticsProps) {
   if (!(views
     || websiteClicks
@@ -42,6 +48,8 @@ function AppAnalytics({
     || xClicks
     || linkedInClicks
     || githubClicks
+    || threadsClicks
+    || tiktokClicks
   )) {
     return null;
   }
@@ -125,6 +133,46 @@ function AppAnalytics({
     );
   }
 
+  let threadsSection = null;
+  if (threadsClicks) {
+    threadsSection = (
+      <Grid.Col span={2}>
+        <Box bg="blue.0" p={16} style={{ borderRadius: 8 }}>
+          <Flex align="center" justify="center">
+            <IconBrandThreads size={14} color="#1971c2" />
+            <Text fz="xs" c="blue.8" fw="bold">
+              &nbsp;
+              CLICKS
+            </Text>
+          </Flex>
+          <Flex justify="center" mt={4}>
+            <Text c="blue.8" fw="bold">{displayNumber(threadsClicks)}</Text>
+          </Flex>
+        </Box>
+      </Grid.Col>
+    );
+  }
+
+  let tiktokSection = null;
+  if (tiktokClicks) {
+    tiktokSection = (
+      <Grid.Col span={2}>
+        <Box bg="blue.0" p={16} style={{ borderRadius: 8 }}>
+          <Flex align="center" justify="center">
+            <IconBrandTiktok size={14} color="#1971c2" />
+            <Text fz="xs" c="blue.8" fw="bold">
+              &nbsp;
+              CLICKS
+            </Text>
+          </Flex>
+          <Flex justify="center" mt={4}>
+            <Text c="blue.8" fw="bold">{displayNumber(tiktokClicks)}</Text>
+          </Flex>
+        </Box>
+      </Grid.Col>
+    );
+  }
+
   let xSection = null;
   if (xClicks) {
     xSection = (
@@ -199,6 +247,8 @@ function AppAnalytics({
         {websiteSection}
         {facebookSection}
         {instagramSection}
+        {threadsSection}
+        {tiktokSection}
         {xSection}
         {linkedInSection}
         {githubSection}

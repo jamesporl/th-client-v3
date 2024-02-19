@@ -4,7 +4,14 @@ import {
   Anchor, Box, Button, Flex, Text,
 } from '@mantine/core';
 import {
-  IconBrandInstagram, IconBrandX, IconBrandFacebook, IconWorld, IconBrandGithub, IconBrandLinkedin,
+  IconBrandInstagram,
+  IconBrandX,
+  IconBrandFacebook,
+  IconWorld,
+  IconBrandGithub,
+  IconBrandLinkedin,
+  IconBrandThreads,
+  IconBrandTiktok,
 } from '@tabler/icons-react';
 import React, { useCallback } from 'react';
 import { useMutation } from '@apollo/client';
@@ -20,6 +27,8 @@ type AppRightColProps = {
     instagram?: string;
     github?: string;
     linkedIn?: string;
+    threads?: string;
+    tiktok?: string;
   };
   websiteUrl: string;
 };
@@ -33,7 +42,7 @@ function AppRightCol({ appId, socialUrls, websiteUrl }: AppRightColProps) {
   }, [appId]);
 
   const {
-    facebook, instagram, x, linkedIn, github,
+    facebook, instagram, x, linkedIn, github, threads, tiktok,
   } = socialUrls || {};
   let websiteBtn = null;
   if (websiteUrl) {
@@ -54,7 +63,7 @@ function AppRightCol({ appId, socialUrls, websiteUrl }: AppRightColProps) {
   }
 
   let socialUrlBtns = null;
-  if (facebook || instagram || x || linkedIn || github) {
+  if (facebook || instagram || x || linkedIn || github || threads || tiktok) {
     let facebookBtn = null;
     if (facebook) {
       facebookBtn = (
@@ -82,6 +91,38 @@ function AppRightCol({ appId, socialUrls, websiteUrl }: AppRightColProps) {
         >
           <Button color="gray" variant="outline" size="compact-md">
             <IconBrandInstagram size={20} />
+          </Button>
+        </Anchor>
+      );
+    }
+
+    let threadsBtn = null;
+    if (threads) {
+      threadsBtn = (
+        <Anchor
+          href={threads}
+          target="_blank"
+          onClick={() => handleClickLink(AnalyticsEventType.AppThreadsClick)}
+          underline="never"
+        >
+          <Button color="gray" variant="outline" size="compact-md">
+            <IconBrandThreads size={20} />
+          </Button>
+        </Anchor>
+      );
+    }
+
+    let tiktokBtn = null;
+    if (tiktok) {
+      tiktokBtn = (
+        <Anchor
+          href={tiktok}
+          target="_blank"
+          onClick={() => handleClickLink(AnalyticsEventType.AppTiktokClick)}
+          underline="never"
+        >
+          <Button color="gray" variant="outline" size="compact-md">
+            <IconBrandTiktok size={20} />
           </Button>
         </Anchor>
       );
@@ -143,6 +184,8 @@ function AppRightCol({ appId, socialUrls, websiteUrl }: AppRightColProps) {
         <Flex gap={12} mt={16}>
           {facebookBtn}
           {instagramBtn}
+          {threadsBtn}
+          {tiktokBtn}
           {xBtn}
           {linkedInBtn}
           {githubBtn}

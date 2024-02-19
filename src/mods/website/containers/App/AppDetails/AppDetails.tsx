@@ -53,6 +53,8 @@ type AppDetailsProps = {
     instagram?: string;
     github?: string;
     linkedIn?: string;
+    tiktok?: string;
+    threads?: string;
   };
   upvotesCount?: number;
   isUpvoted?: boolean;

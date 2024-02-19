@@ -12,6 +12,8 @@ export type LocalAppDraft = {
     x?: string;
     linkedIn?: string;
     github?: string;
+    threads?: string;
+    tiktok?: string;
   };
   tags?: {
     _id: string;
