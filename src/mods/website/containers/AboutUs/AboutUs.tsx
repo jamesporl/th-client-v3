@@ -94,8 +94,8 @@ function AboutUs() {
                       get inspired
                     </Text>
                     <Text mt={16} c="white" fz={18}>
-                      See what others are up to and find your way to contribute to the
-                      tech startup community of the Philippines.
+                      See what others are up to and find your way to contribute to the tech startup
+                      community of the Philippines.
                     </Text>
                   </Flex>
                 </Flex>
